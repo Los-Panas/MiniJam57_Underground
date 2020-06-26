@@ -35,7 +35,14 @@ public class ScrollBackground : MonoBehaviour
         }
         else if (Input.GetKeyDown("w"))
         {
-            door.GetComponent<DoorMovment>().ResetPos();
+            int dir = 1;
+            if (maxSpeed < 0)
+            {
+                dir = -1;
+            }
+
+            door.GetComponent<DoorMovment>().ResetPos(dir);
+
             scrollState = ScrollState.Stop;
         }
 
@@ -43,14 +50,37 @@ public class ScrollBackground : MonoBehaviour
         {
             case ScrollState.Stop:
 
-                if (door.GetComponent<DoorMovment>().StopDoor(Time.deltaTime * speed * transform.localScale.y))
-                    speed = 0.0f;
+                int dir = 1;
+                if (maxSpeed < 0)
+                {
+                    dir = -1;
+                }
+
+                switch (scrollAxis)
+                {
+                    case ScrollAxis.Vertical:
+                        if (door.GetComponent<DoorMovment>().StopDoor(Time.deltaTime * speed * transform.localScale.y, dir))
+                            speed = 0.0f;
+                        break;
+                    case ScrollAxis.Horizontal:
+                        if (door.GetComponent<DoorMovment>().StopDoor(Time.deltaTime * speed * transform.localScale.x, dir))
+                            speed = 0.0f;
+                        break;
+                }
 
                 break;
 
             case ScrollState.Movement:
- 
-                door.GetComponent<DoorMovment>().MoveDoor(speed * Time.deltaTime * transform.localScale.y);
+
+                switch (scrollAxis)
+                {
+                    case ScrollAxis.Vertical:
+                        door.GetComponent<DoorMovment>().MoveDoor(speed * Time.deltaTime * transform.localScale.y);
+                        break;
+                    case ScrollAxis.Horizontal:
+                        door.GetComponent<DoorMovment>().MoveDoor(speed * Time.deltaTime * transform.localScale.x);
+                        break;
+                }
 
             break;
         }
