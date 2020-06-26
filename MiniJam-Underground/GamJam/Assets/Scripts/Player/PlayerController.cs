@@ -53,9 +53,9 @@ public class PlayerController : MonoBehaviour
     // Dash Shader
     DashDirection dash_direction = DashDirection.NONE;
     public Material dissolveMat;
-    float dissolve_value;
+    public float dissolve_value;
     public float duration_shader;
-    float timer_shader;
+    public float timer_shader;
 
     bool dash_effect = true;
 
@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
         if (rigid_body.velocity.x > 0.1F)
         {
             if (transform.localScale.z < 0)
@@ -100,6 +101,10 @@ public class PlayerController : MonoBehaviour
         }
         GetInput();
         ChangeState();
+        if (dash_effect)
+        {
+            DashEffect();
+        }
     }
 
     private void FixedUpdate()
@@ -236,6 +241,7 @@ public class PlayerController : MonoBehaviour
                     state = State.DASH;
                     can_dash = false;
                     transform.GetChild(0).gameObject.layer = 9;
+                    dash_effect = true;
                 }
                 else
                 {
@@ -246,6 +252,7 @@ public class PlayerController : MonoBehaviour
                     state = State.DASH;
                     can_dash = false;
                     transform.GetChild(0).gameObject.layer = 9;
+                    dash_effect = true;
                 }
             }
             else
@@ -261,6 +268,7 @@ public class PlayerController : MonoBehaviour
                     state = State.DASH;
                     can_dash = false;
                     transform.GetChild(0).gameObject.layer = 9;
+                    dash_effect = true;
                 }
                 else if (angle >= 22.5F && angle <= 67.5F)
                 {
@@ -271,6 +279,7 @@ public class PlayerController : MonoBehaviour
                     state = State.DASH;
                     can_dash = false;
                     transform.GetChild(0).gameObject.layer = 9;
+                    dash_effect = true;
                 }
                 else if (angle <= 22.5F && angle >= -22.5F)
                 {
@@ -281,6 +290,7 @@ public class PlayerController : MonoBehaviour
                     state = State.DASH;
                     can_dash = false;
                     transform.GetChild(0).gameObject.layer = 9;
+                    dash_effect = true;
                 }
                 else if (angle <= -22.5F && angle >= -67.5F)
                 {
@@ -291,6 +301,7 @@ public class PlayerController : MonoBehaviour
                     state = State.DASH;
                     can_dash = false;
                     transform.GetChild(0).gameObject.layer = 9;
+                    dash_effect = true;
                 }
                 else if (angle <= -67.5F && angle >= -112.5F)
                 {
@@ -301,6 +312,7 @@ public class PlayerController : MonoBehaviour
                     state = State.DASH;
                     can_dash = false;
                     transform.GetChild(0).gameObject.layer = 9;
+                    dash_effect = true;
                 }
                 else if (angle <= -112.5F && angle >= -167.5F)
                 {
@@ -311,6 +323,7 @@ public class PlayerController : MonoBehaviour
                     state = State.DASH;
                     can_dash = false;
                     transform.GetChild(0).gameObject.layer = 9;
+                    dash_effect = true;
                 }
                 else if (angle >= 112.5F && angle <= 167.5F)
                 {
@@ -321,6 +334,7 @@ public class PlayerController : MonoBehaviour
                     state = State.DASH;
                     can_dash = false;
                     transform.GetChild(0).gameObject.layer = 9;
+                    dash_effect = true;
                 }
                 else if (angle >= 167.5F || angle <= -167.5F)
                 {
@@ -331,6 +345,7 @@ public class PlayerController : MonoBehaviour
                     state = State.DASH;
                     can_dash = false;
                     transform.GetChild(0).gameObject.layer = 9;
+                    dash_effect = true;
                 }
             }
         }
@@ -385,10 +400,7 @@ public class PlayerController : MonoBehaviour
                         state = State.AIR;
                     }
                 }
-                if(dash_effect)
-                {
-                    DashEffect();
-                }
+                
                 break;
             default:
                 break;
@@ -426,7 +438,10 @@ public class PlayerController : MonoBehaviour
         if (timer_shader <= duration_shader)
         {
             timer_shader += Time.deltaTime;
-            dissolve_value = timer_shader * duration_shader;
+            //dissolve_value = (timer_shader * duration_shader)/2;
+            Debug.Log(dissolve_value);
+
+            dissolve_value = Mathf.Lerp(2, 0, timer_shader / duration_shader);
             dissolveMat.SetFloat("Vector1_8490105A", dissolve_value);
 
         }
