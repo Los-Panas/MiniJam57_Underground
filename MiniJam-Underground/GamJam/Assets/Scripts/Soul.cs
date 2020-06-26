@@ -20,7 +20,7 @@ public class Soul : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position.y += distance_float * sign * Time.deltaTime;
+        //transform.position.y += distance_float * sign * Time.deltaTime;
 
         if ((Time.realtimeSinceStartup - time) >= cycle_time)
         {
