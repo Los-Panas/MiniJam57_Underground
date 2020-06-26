@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/SampleScene.unity
+- path: "Assets/Scenes/V\xEDctor Souls and Lights.unity"
   isLoaded: 1
   isActive: 1
   isSubScene: 0
