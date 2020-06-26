@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     float time_passed_dash = 0.0F;
     public float time_next_dash = 0.0F;
     public float dash_speed = 0.0F;
-    public float start_dash = 0.0F;
+    public float time_dashing = 0.0F;
     bool can_dash = true;
     float dash_time = 0.0F;
     DashDirection dash_direction = DashDirection.NONE;
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rigid_body = GetComponent<Rigidbody2D>();
-        dash_time = start_dash;
+        dash_time = time_dashing;
     }
 
     void Update()
@@ -114,9 +114,13 @@ public class PlayerController : MonoBehaviour
                 if (dash_time <= 0.0F)
                 {
                     time_passed_dash = Time.realtimeSinceStartup;
+                    if (dash_direction == DashDirection.UP)
+                    {
+                        rigid_body.velocity = Vector2.zero;
+                    }
                     dash_direction = DashDirection.NONE;
-                    dash_time = start_dash;
-                    //rigid_body.velocity = Vector2.zero;
+                    dash_time = time_dashing;
+                    transform.GetChild(0).gameObject.layer = 0;
                 }
                 else
                 {
@@ -207,6 +211,7 @@ public class PlayerController : MonoBehaviour
                 dash_direction = DashDirection.DOWN;
                 state = State.DASH;
                 can_dash = false;
+                transform.GetChild(0).gameObject.layer = 9;
             }
             else if (player_input.dashLeft)
             {
@@ -216,6 +221,7 @@ public class PlayerController : MonoBehaviour
                 dash_direction = DashDirection.LEFT;
                 state = State.DASH;
                 can_dash = false;
+                transform.GetChild(0).gameObject.layer = 9;
             }
             else if (player_input.dashRight)
             {
@@ -225,6 +231,7 @@ public class PlayerController : MonoBehaviour
                 dash_direction = DashDirection.RIGHT;
                 state = State.DASH;
                 can_dash = false;
+                transform.GetChild(0).gameObject.layer = 9;
             }
             else if (player_input.dashUp)
             {
@@ -234,6 +241,7 @@ public class PlayerController : MonoBehaviour
                 dash_direction = DashDirection.UP;
                 state = State.DASH;
                 can_dash = false;
+                transform.GetChild(0).gameObject.layer = 9;
             }
         }
     }

@@ -545,9 +545,9 @@ MonoBehaviour:
   velocity: 12
   jump_force: 9
   state: 1
-  time_next_dash: 0
+  time_next_dash: 0.3
   dash_speed: 50
-  start_dash: 0.1
+  time_dashing: 0.1
   dash_particle: {fileID: 330803417822242308, guid: fa7e7029a9609ea47a2bac86f7e88e26,
     type: 3}
   isGrounded: 0
