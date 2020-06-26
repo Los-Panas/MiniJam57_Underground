@@ -38,6 +38,7 @@ public class Elevator_Doors : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // DEBUG
         if(Input.GetKeyDown(KeyCode.Space))
         {
             OpenDoor();
@@ -74,6 +75,8 @@ public class Elevator_Doors : MonoBehaviour
                 case Doors_Status.OPEN:
                     if ((Time.realtimeSinceStartup - time) >= seconds_to_open)
                     {
+                        // HERE YOU SHOULD ACTIVATE THE ENEMIES GOING TO THEIR POSITION AND FADING THEIR MATERIAL COLOR FROM BLACK TO ORIGINAL
+
                         status = Doors_Status.CLOSING;
                     }
                     break;
@@ -83,6 +86,7 @@ public class Elevator_Doors : MonoBehaviour
 
                     if (left_door.transform.position.x >= -5.5f || right_door.transform.position.x <= 2.5f)
                     {
+                        // HERE THE FIGHT SHOULD START
                         status = Doors_Status.CLOSED;
                         left_door.transform.position = new Vector3(-5.5f, left_door.transform.position.y, left_door.transform.position.z);
                         right_door.transform.position = new Vector3(2.5f, right_door.transform.position.y, right_door.transform.position.z);
