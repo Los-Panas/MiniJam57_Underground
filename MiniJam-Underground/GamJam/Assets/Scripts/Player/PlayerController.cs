@@ -49,9 +49,17 @@ public class PlayerController : MonoBehaviour
     public float time_dashing = 0.0F;
     bool can_dash = true;
     float dash_time = 0.0F;
-    DashDirection dash_direction = DashDirection.NONE;
 
-// Souls
+    // Dash Shader
+    DashDirection dash_direction = DashDirection.NONE;
+    public Material dissolveMat;
+    float dissolve_value;
+    public float duration_shader;
+    float timer_shader;
+
+    bool dash_effect = true;
+
+    // Souls
     float soul_power = 0.0f;
     float souls_picked = 0.0f;
 
@@ -63,10 +71,15 @@ public class PlayerController : MonoBehaviour
     public float jump_down_acceleration = 0.0F;
     float down_acceleration = 0.0F;
 
+    Renderer rend;
+
     void Start()
     {
+
         rigid_body = GetComponent<Rigidbody2D>();
         dash_time = time_dashing;
+
+        rend = GetComponent<Renderer>();
     }
 
     void Update()
@@ -212,6 +225,7 @@ public class PlayerController : MonoBehaviour
                 state = State.DASH;
                 can_dash = false;
                 transform.GetChild(0).gameObject.layer = 9;
+                dash_effect = true;
             }
             else if (player_input.dashLeft)
             {
@@ -222,6 +236,7 @@ public class PlayerController : MonoBehaviour
                 state = State.DASH;
                 can_dash = false;
                 transform.GetChild(0).gameObject.layer = 9;
+                dash_effect = true;
             }
             else if (player_input.dashRight)
             {
@@ -232,6 +247,7 @@ public class PlayerController : MonoBehaviour
                 state = State.DASH;
                 can_dash = false;
                 transform.GetChild(0).gameObject.layer = 9;
+                dash_effect = true;
             }
             else if (player_input.dashUp)
             {
@@ -242,6 +258,7 @@ public class PlayerController : MonoBehaviour
                 state = State.DASH;
                 can_dash = false;
                 transform.GetChild(0).gameObject.layer = 9;
+                dash_effect = true;
             }
         }
     }
@@ -283,6 +300,7 @@ public class PlayerController : MonoBehaviour
             case State.DASH:
                 if (dash_direction == DashDirection.NONE)
                 {
+                    
                     if (isGrounded)
                     {
                         down_acceleration = 0.0F;
@@ -293,6 +311,10 @@ public class PlayerController : MonoBehaviour
                         down_acceleration = 0.0F;
                         state = State.AIR;
                     }
+                }
+                if(dash_effect)
+                {
+                    DashEffect();
                 }
                 break;
             default:
@@ -323,5 +345,22 @@ public class PlayerController : MonoBehaviour
                 break;
         }*/
 
+    }
+
+    void DashEffect()
+    {
+        // go -1 to 1 in "duration_shader" time.   ALGORITM: dissolve_value = time_shader * duration_shader
+        if (timer_shader <= duration_shader)
+        {
+            timer_shader += Time.deltaTime;
+            dissolve_value = timer_shader * duration_shader;
+            dissolveMat.SetFloat("Vector1_8490105A", dissolve_value);
+
+        }
+        else
+        {
+            dash_effect = false;
+            timer_shader = 0;
+        }
     }
 }
