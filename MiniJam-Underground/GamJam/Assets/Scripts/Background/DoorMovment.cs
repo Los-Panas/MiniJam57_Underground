@@ -15,7 +15,7 @@ public class DoorMovment : MonoBehaviour
 
     public uint distanceToPosition;
 
-    public AxisMovement axis = AxisMovement.Vertical;
+    private AxisMovement axis = AxisMovement.Vertical;
 
     private float doorOffset;
     // Start is called before the first frame update

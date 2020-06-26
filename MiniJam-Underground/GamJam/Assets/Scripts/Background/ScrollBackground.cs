@@ -25,7 +25,12 @@ public class ScrollBackground : MonoBehaviour
 
     public GameObject door;
 
-    // Update is called once per frame
+
+    private void Start()
+    {
+        door.GetComponent<DoorMovment>().SetAxis((int)scrollAxis);
+    }
+
     void Update()
     {
         if (Input.GetKeyDown("q"))
@@ -100,5 +105,11 @@ public class ScrollBackground : MonoBehaviour
             GetComponent<Renderer>().material.mainTextureOffset += offset;
         }
 
+    }
+
+    public void SetAxis(int axis)
+    {
+        scrollAxis = (ScrollAxis)axis;
+        door.GetComponent<DoorMovment>().SetAxis(axis);
     }
 }
