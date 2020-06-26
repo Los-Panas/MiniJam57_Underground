@@ -6,7 +6,7 @@ public class PlayerGrounded : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Player"))
+        if (collision.CompareTag("Ground"))
         {
             GetComponentInParent<PlayerController>().isGrounded = true;
         }
@@ -14,7 +14,7 @@ public class PlayerGrounded : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Player"))
+        if (collision.CompareTag("Ground"))
         {
             GetComponentInParent<PlayerController>().isGrounded = false;
         }
