@@ -330,7 +330,7 @@ GameObject:
   - component: {fileID: 309898070}
   - component: {fileID: 309898069}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -800,19 +800,19 @@ MonoBehaviour:
   buttonPlay: {fileID: 736016384}
   buttonSettings: {fileID: 236285055}
   buttonQuit: {fileID: 2115910209}
-  ease: 38
+  titleText: {fileID: 309898067}
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0.004166667
       value: 0
-      inSlope: -0.75471705
-      outSlope: -0.75471705
+      inSlope: -1.0893635
+      outSlope: -1.0893635
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.125523
+      outWeight: 0.06498469
     - serializedVersion: 3
       time: 1
       value: 1
@@ -1068,7 +1068,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2032235049
 RectTransform:
   m_ObjectHideFlags: 0
