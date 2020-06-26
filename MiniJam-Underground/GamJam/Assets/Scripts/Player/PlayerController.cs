@@ -73,16 +73,16 @@ public class PlayerController : MonoBehaviour
     {
         if (rigid_body.velocity.x > 0.1F)
         {
-            if (transform.localScale.y < 0)
+            if (transform.localScale.z < 0)
             {
-                transform.localScale = new Vector3(transform.localScale.x, -transform.localScale.y, transform.localScale.z);
+                transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, -transform.localScale.z);
             }
         }
         else if (rigid_body.velocity.x < -0.1F)
         {
-            if (transform.localScale.y > 0)
+            if (transform.localScale.z > 0)
             {
-                transform.localScale = new Vector3(transform.localScale.x, -transform.localScale.y, transform.localScale.z);
+                transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, -transform.localScale.z);
             }
         }
         GetInput();
@@ -214,7 +214,7 @@ public class PlayerController : MonoBehaviour
         {
             if (player_input.axis == Vector2.zero)
             {
-                if (transform.localScale.y > 0)
+                if (transform.localScale.z > 0)
                 {
                     GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
                     ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
