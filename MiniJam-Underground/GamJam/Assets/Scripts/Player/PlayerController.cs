@@ -7,12 +7,9 @@ public class PlayerController : MonoBehaviour
 {
     struct PlayerInput
     {
-        public float axis;
+        public Vector2 axis;
         public bool jump;
-        public bool dashUp;
-        public bool dashDown;
-        public bool dashRight;
-        public bool dashLeft;
+        public bool dash;
     }
 
     public enum DashDirection
@@ -21,6 +18,10 @@ public class PlayerController : MonoBehaviour
         RIGHT,
         DOWN,
         UP,
+        UP_RIGHT,
+        UP_LEFT,
+        DOWN_RIGHT,
+        DOWN_LEFT,
 
         NONE
     }
@@ -37,7 +38,6 @@ public class PlayerController : MonoBehaviour
     public float friction = 0.0F;
     public float velocity = 0.0f;
     public float jump_force = 0.0F;
-
     public State state = State.IDLE;
 
     private Rigidbody2D rigid_body;
@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
                 if (dash_time <= 0.0F)
                 {
                     time_passed_dash = Time.realtimeSinceStartup;
-                    if (dash_direction == DashDirection.UP)
+                    if (dash_direction == DashDirection.UP || dash_direction == DashDirection.UP_LEFT || dash_direction == DashDirection.UP_RIGHT)
                     {
                         rigid_body.velocity = Vector2.zero;
                     }
@@ -138,6 +138,18 @@ public class PlayerController : MonoBehaviour
                             break;
                         case DashDirection.UP:
                             rigid_body.velocity = Vector2.up * dash_speed;
+                            break;
+                        case DashDirection.UP_RIGHT:
+                            rigid_body.velocity = Vector2.one * dash_speed;
+                            break;
+                        case DashDirection.UP_LEFT:
+                            rigid_body.velocity = new Vector2(-1,1) * dash_speed;
+                            break;
+                        case DashDirection.DOWN_RIGHT:
+                            rigid_body.velocity = new Vector2(1, -1) * dash_speed;
+                            break;
+                        case DashDirection.DOWN_LEFT:
+                            rigid_body.velocity = -Vector2.one * dash_speed;
                             break;
                     }
                 }
@@ -171,18 +183,15 @@ public class PlayerController : MonoBehaviour
 
     private void GetInput()
     {
-        player_input.axis = Input.GetAxis("Horizontal");
-        player_input.jump = Input.GetKeyDown(KeyCode.Space);
-        player_input.dashDown = Input.GetKeyDown(KeyCode.DownArrow);
-        player_input.dashRight = Input.GetKeyDown(KeyCode.RightArrow);
-        player_input.dashUp = Input.GetKeyDown(KeyCode.UpArrow);
-        player_input.dashLeft = Input.GetKeyDown(KeyCode.LeftArrow);
+        player_input.axis = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        player_input.jump = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0");
+        player_input.dash = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown("joystick button 5");
     }
 
     private void Move()
     {
         Vector2 curVel = rigid_body.velocity;
-        curVel.x = player_input.axis * velocity * friction;
+        curVel.x = player_input.axis.x * velocity * friction;
         rigid_body.velocity = curVel;
     }
 
@@ -201,47 +210,115 @@ public class PlayerController : MonoBehaviour
 
     void CheckDashInput()
     {
-        if (can_dash)
+        if (can_dash && player_input.dash)
         {
-            if (player_input.dashDown)
+            if (player_input.axis == Vector2.zero)
             {
-                GameObject particles = Instantiate(dash_particle, transform.position + new Vector3(0,-2,0), Quaternion.identity);
-                ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
-                module.rotation = new Vector3(-90, 90, 0);
-                dash_direction = DashDirection.DOWN;
-                state = State.DASH;
-                can_dash = false;
-                transform.GetChild(0).gameObject.layer = 9;
+                if (transform.localScale.y > 0)
+                {
+                    GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
+                    ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
+                    module.rotation = new Vector3(0, -90, 0);
+                    dash_direction = DashDirection.RIGHT;
+                    state = State.DASH;
+                    can_dash = false;
+                    transform.GetChild(0).gameObject.layer = 9;
+                }
+                else
+                {
+                    GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
+                    ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
+                    module.rotation = new Vector3(0, 90, 0);
+                    dash_direction = DashDirection.LEFT;
+                    state = State.DASH;
+                    can_dash = false;
+                    transform.GetChild(0).gameObject.layer = 9;
+                }
             }
-            else if (player_input.dashLeft)
+            else
             {
-                GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
-                ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
-                module.rotation = new Vector3(0, 90, 0);
-                dash_direction = DashDirection.LEFT;
-                state = State.DASH;
-                can_dash = false;
-                transform.GetChild(0).gameObject.layer = 9;
-            }
-            else if (player_input.dashRight)
-            {
-                GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
-                ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
-                module.rotation = new Vector3(0, -90, 0);
-                dash_direction = DashDirection.RIGHT;
-                state = State.DASH;
-                can_dash = false;
-                transform.GetChild(0).gameObject.layer = 9;
-            }
-            else if (player_input.dashUp)
-            {
-                GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
-                ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
-                module.rotation = new Vector3(90, 90, 0);
-                dash_direction = DashDirection.UP;
-                state = State.DASH;
-                can_dash = false;
-                transform.GetChild(0).gameObject.layer = 9;
+                float angle = Mathf.Atan2(player_input.axis.y, player_input.axis.x) * Mathf.Rad2Deg;
+
+                if (angle <= 112.5F && angle >= 67.5F)
+                {
+                    GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
+                    ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
+                    module.rotation = new Vector3(90, 90, 0);
+                    dash_direction = DashDirection.UP;
+                    state = State.DASH;
+                    can_dash = false;
+                    transform.GetChild(0).gameObject.layer = 9;
+                }
+                else if (angle >= 22.5F && angle <= 67.5F)
+                {
+                    GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
+                    ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
+                    module.rotation = new Vector3(-45, 90, 0);
+                    dash_direction = DashDirection.UP_RIGHT;
+                    state = State.DASH;
+                    can_dash = false;
+                    transform.GetChild(0).gameObject.layer = 9;
+                }
+                else if (angle <= 22.5F && angle >= -22.5F)
+                {
+                    GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
+                    ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
+                    module.rotation = new Vector3(0, -90, 0);
+                    dash_direction = DashDirection.RIGHT;
+                    state = State.DASH;
+                    can_dash = false;
+                    transform.GetChild(0).gameObject.layer = 9;
+                }
+                else if (angle <= -22.5F && angle >= -67.5F)
+                {
+                    GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
+                    ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
+                    module.rotation = new Vector3(45, 90, 0);
+                    dash_direction = DashDirection.DOWN_RIGHT;
+                    state = State.DASH;
+                    can_dash = false;
+                    transform.GetChild(0).gameObject.layer = 9;
+                }
+                else if (angle <= -67.5F && angle >= -112.5F)
+                {
+                    GameObject particles = Instantiate(dash_particle, transform.position + new Vector3(0, -2, 0), Quaternion.identity);
+                    ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
+                    module.rotation = new Vector3(-90, 90, 0);
+                    dash_direction = DashDirection.DOWN;
+                    state = State.DASH;
+                    can_dash = false;
+                    transform.GetChild(0).gameObject.layer = 9;
+                }
+                else if (angle <= -112.5F && angle >= -167.5F)
+                {
+                    GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
+                    ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
+                    module.rotation = new Vector3(45, -90, 0);
+                    dash_direction = DashDirection.DOWN_LEFT;
+                    state = State.DASH;
+                    can_dash = false;
+                    transform.GetChild(0).gameObject.layer = 9;
+                }
+                else if (angle >= 112.5F && angle <= 167.5F)
+                {
+                    GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
+                    ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
+                    module.rotation = new Vector3(-45, -90, 0);
+                    dash_direction = DashDirection.UP_LEFT;
+                    state = State.DASH;
+                    can_dash = false;
+                    transform.GetChild(0).gameObject.layer = 9;
+                }
+                else if (angle >= 167.5F || angle <= -167.5F)
+                {
+                    GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
+                    ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
+                    module.rotation = new Vector3(0, 90, 0);
+                    dash_direction = DashDirection.LEFT;
+                    state = State.DASH;
+                    can_dash = false;
+                    transform.GetChild(0).gameObject.layer = 9;
+                }
             }
         }
     }
@@ -251,7 +328,7 @@ public class PlayerController : MonoBehaviour
         switch (state)
         {
             case State.IDLE:
-                if (player_input.axis != 0)
+                if (player_input.axis.x != 0)
                 {
                     state = State.RUN;
                 }
@@ -262,7 +339,7 @@ public class PlayerController : MonoBehaviour
                 CheckDashInput();
                 break;
             case State.RUN:
-                if (player_input.axis == 0)
+                if (player_input.axis.x == 0)
                 {
                     ToIdle();
                 }
@@ -286,7 +363,7 @@ public class PlayerController : MonoBehaviour
                     if (isGrounded)
                     {
                         down_acceleration = 0.0F;
-                        state = State.IDLE;
+                        ToIdle();
                     }
                     else
                     {
