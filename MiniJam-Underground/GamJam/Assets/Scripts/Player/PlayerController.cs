@@ -253,7 +253,7 @@ public class PlayerController : MonoBehaviour
                 {
                     GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
                     ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
-                    module.rotation = new Vector3(-45, 90, 0);
+                    module.rotation = new Vector3(45, -90, 0);
                     dash_direction = DashDirection.UP_RIGHT;
                     state = State.DASH;
                     can_dash = false;
@@ -273,7 +273,7 @@ public class PlayerController : MonoBehaviour
                 {
                     GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
                     ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
-                    module.rotation = new Vector3(45, 90, 0);
+                    module.rotation = new Vector3(-45, -90, 0);
                     dash_direction = DashDirection.DOWN_RIGHT;
                     state = State.DASH;
                     can_dash = false;
@@ -293,7 +293,7 @@ public class PlayerController : MonoBehaviour
                 {
                     GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
                     ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
-                    module.rotation = new Vector3(45, -90, 0);
+                    module.rotation = new Vector3(-45, 90, 0);
                     dash_direction = DashDirection.DOWN_LEFT;
                     state = State.DASH;
                     can_dash = false;
@@ -303,7 +303,7 @@ public class PlayerController : MonoBehaviour
                 {
                     GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
                     ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
-                    module.rotation = new Vector3(-45, -90, 0);
+                    module.rotation = new Vector3(45, 90, 0);
                     dash_direction = DashDirection.UP_LEFT;
                     state = State.DASH;
                     can_dash = false;
