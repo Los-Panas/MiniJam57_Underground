@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class DoorMovment : MonoBehaviour
 {
-    Vector3 startPos;
+    float startPosY;
 
-    public Vector3 finalPos;
+    public float finalPosY;
     // Start is called before the first frame update
     void Start()
     {
-        startPos = transform.position;
-        transform.position = finalPos;
+        startPosY = transform.position.y;
+        transform.position = new Vector3(transform.position.x ,finalPosY, transform.position.z);
     }
 
     public bool StopDoor(float speed)
     {
-        if(transform.position.y >= finalPos.y)
+        if(transform.position.y >= finalPosY)
         {
             return true;
         }
@@ -35,6 +35,6 @@ public class DoorMovment : MonoBehaviour
 
     public void ResetPos()
     {
-        transform.position = startPos;
+        transform.position = new Vector3(transform.position.x, startPosY, transform.position.z);
     }
 }
