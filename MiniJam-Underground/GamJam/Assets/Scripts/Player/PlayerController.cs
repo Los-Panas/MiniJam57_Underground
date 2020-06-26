@@ -27,6 +27,11 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rigid_body;
     private PlayerInput player_input;
 
+// Souls
+    float soul_power = 0.0f;
+    float souls_picked = 0.0f;
+
+
     [HideInInspector]
     public bool isGrounded = false;
 
@@ -156,5 +161,29 @@ public class PlayerController : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void AddSoul(int color)
+    {
+        ++souls_picked;
+        soul_power += 20.0f;
+
+        // To changfe farolillo color
+       /* switch (color)
+        {
+            case 0:
+                material.SetColor("_EmissionColor", Color.white);
+                break;
+            case 1:
+                material.SetColor("_EmissionColor", Color.red);
+                break;
+            case 2:
+                material.SetColor("_EmissionColor", Color.green);
+                break;
+            case 3:
+                material.SetColor("_EmissionColor", Color.blue);
+                break;
+        }*/
+
     }
 }
