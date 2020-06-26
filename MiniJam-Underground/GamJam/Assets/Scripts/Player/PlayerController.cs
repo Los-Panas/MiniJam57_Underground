@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -53,6 +54,8 @@ public class PlayerController : MonoBehaviour
 // Souls
     float soul_power = 0.0f;
     float souls_picked = 0.0f;
+
+    public GameObject dash_particle = null;
 
 
     public bool isGrounded = false;
@@ -113,7 +116,7 @@ public class PlayerController : MonoBehaviour
                     time_passed_dash = Time.realtimeSinceStartup;
                     dash_direction = DashDirection.NONE;
                     dash_time = start_dash;
-                    rigid_body.velocity = Vector2.zero;
+                    //rigid_body.velocity = Vector2.zero;
                 }
                 else
                 {
@@ -192,32 +195,42 @@ public class PlayerController : MonoBehaviour
         rigid_body.velocity = Vector2.zero;
     }
 
-
-
     void CheckDashInput()
     {
         if (can_dash)
         {
             if (player_input.dashDown)
             {
+                GameObject particles = Instantiate(dash_particle, transform.position + new Vector3(0,-2,0), Quaternion.identity);
+                ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
+                module.rotation = new Vector3(-90, 90, 0);
                 dash_direction = DashDirection.DOWN;
                 state = State.DASH;
                 can_dash = false;
             }
             else if (player_input.dashLeft)
             {
+                GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
+                ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
+                module.rotation = new Vector3(0, 90, 0);
                 dash_direction = DashDirection.LEFT;
                 state = State.DASH;
                 can_dash = false;
             }
             else if (player_input.dashRight)
             {
+                GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
+                ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
+                module.rotation = new Vector3(0, -90, 0);
                 dash_direction = DashDirection.RIGHT;
                 state = State.DASH;
                 can_dash = false;
             }
             else if (player_input.dashUp)
             {
+                GameObject particles = Instantiate(dash_particle, transform.position, Quaternion.identity);
+                ShapeModule module = particles.GetComponent<ParticleSystem>().shape;
+                module.rotation = new Vector3(90, 90, 0);
                 dash_direction = DashDirection.UP;
                 state = State.DASH;
                 can_dash = false;

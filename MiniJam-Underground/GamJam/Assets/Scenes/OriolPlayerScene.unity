@@ -328,7 +328,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8.27
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -545,8 +545,11 @@ MonoBehaviour:
   velocity: 12
   jump_force: 9
   state: 1
+  time_next_dash: 0
   dash_speed: 50
   start_dash: 0.1
+  dash_particle: {fileID: 330803417822242308, guid: fa7e7029a9609ea47a2bac86f7e88e26,
+    type: 3}
   isGrounded: 0
   jump_down_acceleration: 0.01
 --- !u!50 &1838526087
