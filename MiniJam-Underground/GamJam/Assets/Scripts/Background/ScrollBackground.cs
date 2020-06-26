@@ -11,23 +11,64 @@ public class ScrollBackground : MonoBehaviour
         Horizontal
     }
 
-    public float speed = 0.1f;
+    public enum ScrollState
+    {
+        Stop,
+        Movement
+    }
     public ScrollAxis scrollAxis = ScrollAxis.Vertical;
+    public ScrollState scrollState = ScrollState.Stop;
+
+    float speed = 0.0f;
+    float time;
+    public float maxSpeed = 0.2f;
+
+    public GameObject door;
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 offset = new Vector2(0, 0);
-        switch (scrollAxis)
+        if (Input.GetKeyDown("q"))
         {
-            case ScrollAxis.Horizontal:
-                offset.x = Time.time * speed;
-                break;
-            case ScrollAxis.Vertical:
-                offset.y = Time.time * speed;
-                break;
+            speed = maxSpeed;
+            scrollState = ScrollState.Movement;
+        }
+        else if (Input.GetKeyDown("w"))
+        {
+            door.GetComponent<DoorMovment>().ResetPos();
+            scrollState = ScrollState.Stop;
         }
 
-        GetComponent<Renderer>().material.mainTextureOffset = offset;
+        switch (scrollState)
+        {
+            case ScrollState.Stop:
+
+                if (door.GetComponent<DoorMovment>().StopDoor(Time.deltaTime * speed * transform.localScale.y))
+                    speed = 0.0f;
+
+                break;
+
+            case ScrollState.Movement:
+ 
+                door.GetComponent<DoorMovment>().MoveDoor(speed * Time.deltaTime * transform.localScale.y);
+
+            break;
+        }
+
+        if (speed != 0.0)
+        {
+            Vector2 offset = new Vector2(0.0f, 0.0f);
+            switch (scrollAxis)
+            {
+                case ScrollAxis.Horizontal:
+                    offset.x = Time.deltaTime * speed;
+                    break;
+                case ScrollAxis.Vertical:
+                    offset.y = Time.deltaTime * speed;
+                    break;
+            }
+            GetComponent<Renderer>().material.mainTextureOffset += offset;
+        }
+
     }
 }
