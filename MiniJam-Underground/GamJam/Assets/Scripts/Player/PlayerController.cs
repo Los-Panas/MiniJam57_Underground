@@ -7,21 +7,31 @@ public class PlayerController : MonoBehaviour
     struct PlayerInput
     {
         public float axis;
+        public bool jump;
     }
 
     public enum State
     {
         IDLE = 1,
         RUN = 2,
+        JUMP = 3,
+        AIR = 4,
     }
 
     public float friction = 0.0F;
     public float velocity = 0.0f;
+    public float jump_force = 0.0F;
 
-    public State player_state = State.IDLE;
+    public State state = State.IDLE;
 
     private Rigidbody2D rigid_body;
     private PlayerInput player_input;
+
+    [HideInInspector]
+    public bool isGrounded = false;
+
+    public float jump_down_acceleration = 0.0F;
+    float down_acceleration = 0.0F;
 
     void Start()
     {
@@ -55,21 +65,38 @@ public class PlayerController : MonoBehaviour
 
     private void PerformActions()
     {
-        switch (player_state)
+        switch (state)
         {
             case State.IDLE:
                 break;
             case State.RUN:
                 Move();
                 break;
+            case State.JUMP:
+                Jump();
+                break;
+            case State.AIR:
+                Debug.Log("AA");
+                Move();
+                ApplyGravityExtra();
+                break;
             default:
                 break;
         }
     }
 
+    void ApplyGravityExtra()
+    {
+        down_acceleration -= jump_down_acceleration;
+        Vector2 curVel = rigid_body.velocity;
+        curVel.y += down_acceleration;
+        rigid_body.velocity = curVel;
+    }
+
     private void GetInput()
     {
         player_input.axis = Input.GetAxis("Horizontal");
+        player_input.jump = Input.GetKeyDown(KeyCode.Space);
     }
 
     private void Move()
@@ -79,20 +106,42 @@ public class PlayerController : MonoBehaviour
         rigid_body.velocity = curVel;
     }
 
+    void Jump()
+    {
+        isGrounded = false;
+        rigid_body.AddForce(new Vector2(0, jump_force), ForceMode2D.Impulse);
+        state = State.AIR;
+    }
+
     private void ChangeState()
     {
-        switch (player_state)
+        switch (state)
         {
             case State.IDLE:
                 if (player_input.axis != 0)
                 {
-                    player_state = State.RUN;
+                    state = State.RUN;
+                }
+                if (player_input.jump && isGrounded)
+                {
+                    state = State.JUMP;
                 }
                 break;
             case State.RUN:
                 if (player_input.axis == 0)
                 {
-                    player_state = State.IDLE;
+                    state = State.IDLE;
+                }
+                if (player_input.jump && isGrounded)
+                {
+                    state = State.JUMP;
+                }
+                break;
+            case State.AIR:
+                if (isGrounded)
+                {
+                    down_acceleration = 0.0F;
+                    state = State.IDLE;
                 }
                 break;
             default:
