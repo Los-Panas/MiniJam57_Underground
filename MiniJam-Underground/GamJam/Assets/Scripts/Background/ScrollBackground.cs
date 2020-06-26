@@ -43,48 +43,32 @@ public class ScrollBackground : MonoBehaviour
         {
             case ScrollState.Stop:
 
-                if (speed != 0.0)
-                {
-                    Vector2 offset = new Vector2(0.0f, 0.0f);
-                    switch (scrollAxis)
-                    {
-                        case ScrollAxis.Horizontal:
-                            offset.x = Time.deltaTime * speed;
-                            break;
-                        case ScrollAxis.Vertical:
-                            offset.y = Time.deltaTime * speed;
-                            break;
-                    }
-                    GetComponent<Renderer>().material.mainTextureOffset += offset;
-                }
-
-                if (door.GetComponent<DoorMovment>().StopDoor(Time.deltaTime * speed * 11.37472f))
+                if (door.GetComponent<DoorMovment>().StopDoor(Time.deltaTime * speed * transform.localScale.y))
                     speed = 0.0f;
+
                 break;
 
             case ScrollState.Movement:
-                if (speed != 0.0)
-                {
-                    time += Time.deltaTime;
+ 
+                door.GetComponent<DoorMovment>().MoveDoor(speed * Time.deltaTime * transform.localScale.y);
 
-                    Vector2 offset = new Vector2(0.0f, 0.0f);
-                    switch (scrollAxis)
-                    {
-                        case ScrollAxis.Horizontal:
-                            offset.x = time * speed;
-                            break;
-                        case ScrollAxis.Vertical:
-                            offset.y = time * speed;
-                            break;
-                    }
-                    GetComponent<Renderer>().material.mainTextureOffset = offset;
-                }
-
-                door.GetComponent<DoorMovment>().MoveDoor(speed * Time.deltaTime * 11.37472f);
-                break;
+            break;
         }
 
-       
+        if (speed != 0.0)
+        {
+            Vector2 offset = new Vector2(0.0f, 0.0f);
+            switch (scrollAxis)
+            {
+                case ScrollAxis.Horizontal:
+                    offset.x = Time.deltaTime * speed;
+                    break;
+                case ScrollAxis.Vertical:
+                    offset.y = Time.deltaTime * speed;
+                    break;
+            }
+            GetComponent<Renderer>().material.mainTextureOffset += offset;
+        }
 
     }
 }
