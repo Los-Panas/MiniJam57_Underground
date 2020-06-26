@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class MainMenuFunction : MonoBehaviour
@@ -9,7 +10,10 @@ public class MainMenuFunction : MonoBehaviour
     public GameObject buttonSettings;
     public GameObject buttonQuit;
     public GameObject titleText;
+    public GameObject mainPanel;
+    public GameObject settingsPanel;
     public AnimationCurve curve;
+    public AudioMixer mixer;
  
 
     // Start is called before the first frame update
@@ -35,7 +39,13 @@ public class MainMenuFunction : MonoBehaviour
 
     public void OpenSettings()
     {
-
+        mainPanel.SetActive(false);
+        settingsPanel.SetActive(true);
+    }
+    public void CloseSettings()
+    {
+        mainPanel.SetActive(true);
+        settingsPanel.SetActive(false);
     }
 
     public void Quit()
@@ -56,5 +66,10 @@ public class MainMenuFunction : MonoBehaviour
     public void StartGameplay()
     {
 
+    }
+
+    public void Setlevel(float value)
+    {
+        mixer.SetFloat("MusicVolume", Mathf.Log10(value) * 20);
     }
 }
