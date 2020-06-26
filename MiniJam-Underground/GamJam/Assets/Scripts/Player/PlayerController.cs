@@ -118,6 +118,13 @@ public class PlayerController : MonoBehaviour
         state = State.AIR;
     }
 
+    void ToIdle()
+    {
+        state = State.IDLE;
+        rigid_body.velocity = Vector2.zero;
+        rigid_body.bodyType = RigidbodyType2D.Static;
+    }
+
     private void ChangeState()
     {
         switch (state)
@@ -125,17 +132,19 @@ public class PlayerController : MonoBehaviour
             case State.IDLE:
                 if (player_input.axis != 0)
                 {
+                    rigid_body.bodyType = RigidbodyType2D.Dynamic;
                     state = State.RUN;
                 }
                 if (player_input.jump && isGrounded)
                 {
+                    rigid_body.bodyType = RigidbodyType2D.Dynamic;
                     state = State.JUMP;
                 }
                 break;
             case State.RUN:
                 if (player_input.axis == 0)
                 {
-                    state = State.IDLE;
+                    ToIdle();
                 }
                 if (player_input.jump && isGrounded)
                 {
@@ -146,7 +155,7 @@ public class PlayerController : MonoBehaviour
                 if (isGrounded)
                 {
                     down_acceleration = 0.0F;
-                    state = State.IDLE;
+                    ToIdle();
                 }
                 break;
             default:
