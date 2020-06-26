@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Ground
+  - PlayerWeapon
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - 
   - Enemies
   - Dash
-  - 
-  - 
+  - PlayerWeapon
+  - Player
   - 
   - 
   - 
