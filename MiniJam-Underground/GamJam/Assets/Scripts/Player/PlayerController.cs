@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.ParticleSystem;
 
@@ -36,12 +38,17 @@ public class PlayerController : MonoBehaviour
         JUMP = 3,
         AIR = 4,
         DASH = 5,
+        HIT = 6,
     }
 
     public float friction = 0.0F;
     public float velocity = 0.0f;
     public float jump_force = 0.0F;
     public State state = State.IDLE;
+    bool invulnerability = false;
+    public float invulnerability_seconds = 1.5f;
+    public float knockback_time = 0.5f;
+    float hit_time = 0.0f;
 
     private Rigidbody2D rigid_body;
     private PlayerInput player_input;
@@ -161,7 +168,6 @@ public class PlayerController : MonoBehaviour
 
             if (soul_power == 0)
             {
-                TurnOnEmergencyLight(true);
                 soul_lantern_light_c.range = original_lantern_light_range;
             }
         }
@@ -236,6 +242,8 @@ public class PlayerController : MonoBehaviour
                             break;
                     }
                 }
+                break;
+            case State.HIT:
                 break;
             default:
                 break;
@@ -466,7 +474,21 @@ public class PlayerController : MonoBehaviour
                         state = State.AIR;
                     }
                 }
-
+                break;
+            case State.HIT:
+                if ((Time.realtimeSinceStartup - hit_time) >= knockback_time)
+                {
+                    if (isGrounded)
+                    {
+                        down_acceleration = 0.0F;
+                        ToIdle();
+                    }
+                    else
+                    {
+                        down_acceleration = 0.0F;
+                        state = State.AIR;
+                    }
+                }
                 break;
             default:
                 break;
@@ -567,17 +589,47 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy"))
+        if (!invulnerability)
         {
-            ChangeSoulPower(-50.0f);
+            if (collision.CompareTag("Enemy"))
+            {
+                invulnerability = true;
+                StartCoroutine(CountInvulnerabilitySeconds(Time.realtimeSinceStartup));
+
+                // To Do: Knockback
+                Vector3 vector = (collision.gameObject.transform.position - transform.position);
+                rigid_body.velocity = Vector2.zero;
+                rigid_body.AddForce(new Vector2(vector.y, vector.x) * 300);
+                state = State.HIT;
+                hit_time = Time.realtimeSinceStartup;
+
+                if (soul_power > 0)
+                {
+                    ChangeSoulPower(-50.0f);
+                }
+                else
+                {
+                    Die();
+                }
+            }
         }
+    }
+
+    IEnumerator CountInvulnerabilitySeconds(float time)
+    {
+        while ((Time.realtimeSinceStartup - time) < invulnerability_seconds)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        invulnerability = false;
     }
 
     void ChangeSoulPower(float quantity_to_change)
     {
         soul_power += quantity_to_change;
-        if (soul_power < 0)
+        if (soul_power <= 0)
         {
+            TurnOnEmergencyLight(true);
             soul_power = 0;
         }
         else if (soul_power > 100)
@@ -651,6 +703,11 @@ public class PlayerController : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    void Die()
+    {
+        EditorSceneManager.LoadScene(EditorSceneManager.GetActiveScene().name);
     }
 
 }
