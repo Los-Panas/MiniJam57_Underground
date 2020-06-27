@@ -16,12 +16,12 @@ public class ScrollBackground : MonoBehaviour
         Stop,
         Movement
     }
-    public ScrollAxis scrollAxis = ScrollAxis.Vertical;
-    public ScrollState scrollState = ScrollState.Stop;
+    private ScrollAxis scrollAxis = ScrollAxis.Vertical;
+    private ScrollState scrollState = ScrollState.Stop;
 
     float speed = 0.0f;
-    float time;
-    public float maxSpeed = 0.2f;
+    private float maxSpeed = 0.2f;
+    private bool doorIsOpen = false;
 
     public GameObject door;
 
@@ -33,24 +33,6 @@ public class ScrollBackground : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("q"))
-        {
-            speed = maxSpeed;
-            scrollState = ScrollState.Movement;
-        }
-        else if (Input.GetKeyDown("w"))
-        {
-            int dir = 1;
-            if (maxSpeed < 0)
-            {
-                dir = -1;
-            }
-
-            door.GetComponent<DoorMovment>().ResetPos(dir);
-
-            scrollState = ScrollState.Stop;
-        }
-
         switch (scrollState)
         {
             case ScrollState.Stop:
@@ -64,11 +46,11 @@ public class ScrollBackground : MonoBehaviour
                 switch (scrollAxis)
                 {
                     case ScrollAxis.Vertical:
-                        if (door.GetComponent<DoorMovment>().StopDoor(Time.deltaTime * speed * transform.localScale.y, dir))
+                        if (door.GetComponent<DoorMovment>().StopDoor(Time.deltaTime * speed * transform.localScale.y, dir) && !doorIsOpen)
                             speed = 0.0f;
                         break;
                     case ScrollAxis.Horizontal:
-                        if (door.GetComponent<DoorMovment>().StopDoor(Time.deltaTime * speed * transform.localScale.x, dir))
+                        if (door.GetComponent<DoorMovment>().StopDoor(Time.deltaTime * speed * transform.localScale.x, dir) && !doorIsOpen)
                             speed = 0.0f;
                         break;
                 }
@@ -112,4 +94,30 @@ public class ScrollBackground : MonoBehaviour
         scrollAxis = (ScrollAxis)axis;
         door.GetComponent<DoorMovment>().SetAxis(axis);
     }
+
+    public void StartMovment(int newAxis, float newMaxSpeed, bool doorisOpen)
+    {
+        SetAxis(newAxis);
+        maxSpeed = newMaxSpeed;
+        doorIsOpen = doorisOpen;
+
+        speed = maxSpeed;
+        scrollState = ScrollState.Movement;
+
+    }
+
+
+    public void StopMovment()
+    {
+        int dir = 1;
+        if (maxSpeed < 0)
+        {
+            dir = -1;
+        }
+
+        door.GetComponent<DoorMovment>().ResetPos(dir);
+
+        scrollState = ScrollState.Stop;
+    }
+
 }

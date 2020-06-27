@@ -10,10 +10,10 @@ public class SceneManager : MonoBehaviour
         Horizontal
     }
 
-    public enum DoorTypes
+    public enum ElevatorState
     {
-        Open,
-        Close
+        Stop,
+        Run
     }
     //variables differents between levels
     [System.Serializable]
@@ -27,7 +27,7 @@ public class SceneManager : MonoBehaviour
         public Vector2 maxSizePlatform;
         public float delayBetweenPlatforms;
 
-        public DoorTypes doorType;
+        public bool doorIsOpen;
         public int numEnemies;
         public GameObject[] typeEnemies;
         public float delayBetweenEnemies;//only usefull when door is open
@@ -42,19 +42,45 @@ public class SceneManager : MonoBehaviour
 
     private GameObject[] enemiesInLevel;
 
+    private ElevatorState state = ElevatorState.Stop;
+    private int countFloor;
+
     float platformTimer;
     // Start is called before the first frame update
     void Start()
     {
+        countFloor = 0;
         platformTimer = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-            PlatformSpawner(0);
-        
+        if (Input.GetKeyDown("q"))
+        {
+            GetComponent<ScrollBackground>().StartMovment((int)floors[countFloor].backgroundScroll,floors[countFloor].backgroundSpeed, floors[countFloor].doorIsOpen);
+            state = ElevatorState.Run;
+        }
+
+        else if (Input.GetKeyDown("w"))
+        {
+            GetComponent<ScrollBackground>().StopMovment();
+            state = ElevatorState.Stop;
+
+        }
+
+        if (countFloor < floors.Length)
+        {
+            switch (state)
+            {
+                case ElevatorState.Stop:
+                    break;
+                case ElevatorState.Run:
+                    PlatformSpawner(0);
+                    break;
+            }
+        }
+
     }
 
     private void EnemySpawner(int pos)
@@ -75,37 +101,43 @@ public class SceneManager : MonoBehaviour
             int platformType = Random.Range(0, floors[pos].typePlatforms.Length - 1);
             GameObject newPlatform = Instantiate(floors[pos].typePlatforms[platformType]);
 
+            //randomitzate platform size
             Vector2 platformSize;
             platformSize.x = Random.Range(floors[pos].minSizePlatform.x, floors[pos].maxSizePlatform.x);
             platformSize.y = Random.Range(floors[pos].minSizePlatform.y, floors[pos].maxSizePlatform.y);
 
             float cameraFrustumSize = camera.GetComponent<Camera>().orthographicSize;
-            Vector3 spawnerAreaPosition;
             Vector3 newPlatformPosition = Vector3.zero;
             float worldSpeed = 0.0f;
             switch (floors[pos].backgroundScroll)
             {
                 case BackgroundScroll.Vertical:
-                    //speed
-                    worldSpeed = floors[pos].backgroundSpeed * transform.localScale.y * Time.deltaTime;
-                    //position
-                    if(floors[pos].backgroundSpeed > 0)
-                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, cameraFrustumSize, 0.0f);
+
+                    //same speed platforms and background
+                    worldSpeed = floors[pos].backgroundSpeed * transform.localScale.y;
+
+                    //calculate position outside camera and correct movement direction
+                    if(floors[pos].backgroundSpeed < 0)
+                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, -cameraFrustumSize, 0.0f);
                     else 
-                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, -cameraFrustumSize,0.0f);
+                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, cameraFrustumSize,0.0f);
 
                     newPlatformPosition.x += Random.Range(-cameraFrustumSize * 2, cameraFrustumSize * 2);
                     newPlatformPosition.z = 0.0f;
                     break;
 
                 case BackgroundScroll.Horizontal:
-                    worldSpeed = floors[pos].backgroundSpeed * transform.localScale.x * Time.deltaTime;
-                    //position
-                    if (floors[pos].backgroundSpeed > 0)
-                        newPlatformPosition = camera.transform.position + new Vector3(cameraFrustumSize*2,0.0f , 0.0f);
-                    else
-                        newPlatformPosition = camera.transform.position + new Vector3(-cameraFrustumSize * 2, 0.0f, 0.0f);
 
+                    //same speed platforms and background
+                    worldSpeed = floors[pos].backgroundSpeed * transform.localScale.x;
+
+                    //calculate position outside camera and correct movement direction
+                    if (floors[pos].backgroundSpeed < 0)
+                        newPlatformPosition = camera.transform.position + new Vector3(-cameraFrustumSize * 2.5f,0.0f , 0.0f);
+                    else
+                        newPlatformPosition = camera.transform.position + new Vector3(cameraFrustumSize * 2.5f, 0.0f, 0.0f);
+
+                    //spawn range
                     newPlatformPosition.y += Random.Range(-cameraFrustumSize, cameraFrustumSize);
                     newPlatformPosition.z = 0.0f;
                     break;

@@ -24,10 +24,10 @@ public class MovePlatform : MonoBehaviour
         switch (axis)
         {
             case AxisMovement.Vertical:
-                transform.position += new Vector3(0.0f, -speed, 0.0f);
+                transform.position += new Vector3(0.0f, -speed * Time.deltaTime, 0.0f);
                 break;
             case AxisMovement.Horizontal:
-                transform.position += new Vector3(-speed, 0.0f, 0.0f);
+                transform.position += new Vector3(-speed * Time.deltaTime, 0.0f, 0.0f);
                 break;
         }
     }
