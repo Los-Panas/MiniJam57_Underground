@@ -120,4 +120,9 @@ public class ScrollBackground : MonoBehaviour
         scrollState = ScrollState.Stop;
     }
 
+    public float GetSpeed()
+    {
+        return speed;
+    }
+
 }
