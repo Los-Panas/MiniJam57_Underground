@@ -95,6 +95,9 @@ public class PlayerController : MonoBehaviour
     Slider souls_bar;
     public float time_to_lerp_bars = 0.25f;
 
+    // GM Fresh Lamp
+    public GameObject Lamp;
+
     void Start()
     {
         rigid_body = GetComponent<Rigidbody2D>();
@@ -116,6 +119,7 @@ public class PlayerController : MonoBehaviour
         // HUD
         GameObject HUD = GameObject.Find("HUD");
         souls_bar = HUD.transform.GetChild(0).GetComponent<Slider>();
+
     }
 
     void Update()
@@ -126,6 +130,7 @@ public class PlayerController : MonoBehaviour
             if (transform.localScale.z < 0)
             {
                 transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, -transform.localScale.z);
+                Lamp.transform.localScale = new Vector3(Lamp.transform.localScale.x, Lamp.transform.localScale.y, -Lamp.transform.localScale.z);
             }
         }
         else if (rigid_body.velocity.x < -0.1F)
@@ -133,6 +138,7 @@ public class PlayerController : MonoBehaviour
             if (transform.localScale.z > 0)
             {
                 transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, -transform.localScale.z);
+                Lamp.transform.localScale = new Vector3(Lamp.transform.localScale.x, Lamp.transform.localScale.y, -Lamp.transform.localScale.z);
             }
         }
         GetInput();
