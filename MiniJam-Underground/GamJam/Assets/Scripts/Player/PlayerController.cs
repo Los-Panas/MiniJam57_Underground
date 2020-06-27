@@ -61,12 +61,16 @@ public class PlayerController : MonoBehaviour
     bool dash_effect = true;
 
     // Lantern
+    GameObject lantern_soul;
     Material soul_lantern_material;
     GameObject soul_lantern_system_particle;
     MainModule soul_lantern_particle;
     Light soul_lantern_light_c;
+    float original_lantern_light_range = 0.0f;
 
     // Souls
+    public float seconds_for_soul = 10.0f;
+    public float soul_power_to_add = 20.0f;
     float soul_power = 0.0f;
     float souls_picked = 0.0f;
 
@@ -93,15 +97,16 @@ public class PlayerController : MonoBehaviour
 
         rend = GetComponent<Renderer>();
 
-        soul_lantern_material = transform.GetChild(2).GetChild(1).GetChild(0).GetComponent<Renderer>().material;
-        soul_lantern_system_particle = transform.GetChild(2).GetChild(1).GetChild(3).gameObject;
+        lantern_soul = transform.GetChild(2).GetChild(1).gameObject;
+        soul_lantern_material = lantern_soul.transform.GetChild(0).GetComponent<Renderer>().material;
+        soul_lantern_system_particle = lantern_soul.transform.GetChild(3).gameObject;
         soul_lantern_particle = soul_lantern_system_particle.GetComponent<ParticleSystem>().main;
-        soul_lantern_light_c = transform.GetChild(2).GetChild(1).GetChild(4).GetComponent<Light>();
-        soul_lantern_light_c.gameObject.SetActive(false);
-        soul_lantern_system_particle.SetActive(false);
+        soul_lantern_light_c = lantern_soul.transform.GetChild(4).GetComponent<Light>();
+        original_lantern_light_range = soul_lantern_light_c.range;
 
         internal_light = transform.GetChild(3).gameObject;
-        internal_light.SetActive(true);
+
+        TurnOnEmergencyLight(true);
     }
 
     void Update()
@@ -126,6 +131,22 @@ public class PlayerController : MonoBehaviour
         if (dash_effect)
         {
             DashEffect();
+        }
+
+        if (soul_power > 0) 
+        {
+            soul_power -= (soul_power_to_add / seconds_for_soul) * Time.deltaTime;
+            if (soul_power < 10)
+            {
+                soul_lantern_light_c.range = original_lantern_light_range - (10 - soul_power) * (original_lantern_light_range / 10);
+            }
+
+            if (soul_power <= 0)
+            {
+                TurnOnEmergencyLight(true);
+                soul_power = 0;
+                soul_lantern_light_c.range = original_lantern_light_range;
+            }
         }
 
         if(internal_light.activeSelf)
@@ -438,7 +459,13 @@ public class PlayerController : MonoBehaviour
     public void AddSoul(int color)
     {
         ++souls_picked;
-        soul_power += 20.0f;
+        soul_power += soul_power_to_add;
+
+        if (soul_power > 100)
+        {
+            soul_power = 100;
+        }
+
         TurnOnEmergencyLight(false);
 
         // To change farolillo color
@@ -490,9 +517,9 @@ public class PlayerController : MonoBehaviour
 
     void TurnOnEmergencyLight(bool turn_on)
     {
-        soul_lantern_light_c.gameObject.SetActive(!turn_on);
-        soul_lantern_system_particle.SetActive(!turn_on);
+        lantern_soul.SetActive(!turn_on);
         internal_light.SetActive(turn_on);
+        
         time_internal_light = Time.realtimeSinceStartup;
     }
 
