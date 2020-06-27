@@ -12,7 +12,7 @@ public class Elevator_Doors : MonoBehaviour
         CLOSING,
         CLOSED
     }
-
+    
     GameObject left_door;
     GameObject right_door;
 
@@ -24,26 +24,18 @@ public class Elevator_Doors : MonoBehaviour
     float time = 0.0f;
     float left_distance = 0.0f;
     float right_distance = 0.0f;
-
+    Vector2 startPos;
     // Start is called before the first frame update
     void Start()
     {
+        
         left_door = transform.GetChild(2).gameObject;
         right_door = transform.GetChild(3).gameObject;
 
         left_distance = Mathf.Abs(left_door.transform.position.x - left_goal);
         right_distance = Mathf.Abs(right_door.transform.position.x - right_goal);
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // DEBUG
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            OpenDoor();
-        }
+        startPos = new Vector2(left_door.transform.position.x, right_door.transform.position.x);
     }
 
     public void OpenDoor()
@@ -84,12 +76,12 @@ public class Elevator_Doors : MonoBehaviour
                     left_door.transform.position = new Vector3(left_door.transform.position.x + (left_distance / seconds_to_open) * Time.deltaTime, left_door.transform.position.y, left_door.transform.position.z);
                     right_door.transform.position = new Vector3(right_door.transform.position.x - (right_distance / seconds_to_open) * Time.deltaTime, right_door.transform.position.y, right_door.transform.position.z);
 
-                    if (left_door.transform.position.x >= -5.5f || right_door.transform.position.x <= 2.5f)
+                    if (left_door.transform.position.x >= startPos.x || right_door.transform.position.x <= startPos.y)
                     {
                         // HERE THE FIGHT SHOULD START
                         status = Doors_Status.CLOSED;
-                        left_door.transform.position = new Vector3(-5.5f, left_door.transform.position.y, left_door.transform.position.z);
-                        right_door.transform.position = new Vector3(2.5f, right_door.transform.position.y, right_door.transform.position.z);
+                        left_door.transform.position = new Vector3(startPos.x, left_door.transform.position.y, left_door.transform.position.z);
+                        right_door.transform.position = new Vector3(startPos.y, right_door.transform.position.y, right_door.transform.position.z);
 
                         time = Time.realtimeSinceStartup;
                     }
@@ -119,11 +111,11 @@ public class Elevator_Doors : MonoBehaviour
 
     public bool CloseDoors()
     {
-        if (left_door.transform.position.x >= -5.5f || right_door.transform.position.x <= 2.5f)
+        if (left_door.transform.position.x >= startPos.x || right_door.transform.position.x <= startPos.y)
         {
             // HERE THE FIGHT SHOULD START
-            left_door.transform.position = new Vector3(-5.5f, left_door.transform.position.y, left_door.transform.position.z);
-            right_door.transform.position = new Vector3(2.5f, right_door.transform.position.y, right_door.transform.position.z);
+            left_door.transform.position = new Vector3(startPos.x, left_door.transform.position.y, left_door.transform.position.z);
+            right_door.transform.position = new Vector3(startPos.y, right_door.transform.position.y, right_door.transform.position.z);
 
             time = Time.realtimeSinceStartup;
             return true;
