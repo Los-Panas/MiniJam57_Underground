@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.ParticleSystem;
 
@@ -36,12 +38,17 @@ public class PlayerController : MonoBehaviour
         JUMP = 3,
         AIR = 4,
         DASH = 5,
+        HIT = 6,
     }
 
     public float friction = 0.0F;
     public float velocity = 0.0f;
     public float jump_force = 0.0F;
     public State state = State.IDLE;
+    bool invulnerability = false;
+    public float invulnerability_seconds = 1.5f;
+    public float knockback_time = 0.5f;
+    float hit_time = 0.0f;
 
     private Rigidbody2D rigid_body;
     private PlayerInput player_input;
@@ -95,6 +102,9 @@ public class PlayerController : MonoBehaviour
     Slider souls_bar;
     public float time_to_lerp_bars = 0.25f;
 
+    // GM Fresh Lamp
+    public GameObject Lamp;
+
     void Start()
     {
         rigid_body = GetComponent<Rigidbody2D>();
@@ -102,11 +112,12 @@ public class PlayerController : MonoBehaviour
 
         rend = GetComponent<Renderer>();
 
+        // Lantern
         lantern_soul = transform.GetChild(2).GetChild(1).gameObject;
         soul_lantern_material = lantern_soul.transform.GetChild(0).GetComponent<Renderer>().material;
         soul_lantern_system_particle = lantern_soul.transform.GetChild(3).gameObject;
         soul_lantern_particle = soul_lantern_system_particle.GetComponent<ParticleSystem>().main;
-        soul_lantern_light_c = lantern_soul.transform.GetChild(4).GetComponent<Light>();
+        soul_lantern_light_c = transform.GetChild(4).GetComponent<Light>();
         original_lantern_light_range = soul_lantern_light_c.range;
 
         internal_light = transform.GetChild(3).gameObject;
@@ -116,6 +127,9 @@ public class PlayerController : MonoBehaviour
         // HUD
         GameObject HUD = GameObject.Find("HUD");
         souls_bar = HUD.transform.GetChild(0).GetComponent<Slider>();
+        souls_bar.gameObject.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        souls_bar.gameObject.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        souls_bar.gameObject.transform.GetChild(2).GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
     }
 
     void Update()
@@ -126,6 +140,7 @@ public class PlayerController : MonoBehaviour
             if (transform.localScale.z < 0)
             {
                 transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, -transform.localScale.z);
+                Lamp.transform.localScale = new Vector3(Lamp.transform.localScale.x, Lamp.transform.localScale.y, -Lamp.transform.localScale.z);
             }
         }
         else if (rigid_body.velocity.x < -0.1F)
@@ -133,6 +148,7 @@ public class PlayerController : MonoBehaviour
             if (transform.localScale.z > 0)
             {
                 transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, -transform.localScale.z);
+                Lamp.transform.localScale = new Vector3(Lamp.transform.localScale.x, Lamp.transform.localScale.y, -Lamp.transform.localScale.z);
             }
         }
         GetInput();
@@ -142,7 +158,7 @@ public class PlayerController : MonoBehaviour
             DashEffect();
         }
 
-        if (soul_power > 0) 
+        if (soul_power > 0)
         {
             ChangeSoulPower((-soul_power_to_add / seconds_for_soul) * Time.deltaTime);
             if (soul_power < 10)
@@ -152,12 +168,11 @@ public class PlayerController : MonoBehaviour
 
             if (soul_power == 0)
             {
-                TurnOnEmergencyLight(true);
                 soul_lantern_light_c.range = original_lantern_light_range;
             }
         }
 
-        if(internal_light.activeSelf)
+        if (internal_light.activeSelf)
         {
             ChangeLightRange();
         }
@@ -217,7 +232,7 @@ public class PlayerController : MonoBehaviour
                             rigid_body.velocity = Vector2.one * dash_speed;
                             break;
                         case DashDirection.UP_LEFT:
-                            rigid_body.velocity = new Vector2(-1,1) * dash_speed;
+                            rigid_body.velocity = new Vector2(-1, 1) * dash_speed;
                             break;
                         case DashDirection.DOWN_RIGHT:
                             rigid_body.velocity = new Vector2(1, -1) * dash_speed;
@@ -227,6 +242,8 @@ public class PlayerController : MonoBehaviour
                             break;
                     }
                 }
+                break;
+            case State.HIT:
                 break;
             default:
                 break;
@@ -445,7 +462,7 @@ public class PlayerController : MonoBehaviour
             case State.DASH:
                 if (dash_direction == DashDirection.NONE)
                 {
-                    
+
                     if (isGrounded)
                     {
                         down_acceleration = 0.0F;
@@ -457,7 +474,21 @@ public class PlayerController : MonoBehaviour
                         state = State.AIR;
                     }
                 }
-                
+                break;
+            case State.HIT:
+                if ((Time.realtimeSinceStartup - hit_time) >= knockback_time)
+                {
+                    if (isGrounded)
+                    {
+                        down_acceleration = 0.0F;
+                        ToIdle();
+                    }
+                    else
+                    {
+                        down_acceleration = 0.0F;
+                        state = State.AIR;
+                    }
+                }
                 break;
             default:
                 break;
@@ -472,29 +503,33 @@ public class PlayerController : MonoBehaviour
         TurnOnEmergencyLight(false);
 
         // To change farolillo color
-        switch(color)
-         {
-             case 0:
-                 soul_lantern_material.SetColor("_EmissionColor", new Color(0.8f, 0.8f, 0.8f, 1));
-                 soul_lantern_particle.startColor = new Color(0.8f, 0.8f, 0.8f, 1);
-                 soul_lantern_light_c.color = new Color(0.8f, 0.8f, 0.8f, 1);
-                 break;
-             case 2:
+        switch (color)
+        {
+            case 0:
+                soul_lantern_material.SetColor("_EmissionColor", new Color(0.8f, 0.8f, 0.8f, 1));
+                soul_lantern_particle.startColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                soul_lantern_light_c.color = new Color(0.8f, 0.8f, 0.8f, 1);
+                souls_bar.gameObject.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(0.8f, 0.8f, 0.8f, 1);
+                break;
+            case 2:
                 soul_lantern_material.SetColor("_EmissionColor", new Color(0.0f, 0.85f, 0.0f, 1));
                 soul_lantern_particle.startColor = new Color(0.0f, 0.85f, 0.0f, 1);
                 soul_lantern_light_c.color = new Color(0.0f, 0.85f, 0.0f, 1);
-                 break;
-             case 3:
+                souls_bar.gameObject.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(0.0f, 0.85f, 0.0f, 1);
+                break;
+            case 3:
                 soul_lantern_material.SetColor("_EmissionColor", Color.blue);
                 soul_lantern_particle.startColor = Color.blue;
                 soul_lantern_light_c.color = Color.blue;
+                souls_bar.gameObject.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = Color.blue;
                 break;
-             case 1:
+            case 1:
                 soul_lantern_material.SetColor("_EmissionColor", Color.yellow);
                 soul_lantern_particle.startColor = Color.yellow;
                 soul_lantern_light_c.color = Color.yellow;
+                souls_bar.gameObject.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = Color.yellow;
                 break;
-         }
+        }
 
     }
 
@@ -521,8 +556,11 @@ public class PlayerController : MonoBehaviour
     void TurnOnEmergencyLight(bool turn_on)
     {
         lantern_soul.SetActive(!turn_on);
+        soul_lantern_light_c.gameObject.SetActive(!turn_on);
         internal_light.SetActive(turn_on);
-        
+
+        StartCoroutine(FadeSoulsBar(!turn_on, Time.realtimeSinceStartup));
+
         time_internal_light = Time.realtimeSinceStartup;
     }
 
@@ -533,7 +571,7 @@ public class PlayerController : MonoBehaviour
 
         if (t < 0.5f)
         {
-            lerp = Mathf.Lerp(10.0f, 4.0f, t * 2);   
+            lerp = Mathf.Lerp(10.0f, 4.0f, t * 2);
         }
         else
         {
@@ -542,7 +580,7 @@ public class PlayerController : MonoBehaviour
 
         internal_light.GetComponent<Light>().range = lerp;
 
-        if (t >= 1) 
+        if (t >= 1)
         {
             time_internal_light = Time.realtimeSinceStartup;
         }
@@ -551,17 +589,47 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy")) 
+        if (!invulnerability)
         {
-            ChangeSoulPower(-50.0f);
+            if (collision.CompareTag("Enemy"))
+            {
+                invulnerability = true;
+                StartCoroutine(CountInvulnerabilitySeconds(Time.realtimeSinceStartup));
+
+                // To Do: Knockback
+                Vector3 vector = (collision.gameObject.transform.position - transform.position);
+                rigid_body.velocity = Vector2.zero;
+                rigid_body.AddForce(new Vector2(vector.y, vector.x) * 300);
+                state = State.HIT;
+                hit_time = Time.realtimeSinceStartup;
+
+                if (soul_power > 0)
+                {
+                    ChangeSoulPower(-50.0f);
+                }
+                else
+                {
+                    Die();
+                }
+            }
         }
+    }
+
+    IEnumerator CountInvulnerabilitySeconds(float time)
+    {
+        while ((Time.realtimeSinceStartup - time) < invulnerability_seconds)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        invulnerability = false;
     }
 
     void ChangeSoulPower(float quantity_to_change)
     {
         soul_power += quantity_to_change;
-        if (soul_power < 0)
+        if (soul_power <= 0)
         {
+            TurnOnEmergencyLight(true);
             soul_power = 0;
         }
         else if (soul_power > 100)
@@ -586,7 +654,7 @@ public class PlayerController : MonoBehaviour
 
             souls_bar.value = lerp;
 
-            if (t >= 1) 
+            if (t >= 1)
             {
                 souls_bar.value = actual_value;
             }
@@ -594,4 +662,52 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
+
+    IEnumerator FadeSoulsBar(bool fade_in, float time)
+    {
+        Image BG_Image = souls_bar.gameObject.transform.GetChild(0).GetComponent<Image>(); 
+        Image fill_image = souls_bar.gameObject.transform.GetChild(1).GetChild(0).GetComponent<Image>(); 
+        Image handle_image = souls_bar.gameObject.transform.GetChild(2).GetChild(0).GetComponent<Image>();
+
+        float goal_alpha = 0.0f;
+        float first_alpha = BG_Image.color.a;
+
+        if (fade_in)
+        {
+            goal_alpha = 1.0f;
+        }
+        else
+        {
+            while ((Time.realtimeSinceStartup - time) < 1.5f)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+            time = Time.realtimeSinceStartup;
+        }   
+
+        while (BG_Image.color.a != goal_alpha) 
+        {
+            float t = (Time.realtimeSinceStartup - time) / time_to_lerp_bars;
+            float lerp = Mathf.Lerp(first_alpha, goal_alpha, t);
+
+            BG_Image.color = new Color(BG_Image.color.r, BG_Image.color.g, BG_Image.color.b, lerp);
+            fill_image.color = new Color(fill_image.color.r, fill_image.color.g, fill_image.color.b, lerp);
+            handle_image.color = new Color(handle_image.color.r, handle_image.color.g, handle_image.color.b, lerp);
+
+            if (t >= 1)
+            {
+                BG_Image.color = new Color(BG_Image.color.r, BG_Image.color.g, BG_Image.color.b, goal_alpha);
+                fill_image.color = new Color(fill_image.color.r, fill_image.color.g, fill_image.color.b, goal_alpha);
+                handle_image.color = new Color(handle_image.color.r, handle_image.color.g, handle_image.color.b, goal_alpha);
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    void Die()
+    {
+        EditorSceneManager.LoadScene(EditorSceneManager.GetActiveScene().name);
+    }
+
 }

@@ -34,7 +34,7 @@ public class Lantern_Soul : MonoBehaviour
             acceleration_factor = (0.5f - (t - 0.5f)) * 4;
         }
 
-        transform.position = new Vector3(transform.position.x, transform.position.y + distance_float * sign * Time.deltaTime * acceleration_factor, transform.position.z);
+        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + distance_float * sign * Time.deltaTime * acceleration_factor, transform.localPosition.z);
 
         if ((Time.realtimeSinceStartup - time) >= cycle_time)
         {

@@ -79,4 +79,19 @@ public class MainMenuFunction : MonoBehaviour
     {
         mixer.SetFloat("MusicVolume", Mathf.Log10(value) * 20);
     }
+
+    public void SetFullScreen()
+    {
+        if (Screen.fullScreen)
+        {
+            Screen.fullScreen = false;
+
+            Screen.fullScreenMode = FullScreenMode.Windowed;
+        }
+        else
+        {
+            Screen.fullScreen = true;
+            Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+        }
+    }
 }
