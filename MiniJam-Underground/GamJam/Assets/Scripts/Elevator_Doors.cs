@@ -24,6 +24,7 @@ public class Elevator_Doors : MonoBehaviour
     float time = 0.0f;
     float left_distance = 0.0f;
     float right_distance = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -76,7 +77,6 @@ public class Elevator_Doors : MonoBehaviour
                     if ((Time.realtimeSinceStartup - time) >= seconds_to_open)
                     {
                         // HERE YOU SHOULD ACTIVATE THE ENEMIES GOING TO THEIR POSITION AND FADING THEIR MATERIAL COLOR FROM BLACK TO ORIGINAL
-
                         status = Doors_Status.CLOSING;
                     }
                     break;
@@ -98,5 +98,39 @@ public class Elevator_Doors : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    public bool OpenDoors()
+    {
+        
+        if (left_door.transform.position.x <= left_goal || right_door.transform.position.x >= right_goal)
+        {
+            left_door.transform.position = new Vector3(left_goal, left_door.transform.position.y, left_door.transform.position.z);
+            right_door.transform.position = new Vector3(right_goal, right_door.transform.position.y, right_door.transform.position.z);
+            time = Time.realtimeSinceStartup;
+            return true;
+        }
+       
+        left_door.transform.position = new Vector3(left_door.transform.position.x - (left_distance / seconds_to_open) * Time.deltaTime, left_door.transform.position.y, left_door.transform.position.z);
+        right_door.transform.position = new Vector3(right_door.transform.position.x + (right_distance / seconds_to_open) * Time.deltaTime, right_door.transform.position.y, right_door.transform.position.z);
+        
+        return false;
+    }
+
+    public bool CloseDoors()
+    {
+        if (left_door.transform.position.x >= -5.5f || right_door.transform.position.x <= 2.5f)
+        {
+            // HERE THE FIGHT SHOULD START
+            left_door.transform.position = new Vector3(-5.5f, left_door.transform.position.y, left_door.transform.position.z);
+            right_door.transform.position = new Vector3(2.5f, right_door.transform.position.y, right_door.transform.position.z);
+
+            time = Time.realtimeSinceStartup;
+            return true;
+        }
+        left_door.transform.position = new Vector3(left_door.transform.position.x + (left_distance / seconds_to_open) * Time.deltaTime, left_door.transform.position.y, left_door.transform.position.z);
+        right_door.transform.position = new Vector3(right_door.transform.position.x - (right_distance / seconds_to_open) * Time.deltaTime, right_door.transform.position.y, right_door.transform.position.z);
+
+        return false;
     }
 }

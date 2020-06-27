@@ -85,7 +85,7 @@ public class Soul : MonoBehaviour
     {
         if (other.CompareTag("Player")) 
         {
-            GameObject.Find("Minion").GetComponent<PlayerController>().AddSoul(color);
+            GameObject.Find("default").GetComponent<PlayerController>().AddSoul(color);
             Destroy(gameObject);
         }
     }
