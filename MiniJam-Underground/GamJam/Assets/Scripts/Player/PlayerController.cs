@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
         soul_lantern_material = lantern_soul.transform.GetChild(0).GetComponent<Renderer>().material;
         soul_lantern_system_particle = lantern_soul.transform.GetChild(3).gameObject;
         soul_lantern_particle = soul_lantern_system_particle.GetComponent<ParticleSystem>().main;
-        soul_lantern_light_c = lantern_soul.transform.GetChild(4).GetComponent<Light>();
+        soul_lantern_light_c = transform.GetChild(4).GetComponent<Light>();
         original_lantern_light_range = soul_lantern_light_c.range;
 
         internal_light = transform.GetChild(3).gameObject;
@@ -534,6 +534,7 @@ public class PlayerController : MonoBehaviour
     void TurnOnEmergencyLight(bool turn_on)
     {
         lantern_soul.SetActive(!turn_on);
+        soul_lantern_light_c.gameObject.SetActive(!turn_on);
         internal_light.SetActive(turn_on);
 
         StartCoroutine(FadeSoulsBar(!turn_on, Time.realtimeSinceStartup));
