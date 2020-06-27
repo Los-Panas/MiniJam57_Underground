@@ -14,27 +14,33 @@ public class MainMenuFunction : MonoBehaviour
     public GameObject settingsPanel;
     public AnimationCurve curve;
     public AudioMixer mixer;
- 
 
+    bool startGame = false;
+
+
+    Elevator_Doors door = null;
     // Start is called before the first frame update
 
     void Start()
     {
-        
+        door = GameObject.Find("FirstElevator").GetComponent<Elevator_Doors>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (startGame && door.status == Elevator_Doors.Doors_Status.CLOSED)
+        {
+            // TODO: spawn player and the basic enemy to kill and start going down
+        }
     }
 
     public void Play()
     {
-        LeanTween.moveY(buttonPlay, -1000.0f, 3.0f).setEase(curve);
-        LeanTween.moveY(buttonSettings, -1000.0f, 3.0f).setEase(curve);
-        LeanTween.moveY(buttonQuit, -1000.0f, 3.0f).setEase(curve);
-        LeanTween.moveY(titleText, 1000.0f, 3.0f).setEase(curve).setOnComplete(DestroyMe);
+        LeanTween.moveY(buttonPlay, -700.0f, 1.5f).setEase(curve);
+        LeanTween.moveY(buttonSettings, -700.0f, 1.5f).setEase(curve);
+        LeanTween.moveY(buttonQuit, -700.0f, 1.5f).setEase(curve);
+        LeanTween.moveY(titleText, 700.0f, 1.5f).setEase(curve).setOnComplete(DestroyMe);
     }
 
     public void OpenSettings()
@@ -65,7 +71,8 @@ public class MainMenuFunction : MonoBehaviour
 
     public void StartGameplay()
     {
-
+        startGame = true;
+        door.OpenDoor();
     }
 
     public void Setlevel(float value)
