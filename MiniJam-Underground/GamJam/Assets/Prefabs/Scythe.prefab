@@ -48,10 +48,21 @@ MonoBehaviour:
   pivotOffset: {x: 0, y: 0.9, z: 0}
   maxTimeToReturn: 2000
   maxHitsOnThrow: 3
-  launchSpeed: 5
-  returnSpeed: 10
+  launchSpeed: 17
+  returnSpeed: 30
+  rotationLaunchSpeed: 1080
+  rotationReturnSpeed: 3240
   smooth: 17
   tilt_offset: 0.25
+  minDistanceToReattach: 1
+  moveDirection: {x: 0, y: 0, z: 0}
+  current_speed: 0
+  current_hits: 0
+  facingForward: 0
+  state: 0
+  shot: Fire3
+  secondaryAxisHorizontal: Horizontal2
+  secondaryAxisVertical: Vertical2
 --- !u!1001 &2861520288033076784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67,7 +78,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e2ce26bb03f75ca489c6fe9862db3732,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e2ce26bb03f75ca489c6fe9862db3732,
         type: 3}
