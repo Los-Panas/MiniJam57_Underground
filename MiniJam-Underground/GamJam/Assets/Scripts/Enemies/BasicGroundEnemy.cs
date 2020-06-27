@@ -30,22 +30,41 @@ public class BasicGroundEnemy : MonoBehaviour
 
     DetectionPlayer playerDetection;
 
+    Animator animator;
+    bool change_direction_r = true;
+    bool change_direction_l = true;
     void Start()
     {
         EnemyBehaviour = Behaviour.MOVE;
         rigid_body = GetComponent<Rigidbody2D>();
         playerDetection = GetComponentInChildren<DetectionPlayer>();
         Player = GameObject.FindGameObjectWithTag("Player");
+        animator = GetComponentInChildren<Animator>();
 
         direction_right = RandomBool();
     }
 
     void Update()
     {
+        //if (rigid_body.velocity.x > 0.1F)
+        //{
+        //    if (transform.localScale.z < 0)
+        //    {
+        //        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        //    }
+        //}
+        //else if (rigid_body.velocity.x < -0.1F)
+        //{
+        //    if (transform.localScale.z > 0)
+        //    {
+        //        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        //    }
+        //}
         // Bidirectional Movement
         switch (EnemyBehaviour)
         {
             case Behaviour.MOVE:
+                animator.SetBool("Run", false);
                 if (direction_right)
                     Move(velocity, 1);
                 else
@@ -55,12 +74,23 @@ public class BasicGroundEnemy : MonoBehaviour
                 break;
 
             case Behaviour.ATTACK:
+                animator.SetBool("Run", true);
                 transform.position = Vector3.MoveTowards(new Vector3(transform.position.x, transform.position.y, 0), new Vector3(Player.transform.position.x, 0, 0), velocity_attack * Time.deltaTime);
 
-                if (Player.transform.position.x > transform.position.x)
-                    direction_right = true;
-                else if (Player.transform.position.x < transform.position.x)
-                    direction_right = false;
+                if (Player.transform.position.x > transform.position.x && change_direction_r)
+                {
+                    if(!direction_right)
+                        ChangeDirection();
+                    change_direction_r = false;
+                    change_direction_l = true;
+                }
+                if (Player.transform.position.x < transform.position.x && change_direction_l)
+                {
+                    if (direction_right)
+                        ChangeDirection();
+                    change_direction_l = false;
+                    change_direction_r = true;
+                }
 
                 //TODO: Animation attack
                 break;
@@ -120,11 +150,20 @@ public class BasicGroundEnemy : MonoBehaviour
         Vector2 curVel = rigid_body.velocity;
         curVel.x = direction * vel * Time.deltaTime;
         rigid_body.velocity = curVel;
+
+
+        //transform.localScale = new Vector3(direction * transform.localScale.x, transform.localScale.y, transform.localScale.z);
+
     }
-    
+
     private void ChangeDirection()
     {
+        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        transform.eulerAngles = new Vector3(transform.rotation.eulerAngles.x, -transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+
         direction_right = !direction_right;
+        change_direction_r = !change_direction_r;
+        change_direction_l = !change_direction_l;
     }
 
     private bool RandomBool() { return (Random.Range(0, 1) == 1); }
