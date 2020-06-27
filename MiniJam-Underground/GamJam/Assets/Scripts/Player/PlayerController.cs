@@ -573,11 +573,11 @@ public class PlayerController : MonoBehaviour
 
         if (t < 0.5f)
         {
-            lerp = Mathf.Lerp(10.0f, 4.0f, t * 2);
+            lerp = Mathf.Lerp(4.0f, 10.0f, t * 2);
         }
         else
         {
-            lerp = Mathf.Lerp(4.0f, 10.0f, (t - 0.5f) * 2);
+            lerp = Mathf.Lerp(10.0f, 4.0f, (t - 0.5f) * 2);
         }
 
         internal_light.GetComponent<Light>().range = lerp;
