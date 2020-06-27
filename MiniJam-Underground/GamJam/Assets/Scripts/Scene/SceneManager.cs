@@ -111,6 +111,7 @@ public class SceneManager : MonoBehaviour
                     if(enemiesInLevel.Count == 0)
                     {
                         GetComponent<ScrollBackground>().StopMovment();
+                        ++countFloor;
                         state = ElevatorState.Stop;
                         doorsState = ElevatorDoorsState.Close;
                     }
@@ -122,11 +123,32 @@ public class SceneManager : MonoBehaviour
 
     private void SpawmEnemies(int pos)
     {
-        for(int i = 0; i <= floors[pos].numEnemies; ++i)
+        for(int i = 0; i <= floors[pos].numEnemies - 1; ++i)
         {
-            int enemyType = Random.Range(0, floors[pos].typeEnemies.Length - 1);
+            //take random enemy
+            int enemyType = Random.Range(0, floors[pos].typeEnemies.Length);
             GameObject newEnemy = Instantiate(floors[pos].typeEnemies[enemyType]);
-            
+
+            //put in random position
+            float cameraFrustumSize = camera.GetComponent<Camera>().orthographicSize;
+            Vector3 newPosition = camera.transform.position;
+            newPosition.z = 0.0f;
+
+            newPosition.x += Random.Range(-cameraFrustumSize * 2, cameraFrustumSize * 2);
+            newPosition.y += Random.Range(-cameraFrustumSize, cameraFrustumSize);
+
+            //assure the enemy is inside the screen
+            if (newPosition.x <= camera.transform.position.x - cameraFrustumSize * 1.8)
+                newPosition.x -= 5.0f;
+            if (newPosition.x >= camera.transform.position.x + cameraFrustumSize * 1.8)
+                newPosition.x += 5.0f;
+            if (newPosition.y <= camera.transform.position.y - cameraFrustumSize * 1.8)
+                newPosition.y -= 5.0f;
+            if (newPosition.y >= camera.transform.position.y + cameraFrustumSize * 1.8)
+                newPosition.y += 5.0f;
+
+            newEnemy.transform.position = newPosition;
+
             enemiesInLevel.Add(newEnemy);
         }
     }
