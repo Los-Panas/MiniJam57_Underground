@@ -14,7 +14,8 @@ public class ScytheBehaviour : MonoBehaviour
     public GameObject pivotObject;
     public Vector3 pivotOffset;
     [Header("Time relative variables")]
-    public UInt32 maxTimeToReturn = 2000; // ms
+    public float maxTimeToReturn = 1.5f; // s
+    private float launchTime = 0;
     
     [Header("Internal scythe parameters")]
     public int maxHitsOnThrow = 3;
@@ -127,6 +128,10 @@ public class ScytheBehaviour : MonoBehaviour
         {
             state = ScytheState.RETURNING;
         }
+
+        // check if we passed max time
+        if (launchTime + maxTimeToReturn < Time.time)
+            state = ScytheState.RETURNING;
     }
 
     private void AttachedBehaviour()
@@ -171,6 +176,7 @@ public class ScytheBehaviour : MonoBehaviour
             float target_angle_rad = target_angle * Mathf.Deg2Rad;
             moveDirection.x = Mathf.Cos(target_angle_rad);
             moveDirection.y = Mathf.Sin(target_angle_rad);
+            launchTime = Time.time;
 
             if (!facingForward)
             {
@@ -179,7 +185,6 @@ public class ScytheBehaviour : MonoBehaviour
             }
             else
                 rotationDir = -1;
-            
         }
     }
 
