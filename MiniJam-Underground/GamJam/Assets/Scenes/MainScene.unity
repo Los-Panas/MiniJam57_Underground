@@ -220,6 +220,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 803592555, guid: 9c78ac7087f65e44da40b111ede9b14b, type: 3}
+      propertyPath: want_to_close
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8096625547677823197, guid: 9c78ac7087f65e44da40b111ede9b14b,
         type: 3}
       propertyPath: m_Name

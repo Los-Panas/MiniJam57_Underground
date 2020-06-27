@@ -18,6 +18,8 @@ public class Elevator_Doors : MonoBehaviour
 
     Doors_Status status = Doors_Status.WAITING;
 
+    public bool want_to_close = true;
+
     public float left_goal = -13.5f;
     public float right_goal = 10.5f;
     public float seconds_to_open = 2.0f;
@@ -80,7 +82,9 @@ public class Elevator_Doors : MonoBehaviour
                     if ((Time.realtimeSinceStartup - time) >= seconds_to_open)
                     {
                         // HERE YOU SHOULD ACTIVATE THE ENEMIES GOING TO THEIR POSITION AND FADING THEIR MATERIAL COLOR FROM BLACK TO ORIGINAL
-                        status = Doors_Status.CLOSING;
+                        if (want_to_close)
+                            status = Doors_Status.CLOSING;
+                        else status = Doors_Status.CLOSED;
                     }
                     break;
                 case Doors_Status.CLOSING:
