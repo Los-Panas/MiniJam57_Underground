@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
+using UnityEngine.UI;
 using static UnityEngine.ParticleSystem;
 
 public class PlayerController : MonoBehaviour
@@ -89,9 +91,12 @@ public class PlayerController : MonoBehaviour
 
     Renderer rend;
 
+    // UI
+    Slider souls_bar;
+    public float time_to_lerp_bars = 0.25f;
+
     void Start()
     {
-
         rigid_body = GetComponent<Rigidbody2D>();
         dash_time = time_dashing;
 
@@ -107,6 +112,10 @@ public class PlayerController : MonoBehaviour
         internal_light = transform.GetChild(3).gameObject;
 
         TurnOnEmergencyLight(true);
+
+        // HUD
+        GameObject HUD = GameObject.Find("HUD");
+        souls_bar = HUD.transform.GetChild(0).GetComponent<Slider>();
     }
 
     void Update()
@@ -135,16 +144,15 @@ public class PlayerController : MonoBehaviour
 
         if (soul_power > 0) 
         {
-            soul_power -= (soul_power_to_add / seconds_for_soul) * Time.deltaTime;
+            ChangeSoulPower((-soul_power_to_add / seconds_for_soul) * Time.deltaTime);
             if (soul_power < 10)
             {
                 soul_lantern_light_c.range = original_lantern_light_range - (10 - soul_power) * (original_lantern_light_range / 10);
             }
 
-            if (soul_power <= 0)
+            if (soul_power == 0)
             {
                 TurnOnEmergencyLight(true);
-                soul_power = 0;
                 soul_lantern_light_c.range = original_lantern_light_range;
             }
         }
@@ -399,6 +407,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     private void ChangeState()
     {
         switch (state)
@@ -459,13 +468,7 @@ public class PlayerController : MonoBehaviour
     public void AddSoul(int color)
     {
         ++souls_picked;
-        soul_power += soul_power_to_add;
-
-        if (soul_power > 100)
-        {
-            soul_power = 100;
-        }
-
+        ChangeSoulPower(soul_power_to_add);
         TurnOnEmergencyLight(false);
 
         // To change farolillo color
@@ -544,5 +547,51 @@ public class PlayerController : MonoBehaviour
             time_internal_light = Time.realtimeSinceStartup;
         }
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy")) 
+        {
+            ChangeSoulPower(-50.0f);
+        }
+    }
+
+    void ChangeSoulPower(float quantity_to_change)
+    {
+        soul_power += quantity_to_change;
+        if (soul_power < 0)
+        {
+            soul_power = 0;
+        }
+        else if (soul_power > 100)
+        {
+            soul_power = 100;
+        }
+
+        SetSoulsBarValue(soul_power);
+    }
+
+    void SetSoulsBarValue(float actual_soul_power)
+    {
+        StartCoroutine(SoulsbarLerp(souls_bar.value, actual_soul_power, Time.realtimeSinceStartup));
+    }
+
+    IEnumerator SoulsbarLerp(float original_value, float actual_value, float time_at_start)
+    {
+        while (souls_bar.value != actual_value)
+        {
+            float t = (Time.realtimeSinceStartup - time_at_start) / time_to_lerp_bars;
+            float lerp = Mathf.Lerp(original_value, actual_value, t);
+
+            souls_bar.value = lerp;
+
+            if (t >= 1) 
+            {
+                souls_bar.value = actual_value;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
     }
 }
