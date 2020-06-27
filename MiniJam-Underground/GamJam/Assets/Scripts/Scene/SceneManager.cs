@@ -38,9 +38,7 @@ public class SceneManager : MonoBehaviour
     //variables constants between levels
     public GameObject door;
 
-    //unifoms for platforms
-    public GameObject SpawnerPlatformsAreaVertical;
-    public GameObject SpawnerPlatformsAreaHoritzontal;
+    public GameObject camera;
 
     private GameObject[] enemiesInLevel;
 
@@ -81,7 +79,7 @@ public class SceneManager : MonoBehaviour
             platformSize.x = Random.Range(floors[pos].minSizePlatform.x, floors[pos].maxSizePlatform.x);
             platformSize.y = Random.Range(floors[pos].minSizePlatform.y, floors[pos].maxSizePlatform.y);
 
-            Vector3 spawnerAreaSize;
+            float cameraFrustumSize = camera.GetComponent<Camera>().orthographicSize;
             Vector3 spawnerAreaPosition;
             Vector3 newPlatformPosition = Vector3.zero;
             float worldSpeed = 0.0f;
@@ -91,20 +89,25 @@ public class SceneManager : MonoBehaviour
                     //speed
                     worldSpeed = floors[pos].backgroundSpeed * transform.localScale.y * Time.deltaTime;
                     //position
-                    spawnerAreaSize = SpawnerPlatformsAreaVertical.transform.localScale;
-                    spawnerAreaPosition = SpawnerPlatformsAreaVertical.transform.position;
-                    newPlatformPosition = spawnerAreaPosition - spawnerAreaSize * 0.5f;
-                    newPlatformPosition.x += Random.Range(0.0f, spawnerAreaSize.x);
-                    newPlatformPosition.y += Random.Range(0.0f, spawnerAreaSize.y);
+                    if(floors[pos].backgroundSpeed > 0)
+                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, cameraFrustumSize, 0.0f);
+                    else 
+                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, -cameraFrustumSize,0.0f);
+
+                    newPlatformPosition.x += Random.Range(-cameraFrustumSize * 2, cameraFrustumSize * 2);
+                    newPlatformPosition.z = 0.0f;
                     break;
+
                 case BackgroundScroll.Horizontal:
                     worldSpeed = floors[pos].backgroundSpeed * transform.localScale.x * Time.deltaTime;
                     //position
-                    spawnerAreaSize = SpawnerPlatformsAreaHoritzontal.transform.localScale;
-                    spawnerAreaPosition = SpawnerPlatformsAreaHoritzontal.transform.position;
-                    newPlatformPosition = spawnerAreaPosition - spawnerAreaSize * 0.5f;
-                    newPlatformPosition.x += Random.Range(0.0f, spawnerAreaSize.x);
-                    newPlatformPosition.y += Random.Range(0.0f, spawnerAreaSize.y);
+                    if (floors[pos].backgroundSpeed > 0)
+                        newPlatformPosition = camera.transform.position + new Vector3(cameraFrustumSize*2,0.0f , 0.0f);
+                    else
+                        newPlatformPosition = camera.transform.position + new Vector3(-cameraFrustumSize * 2, 0.0f, 0.0f);
+
+                    newPlatformPosition.y += Random.Range(-cameraFrustumSize, cameraFrustumSize);
+                    newPlatformPosition.z = 0.0f;
                     break;
             }
 
