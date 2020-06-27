@@ -288,6 +288,7 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
+        // TODO: set animator to jump anim
         isGrounded = false;
         rigid_body.AddForce(new Vector2(0, jump_force), ForceMode2D.Impulse);
         state = State.AIR;
@@ -295,6 +296,7 @@ public class PlayerController : MonoBehaviour
 
     void ToIdle()
     {
+        // TODO: set animator to idle anim
         state = State.IDLE;
         rigid_body.velocity = Vector2.zero;
     }
@@ -432,6 +434,7 @@ public class PlayerController : MonoBehaviour
             case State.IDLE:
                 if (player_input.axis.x != 0)
                 {
+                    // TODO: set animator to run anim
                     state = State.RUN;
                 }
                 if (player_input.jump && isGrounded)
@@ -462,7 +465,6 @@ public class PlayerController : MonoBehaviour
             case State.DASH:
                 if (dash_direction == DashDirection.NONE)
                 {
-
                     if (isGrounded)
                     {
                         down_acceleration = 0.0F;
@@ -571,11 +573,11 @@ public class PlayerController : MonoBehaviour
 
         if (t < 0.5f)
         {
-            lerp = Mathf.Lerp(10.0f, 4.0f, t * 2);
+            lerp = Mathf.Lerp(4.0f, 10.0f, t * 2);
         }
         else
         {
-            lerp = Mathf.Lerp(4.0f, 10.0f, (t - 0.5f) * 2);
+            lerp = Mathf.Lerp(10.0f, 4.0f, (t - 0.5f) * 2);
         }
 
         internal_light.GetComponent<Light>().range = lerp;
