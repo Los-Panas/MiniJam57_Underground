@@ -51,14 +51,14 @@ public class PlatformWalkingEnemy : MonoBehaviour
             case Behaviour.NONE:
                 break;
         }
-        if (Input.GetKeyDown(KeyCode.R))
-            mov_direction = MovingDirection.RIGHT;
-        if (Input.GetKeyDown(KeyCode.L))
-            mov_direction = MovingDirection.LEFT;
-        if (Input.GetKeyDown(KeyCode.U))
-            mov_direction = MovingDirection.UP;
-        if (Input.GetKeyDown(KeyCode.D))
-            mov_direction = MovingDirection.DOWN;
+        //if (Input.GetKeyDown(KeyCode.R))
+        //    mov_direction = MovingDirection.RIGHT;
+        //if (Input.GetKeyDown(KeyCode.L))
+        //    mov_direction = MovingDirection.LEFT;
+        //if (Input.GetKeyDown(KeyCode.U))
+        //    mov_direction = MovingDirection.UP;
+        //if (Input.GetKeyDown(KeyCode.D))
+        //    mov_direction = MovingDirection.DOWN;
         
         CheckPlatform();
         
@@ -108,7 +108,7 @@ public class PlatformWalkingEnemy : MonoBehaviour
 
     void CheckPlatform()
     { 
-        RaycastHit2D hit =  Physics2D.Raycast(new Vector2(transform.position.x + offset_x, transform.position.y + offset_y), rayray, 100f, 1<<10);
+        RaycastHit2D hit =  Physics2D.Raycast(new Vector2(transform.position.x + offset_x, transform.position.y + offset_y), rayray, 100f, 1<<12);
         if (!hit)
         {
             if (!give_time)
