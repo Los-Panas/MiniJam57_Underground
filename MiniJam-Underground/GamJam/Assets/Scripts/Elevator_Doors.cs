@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Elevator_Doors : MonoBehaviour
 {
-    enum Doors_Status
+    public enum Doors_Status
     {
         WAITING,
         OPENING,
@@ -16,7 +16,7 @@ public class Elevator_Doors : MonoBehaviour
     GameObject left_door;
     GameObject right_door;
 
-    Doors_Status status = Doors_Status.WAITING;
+    public Doors_Status status = Doors_Status.WAITING;
 
     public bool want_to_close = true;
 
@@ -79,12 +79,15 @@ public class Elevator_Doors : MonoBehaviour
 
                     break;
                 case Doors_Status.OPEN:
+                    if (!want_to_close)
+                    {
+                        status = Doors_Status.CLOSED;
+                        break;
+                    }
                     if ((Time.realtimeSinceStartup - time) >= seconds_to_open)
                     {
                         // HERE YOU SHOULD ACTIVATE THE ENEMIES GOING TO THEIR POSITION AND FADING THEIR MATERIAL COLOR FROM BLACK TO ORIGINAL
-                        if (want_to_close)
-                            status = Doors_Status.CLOSING;
-                        else status = Doors_Status.CLOSED;
+                        status = Doors_Status.CLOSING;
                     }
                     break;
                 case Doors_Status.CLOSING:
