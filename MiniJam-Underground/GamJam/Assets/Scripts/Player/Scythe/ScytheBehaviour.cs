@@ -4,46 +4,134 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
+public enum ScytheState
+{
+    ATTACHED, LAUNCHED, RETURNING, NONE
+};
+
 public class ScytheBehaviour : MonoBehaviour
 {
     public GameObject pivotObject;
     public Vector3 pivotOffset;
     [Header("Time relative variables")]
     public UInt32 maxTimeToReturn = 2000; // ms
+    
     [Header("Internal scythe parameters")]
     public int maxHitsOnThrow = 3;
     [SerializeField]
-    private float launchSpeed = 5.0f;
+    private float launchSpeed = 17.0f;
     [SerializeField]
-    private float returnSpeed = 10.0f;
-
-    private int current_hits = 0;
-
-
+    private float returnSpeed = 30.0f;
+    [SerializeField]
+    private float rotationLaunchSpeed = 1080.0f; // deg/sec
+    [SerializeField]
+    private float rotationReturnSpeed = 3240.0f; 
+    private int rotationDir = 1; // 1, -1 depending on facingdirection of the player at moment of launch
     // rotations/movement around player logic vars
     [SerializeField]
     private float smooth = 17.0f;
     //private float idle_angle = 45.0f;
     [SerializeField]
     private float tilt_offset = 0.25f;
+    [SerializeField]
+    private float minDistanceToReattach = 1.0f;
+
+    [Header("Internal variables, not modificable")]
+    [SerializeField]
+    private Vector3 moveDirection = Vector3.zero;
+    [SerializeField]
+    private float current_speed = 0.0f;
+    [SerializeField]
+    private int current_hits = 0;
+   
    // [SerializeField]
    // private float separation_from_privot = 1.0f;
-
+    [SerializeField]
     private bool facingForward = false;
+    [SerializeField]
+    private ScytheState state = ScytheState.ATTACHED;
+
+    [Header("Button virtual bindings string names")]
+    public string shot = "Fire3"; // TODO: search another mapping configuration to be able to fully controll the player inputs at same time with gamepad and human hand restrictions
+    public string secondaryAxisHorizontal = "Horizontal2";
+    public string secondaryAxisVertical = "Vertical2";
 
     // Start is called before the first frame update
     void Start()
     {
-        pivotObject = GameObject.FindGameObjectWithTag("Player");
-
+        // try to link player object if not linked on inspector
+        if(!pivotObject)
+            pivotObject = GameObject.FindGameObjectWithTag("Player");
+        // assign start facing direction
         if (pivotObject.transform.localScale.z > 0.0f)
             facingForward = true;
+        // refresh internal state at start
+        state = ScytheState.ATTACHED;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 tilt_axis = new Vector2(Input.GetAxis("Horizontal2"), Input.GetAxis("Vertical2")); // second joystick axis
+        switch (state)
+        {
+            case ScytheState.ATTACHED:
+                {
+                    AttachedBehaviour();
+                    break;
+                }
+            case ScytheState.LAUNCHED:
+                {
+                    LaunchedBehaviour();
+                    break;
+                }
+            case ScytheState.RETURNING:
+                {
+                    ReturningBehaviour();
+                    break;
+                }
+        }
+
+    }
+
+    private void ReturningBehaviour()
+    {
+        Vector3 returnDir = (pivotObject.transform.position - transform.position).normalized;
+        returnDir.z = 0.0f;
+
+        transform.position += returnDir * returnSpeed * Time.deltaTime;
+        transform.Rotate(new Vector3(0.0f, 0.0f, (rotationReturnSpeed * rotationDir) * Time.deltaTime));
+
+        if ((pivotObject.transform.position - transform.position).magnitude < minDistanceToReattach)
+            state = ScytheState.ATTACHED;
+
+    }
+
+    private void LaunchedBehaviour()
+    {
+        // free control when launched
+        Vector2 axis_dir_input = GetSecondAxis();
+        if (axis_dir_input.x != 0.0f || axis_dir_input.y != 0.0f)
+        {
+            float target_angle = Mathf.Atan2(-axis_dir_input.y, axis_dir_input.x);
+            moveDirection.x = Mathf.Cos(target_angle);
+            moveDirection.y = Mathf.Sin(target_angle);
+        }
+
+        // updates position and rotation
+        transform.position += moveDirection * launchSpeed * Time.deltaTime;
+        transform.Rotate(new Vector3(0.0f, 0.0f, (rotationLaunchSpeed * rotationDir) * Time.deltaTime));
+
+        // check if the player wants to return the scyther
+        if(Input.GetButtonDown(shot))
+        {
+            state = ScytheState.RETURNING;
+        }
+    }
+
+    private void AttachedBehaviour()
+    {
+        Vector2 tilt_axis = GetSecondAxis();
 
         Vector3 target_scale = pivotObject.transform.localScale;
         if ((target_scale.x < 0.0f || target_scale.y < 0.0f || target_scale.z < 0.0f) && facingForward)
@@ -76,5 +164,28 @@ public class ScytheBehaviour : MonoBehaviour
         Vector3 new_pos = new Vector3((follow_pos.x + (tilt_axis.x * tilt_offset)), (follow_pos.y + (-tilt_axis.y * tilt_offset)), transform.position.z);
         transform.position = new_pos;
 
+        // check if player wants to throw the scythe
+        if(Input.GetButton(shot))
+        {
+            state = ScytheState.LAUNCHED;
+            float target_angle_rad = target_angle * Mathf.Deg2Rad;
+            moveDirection.x = Mathf.Cos(target_angle_rad);
+            moveDirection.y = Mathf.Sin(target_angle_rad);
+
+            if (!facingForward)
+            {
+                moveDirection = -moveDirection;
+                rotationDir = 1;
+            }
+            else
+                rotationDir = -1;
+            
+        }
     }
+
+    private Vector2 GetSecondAxis()
+    {
+        return new Vector2(Input.GetAxis(secondaryAxisHorizontal), Input.GetAxis(secondaryAxisVertical));
+    }
+
 }
