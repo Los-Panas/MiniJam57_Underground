@@ -831,6 +831,8 @@ MonoBehaviour:
   velocity: 12
   jump_force: 9
   state: 1
+  invulnerability_seconds: 1.5
+  knockback_time: 0.5
   time_next_dash: 0.3
   dash_speed: 50
   time_dashing: 0.1
@@ -847,6 +849,7 @@ MonoBehaviour:
   isGrounded: 0
   jump_down_acceleration: 0.01
   time_to_lerp_bars: 0.25
+  Lamp: {fileID: 0}
 --- !u!50 &1838526087
 Rigidbody2D:
   serializedVersion: 4
