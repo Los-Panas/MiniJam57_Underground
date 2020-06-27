@@ -18,12 +18,21 @@ public class TestAnim : MonoBehaviour
         {
             animator.SetBool("isRunning", true);
             animator.SetBool("isIdle", false);
+            animator.SetBool("isJumping", false);
         }
 
         if (Input.GetKey("2"))
         {
             animator.SetBool("isRunning", false);
             animator.SetBool("isIdle", true);
+            animator.SetBool("isJumping", false);
+        }
+
+        if (Input.GetKey("3"))
+        {
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isIdle", false);
+            animator.SetBool("isJumping", true);
         }
     }
 }
