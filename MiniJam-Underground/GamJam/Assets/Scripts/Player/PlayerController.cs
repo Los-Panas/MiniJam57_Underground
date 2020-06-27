@@ -458,12 +458,12 @@ public class PlayerController : MonoBehaviour
                 soul_lantern_material.SetColor("_EmissionColor", Color.blue);
                 soul_lantern_particle.startColor = Color.blue;
                 soul_lantern_light_c.color = Color.blue;
-                 break;
+                break;
              case 1:
                 soul_lantern_material.SetColor("_EmissionColor", Color.yellow);
                 soul_lantern_particle.startColor = Color.yellow;
                 soul_lantern_light_c.color = Color.yellow;
-                 break;
+                break;
          }
 
     }
