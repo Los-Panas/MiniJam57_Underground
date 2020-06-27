@@ -26,7 +26,9 @@ public class ScytheBehaviour : MonoBehaviour
     [SerializeField]
     private float rotationLaunchSpeed = 1080.0f; // deg/sec
     [SerializeField]
-    private float rotationReturnSpeed = 3240.0f; 
+    private float rotationReturnSpeed = 3240.0f;
+    [SerializeField]
+    private float rotationSpeedSoulHarvester = 5000.0f; // xD
     private int rotationDir = 1; // 1, -1 depending on facingdirection of the player at moment of launch
     // rotations/movement around player logic vars
     [SerializeField]
@@ -56,6 +58,7 @@ public class ScytheBehaviour : MonoBehaviour
     public string shot = "Fire3"; // TODO: search another mapping configuration to be able to fully controll the player inputs at same time with gamepad and human hand restrictions
     public string secondaryAxisHorizontal = "Horizontal2";
     public string secondaryAxisVertical = "Vertical2";
+    public string soulHarvesterButton = "Fire2";
 
     // Start is called before the first frame update
     void Start()
@@ -79,6 +82,7 @@ public class ScytheBehaviour : MonoBehaviour
             case ScytheState.ATTACHED:
                 {
                     AttachedBehaviour();
+                    SoulHarvesterBehaviour();
                     break;
                 }
             case ScytheState.LAUNCHED:
@@ -93,6 +97,15 @@ public class ScytheBehaviour : MonoBehaviour
                 }
         }
 
+    }
+
+    private void SoulHarvesterBehaviour()
+    {
+        if(Input.GetButton(soulHarvesterButton))
+        {
+            UpdateRotAndMovDirection();
+            transform.Rotate(new Vector3(0.0f, 0.0f, (rotationSpeedSoulHarvester * rotationDir) * Time.deltaTime));
+        }
     }
 
     private void ReturningBehaviour()
@@ -178,19 +191,24 @@ public class ScytheBehaviour : MonoBehaviour
             moveDirection.y = Mathf.Sin(target_angle_rad);
             launchTime = Time.time;
 
-            if (!facingForward)
-            {
-                moveDirection = -moveDirection;
-                rotationDir = 1;
-            }
-            else
-                rotationDir = -1;
+            UpdateRotAndMovDirection();
         }
     }
 
     private Vector2 GetSecondAxis()
     {
         return new Vector2(Input.GetAxis(secondaryAxisHorizontal), Input.GetAxis(secondaryAxisVertical));
+    }
+
+    private void UpdateRotAndMovDirection()
+    {
+        if (!facingForward)
+        {
+            moveDirection = -moveDirection;
+            rotationDir = 1;
+        }
+        else
+            rotationDir = -1;
     }
 
 }

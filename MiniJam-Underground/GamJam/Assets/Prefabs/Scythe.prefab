@@ -4898,6 +4898,7 @@ MonoBehaviour:
   returnSpeed: 30
   rotationLaunchSpeed: 1080
   rotationReturnSpeed: 3240
+  rotationSpeedSoulHarvester: 5000
   smooth: 17
   tilt_offset: 0.25
   minDistanceToReattach: 1
@@ -4909,6 +4910,7 @@ MonoBehaviour:
   shot: Fire3
   secondaryAxisHorizontal: Horizontal2
   secondaryAxisVertical: Vertical2
+  soulHarvesterButton: Fire2
 --- !u!1 &3307625146092643890
 GameObject:
   m_ObjectHideFlags: 0
