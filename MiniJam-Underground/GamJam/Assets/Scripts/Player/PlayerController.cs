@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using static UnityEngine.ParticleSystem;
 
 public class PlayerController : MonoBehaviour
@@ -59,6 +60,11 @@ public class PlayerController : MonoBehaviour
 
     bool dash_effect = true;
 
+    // Lantern
+    Material soul_lantern_material;
+    ParticleSystem.MainModule soul_lantern_particle;
+    Light soul_lantern_light_c;
+
     // Souls
     float soul_power = 0.0f;
     float souls_picked = 0.0f;
@@ -80,6 +86,10 @@ public class PlayerController : MonoBehaviour
         dash_time = time_dashing;
 
         rend = GetComponent<Renderer>();
+
+        soul_lantern_material = transform.parent.GetChild(1).GetChild(1).GetChild(0).GetComponent<Renderer>().material;
+        soul_lantern_particle = transform.parent.GetChild(1).GetChild(1).GetChild(3).GetComponent<ParticleSystem>().main;
+        soul_lantern_light_c = transform.parent.GetChild(1).GetChild(1).GetChild(4).GetComponent<Light>();
     }
 
     void Update()
@@ -413,22 +423,35 @@ public class PlayerController : MonoBehaviour
         ++souls_picked;
         soul_power += 20.0f;
 
-        // To changfe farolillo color
-       /* switch (color)
-        {
-            case 0:
-                material.SetColor("_EmissionColor", Color.white);
-                break;
-            case 1:
-                material.SetColor("_EmissionColor", Color.red);
-                break;
-            case 2:
-                material.SetColor("_EmissionColor", Color.green);
-                break;
-            case 3:
-                material.SetColor("_EmissionColor", Color.blue);
-                break;
-        }*/
+        // To change farolillo color
+        switch(color)
+         {
+             case 0:
+                 soul_lantern_material.SetColor("_EmissionColor", new Color(0.8f, 0.8f, 0.8f, 1));
+                 soul_lantern_particle.startColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                 soul_lantern_light_c.color = new Color(0.8f, 0.8f, 0.8f, 1);
+                 break;
+             case 1:
+                soul_lantern_material.SetColor("_EmissionColor", Color.red);
+                soul_lantern_particle.startColor = Color.red;
+                soul_lantern_light_c.color = Color.red;
+                 break;
+             case 2:
+                soul_lantern_material.SetColor("_EmissionColor", new Color(0.0f, 0.85f, 0.0f, 1));
+                soul_lantern_particle.startColor = new Color(0.0f, 0.85f, 0.0f, 1);
+                soul_lantern_light_c.color = new Color(0.0f, 0.85f, 0.0f, 1);
+                 break;
+             case 3:
+                soul_lantern_material.SetColor("_EmissionColor", Color.blue);
+                soul_lantern_particle.startColor = Color.blue;
+                soul_lantern_light_c.color = Color.blue;
+                 break;
+             case 4:
+                soul_lantern_material.SetColor("_EmissionColor", Color.yellow);
+                soul_lantern_particle.startColor = Color.yellow;
+                soul_lantern_light_c.color = Color.yellow;
+                 break;
+         }
 
     }
 
