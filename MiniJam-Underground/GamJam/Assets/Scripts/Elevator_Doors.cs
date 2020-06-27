@@ -38,16 +38,6 @@ public class Elevator_Doors : MonoBehaviour
         startPos = new Vector2(left_door.transform.position.x, right_door.transform.position.x);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // DEBUG
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            OpenDoor();
-        }
-    }
-
     public void OpenDoor()
     {
         StartCoroutine(Doors_Opening());
