@@ -23,7 +23,7 @@ public class Soul : MonoBehaviour
         particle = transform.GetChild(3).GetComponent<ParticleSystem>().main;
         light_c = transform.GetChild(4).GetComponent<Light>();
 
-        color = Random.Range(0, 5);
+        color = Random.Range(0, 4);
         
         switch(color)
         {
@@ -31,11 +31,6 @@ public class Soul : MonoBehaviour
                 material.SetColor("_EmissionColor", new Color(0.8f, 0.8f, 0.8f, 1));
                 particle.startColor = new Color(0.8f, 0.8f, 0.8f, 1);
                 light_c.color = new Color(0.8f, 0.8f, 0.8f, 1);
-                break;
-            case 1:
-                material.SetColor("_EmissionColor", Color.red);
-                particle.startColor = Color.red;
-                light_c.color = Color.red;
                 break;
             case 2:
                 material.SetColor("_EmissionColor", new Color(0.0f, 0.85f, 0.0f, 1));
@@ -47,7 +42,7 @@ public class Soul : MonoBehaviour
                 particle.startColor = Color.blue;
                 light_c.color = Color.blue;
                 break;
-            case 4:
+            case 1:
                 material.SetColor("_EmissionColor", Color.yellow);
                 particle.startColor = Color.yellow;
                 light_c.color = Color.yellow;

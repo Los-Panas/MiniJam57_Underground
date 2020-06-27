@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using static UnityEngine.ParticleSystem;
 
 public class PlayerController : MonoBehaviour
@@ -59,12 +60,27 @@ public class PlayerController : MonoBehaviour
 
     bool dash_effect = true;
 
+    // Lantern
+    GameObject lantern_soul;
+    Material soul_lantern_material;
+    GameObject soul_lantern_system_particle;
+    MainModule soul_lantern_particle;
+    Light soul_lantern_light_c;
+    float original_lantern_light_range = 0.0f;
+
     // Souls
+    public float seconds_for_soul = 10.0f;
+    public float soul_power_to_add = 20.0f;
     float soul_power = 0.0f;
     float souls_picked = 0.0f;
 
-    public GameObject dash_particle = null;
+    // Internal Light
+    GameObject internal_light;
+    public float min_range = 4.0f;
+    public float max_range = 10.0f;
+    float time_internal_light = 0.0f;
 
+    public GameObject dash_particle = null;
 
     public bool isGrounded = false;
 
@@ -80,6 +96,17 @@ public class PlayerController : MonoBehaviour
         dash_time = time_dashing;
 
         rend = GetComponent<Renderer>();
+
+        lantern_soul = transform.GetChild(2).GetChild(1).gameObject;
+        soul_lantern_material = lantern_soul.transform.GetChild(0).GetComponent<Renderer>().material;
+        soul_lantern_system_particle = lantern_soul.transform.GetChild(3).gameObject;
+        soul_lantern_particle = soul_lantern_system_particle.GetComponent<ParticleSystem>().main;
+        soul_lantern_light_c = lantern_soul.transform.GetChild(4).GetComponent<Light>();
+        original_lantern_light_range = soul_lantern_light_c.range;
+
+        internal_light = transform.GetChild(3).gameObject;
+
+        TurnOnEmergencyLight(true);
     }
 
     void Update()
@@ -104,6 +131,27 @@ public class PlayerController : MonoBehaviour
         if (dash_effect)
         {
             DashEffect();
+        }
+
+        if (soul_power > 0) 
+        {
+            soul_power -= (soul_power_to_add / seconds_for_soul) * Time.deltaTime;
+            if (soul_power < 10)
+            {
+                soul_lantern_light_c.range = original_lantern_light_range - (10 - soul_power) * (original_lantern_light_range / 10);
+            }
+
+            if (soul_power <= 0)
+            {
+                TurnOnEmergencyLight(true);
+                soul_power = 0;
+                soul_lantern_light_c.range = original_lantern_light_range;
+            }
+        }
+
+        if(internal_light.activeSelf)
+        {
+            ChangeLightRange();
         }
     }
 
@@ -411,24 +459,39 @@ public class PlayerController : MonoBehaviour
     public void AddSoul(int color)
     {
         ++souls_picked;
-        soul_power += 20.0f;
+        soul_power += soul_power_to_add;
 
-        // To changfe farolillo color
-       /* switch (color)
+        if (soul_power > 100)
         {
-            case 0:
-                material.SetColor("_EmissionColor", Color.white);
+            soul_power = 100;
+        }
+
+        TurnOnEmergencyLight(false);
+
+        // To change farolillo color
+        switch(color)
+         {
+             case 0:
+                 soul_lantern_material.SetColor("_EmissionColor", new Color(0.8f, 0.8f, 0.8f, 1));
+                 soul_lantern_particle.startColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                 soul_lantern_light_c.color = new Color(0.8f, 0.8f, 0.8f, 1);
+                 break;
+             case 2:
+                soul_lantern_material.SetColor("_EmissionColor", new Color(0.0f, 0.85f, 0.0f, 1));
+                soul_lantern_particle.startColor = new Color(0.0f, 0.85f, 0.0f, 1);
+                soul_lantern_light_c.color = new Color(0.0f, 0.85f, 0.0f, 1);
+                 break;
+             case 3:
+                soul_lantern_material.SetColor("_EmissionColor", Color.blue);
+                soul_lantern_particle.startColor = Color.blue;
+                soul_lantern_light_c.color = Color.blue;
                 break;
-            case 1:
-                material.SetColor("_EmissionColor", Color.red);
+             case 1:
+                soul_lantern_material.SetColor("_EmissionColor", Color.yellow);
+                soul_lantern_particle.startColor = Color.yellow;
+                soul_lantern_light_c.color = Color.yellow;
                 break;
-            case 2:
-                material.SetColor("_EmissionColor", Color.green);
-                break;
-            case 3:
-                material.SetColor("_EmissionColor", Color.blue);
-                break;
-        }*/
+         }
 
     }
 
@@ -450,5 +513,36 @@ public class PlayerController : MonoBehaviour
             dash_effect = false;
             timer_shader = 0;
         }
+    }
+
+    void TurnOnEmergencyLight(bool turn_on)
+    {
+        lantern_soul.SetActive(!turn_on);
+        internal_light.SetActive(turn_on);
+        
+        time_internal_light = Time.realtimeSinceStartup;
+    }
+
+    void ChangeLightRange()
+    {
+        float t = (Time.realtimeSinceStartup - time_internal_light) / 2;
+        float lerp = 0.0f;
+
+        if (t < 0.5f)
+        {
+            lerp = Mathf.Lerp(10.0f, 4.0f, t * 2);   
+        }
+        else
+        {
+            lerp = Mathf.Lerp(4.0f, 10.0f, (t - 0.5f) * 2);
+        }
+
+        internal_light.GetComponent<Light>().range = lerp;
+
+        if (t >= 1) 
+        {
+            time_internal_light = Time.realtimeSinceStartup;
+        }
+
     }
 }

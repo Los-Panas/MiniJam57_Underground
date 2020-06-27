@@ -15,6 +15,12 @@ public class SceneManager : MonoBehaviour
         Stop,
         Run
     }
+    
+    public enum ElevatorDoorsState
+    {
+        Open,
+        Close
+    }
     //variables differents between levels
     [System.Serializable]
     public struct Floor
@@ -40,15 +46,18 @@ public class SceneManager : MonoBehaviour
 
     public GameObject camera;
 
-    private GameObject[] enemiesInLevel;
+    private ArrayList enemiesInLevel;
 
     private ElevatorState state = ElevatorState.Stop;
+    private ElevatorDoorsState doorsState = ElevatorDoorsState.Close;
     private int countFloor;
 
     float platformTimer;
     // Start is called before the first frame update
     void Start()
     {
+        enemiesInLevel = new ArrayList();
+
         countFloor = 0;
         platformTimer = Time.time;
     }
@@ -58,15 +67,10 @@ public class SceneManager : MonoBehaviour
     {
         if (Input.GetKeyDown("q"))
         {
-            GetComponent<ScrollBackground>().StartMovment((int)floors[countFloor].backgroundScroll,floors[countFloor].backgroundSpeed, floors[countFloor].doorIsOpen);
-            state = ElevatorState.Run;
-        }
-
-        else if (Input.GetKeyDown("w"))
-        {
-            GetComponent<ScrollBackground>().StopMovment();
-            state = ElevatorState.Stop;
-
+            for (int i = 0; i < enemiesInLevel.Count; ++i)
+                Destroy((GameObject)enemiesInLevel[i]);
+            enemiesInLevel.RemoveRange(0, enemiesInLevel.Count);
+            enemiesInLevel.Clear();
         }
 
         if (countFloor < floors.Length)
@@ -74,23 +78,78 @@ public class SceneManager : MonoBehaviour
             switch (state)
             {
                 case ElevatorState.Stop:
+                    if(GetComponent<ScrollBackground>().GetSpeed() == 0.0f)
+                    {
+                        switch (doorsState)
+                        {
+                            case ElevatorDoorsState.Open:
+                                if (door.GetComponent<Elevator_Doors>().CloseDoors())
+                                {
+                                    GetComponent<ScrollBackground>().StartMovment((int)floors[countFloor].backgroundScroll, floors[countFloor].backgroundSpeed, floors[countFloor].doorIsOpen);
+                                    state = ElevatorState.Run;
+                                }
+
+                                    break;
+                            case ElevatorDoorsState.Close:
+                                if (door.GetComponent<Elevator_Doors>().OpenDoors())
+                                {
+                                    doorsState = ElevatorDoorsState.Open;
+                                    SpawmEnemies(countFloor);
+                                }
+                                break;
+                        }
+                       
+                    }
                     break;
                 case ElevatorState.Run:
-                    PlatformSpawner(0);
+                    PlatformSpawner(countFloor);
+                    if (floors[countFloor].doorIsOpen)
+                    {
+                        SpawmEnemies(countFloor);
+                    }
+
+                    if(enemiesInLevel.Count == 0)
+                    {
+                        GetComponent<ScrollBackground>().StopMovment();
+                        ++countFloor;
+                        state = ElevatorState.Stop;
+                        doorsState = ElevatorDoorsState.Close;
+                    }
                     break;
             }
         }
 
     }
 
-    private void EnemySpawner(int pos)
+    private void SpawmEnemies(int pos)
     {
-        for(int i = 0; i < floors[pos].numEnemies; ++i)
+        for(int i = 0; i <= floors[pos].numEnemies - 1; ++i)
         {
-            int enemyType = Random.Range(0, floors[pos].typeEnemies.Length - 1);
+            //take random enemy
+            int enemyType = Random.Range(0, floors[pos].typeEnemies.Length);
             GameObject newEnemy = Instantiate(floors[pos].typeEnemies[enemyType]);
-            
-            enemiesInLevel.SetValue(newEnemy, i);
+
+            //put in random position
+            float cameraFrustumSize = camera.GetComponent<Camera>().orthographicSize;
+            Vector3 newPosition = camera.transform.position;
+            newPosition.z = 0.0f;
+
+            newPosition.x += Random.Range(-cameraFrustumSize * 2, cameraFrustumSize * 2);
+            newPosition.y += Random.Range(-cameraFrustumSize, cameraFrustumSize);
+
+            //assure the enemy is inside the screen
+            if (newPosition.x <= camera.transform.position.x - cameraFrustumSize * 1.8)
+                newPosition.x -= 5.0f;
+            if (newPosition.x >= camera.transform.position.x + cameraFrustumSize * 1.8)
+                newPosition.x += 5.0f;
+            if (newPosition.y <= camera.transform.position.y - cameraFrustumSize * 1.8)
+                newPosition.y -= 5.0f;
+            if (newPosition.y >= camera.transform.position.y + cameraFrustumSize * 1.8)
+                newPosition.y += 5.0f;
+
+            newEnemy.transform.position = newPosition;
+
+            enemiesInLevel.Add(newEnemy);
         }
     }
 
@@ -149,5 +208,10 @@ public class SceneManager : MonoBehaviour
 
             platformTimer = Time.time;
         }
+    }
+
+    public void DeleteEnemy(GameObject enemy)
+    {
+        enemiesInLevel.Remove(enemy);
     }
 }

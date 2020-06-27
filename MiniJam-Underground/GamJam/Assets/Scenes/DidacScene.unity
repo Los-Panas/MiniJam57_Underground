@@ -128,6 +128,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 436355080}
     m_Modifications:
+    - target: {fileID: 803592555, guid: 9c78ac7087f65e44da40b111ede9b14b, type: 3}
+      propertyPath: left_goal
+      value: -12.38
+      objectReference: {fileID: 0}
     - target: {fileID: 8096625547677823197, guid: 9c78ac7087f65e44da40b111ede9b14b,
         type: 3}
       propertyPath: m_Name
@@ -202,6 +206,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.041343156
+      objectReference: {fileID: 0}
+    - target: {fileID: 8635167902126770520, guid: 9c78ac7087f65e44da40b111ede9b14b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 9198166034551090664, guid: 9c78ac7087f65e44da40b111ede9b14b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c78ac7087f65e44da40b111ede9b14b, type: 3}
@@ -371,9 +385,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a45f8748678024c9a1c3c3d0371825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollAxis: 0
-  scrollState: 0
-  maxSpeed: -0.2
   door: {fileID: 231191652}
 --- !u!64 &436355077
 MeshCollider:
@@ -464,39 +475,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floors:
-  - backgroundScroll: 1
+  - backgroundScroll: 0
     backgroundSpeed: -0.2
     typePlatforms:
     - {fileID: 9102979480803655512, guid: e116f060d41849440bd751dfb43b49ca, type: 3}
     minSizePlatform: {x: 1.5, y: 0.4}
     maxSizePlatform: {x: 4, y: 0.4}
     delayBetweenPlatforms: 2
-    doorType: 0
-    numEnemies: 2
+    doorIsOpen: 0
+    numEnemies: 5
     typeEnemies:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 6578330405783535136, guid: 1920a33a05976d34fb828d73a808a37e, type: 3}
     delayBetweenEnemies: 0
   door: {fileID: 231191652}
   camera: {fileID: 1666776111}
