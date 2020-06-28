@@ -273,7 +273,7 @@ public class ScytheBehaviour : MonoBehaviour
     {
         while (light.range != max_light_range) 
         {
-            float t = (Time.realtimeSinceStartup - time) / 0.2f;
+            float t = (Time.realtimeSinceStartup - time) / 0.5f;
             float lerp = Mathf.Lerp(min_light_range, max_light_range, t);
 
             light.range = lerp;
