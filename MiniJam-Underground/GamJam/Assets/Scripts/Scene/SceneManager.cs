@@ -147,14 +147,14 @@ public class SceneManager : MonoBehaviour
             newPosition.y += Random.Range(-cameraFrustumSize, cameraFrustumSize);
 
             //assure the enemy is inside the screen
-            if (newPosition.x <= camera.transform.position.x - cameraFrustumSize * 1.8)
-                newPosition.x -= 5.0f;
-            if (newPosition.x >= camera.transform.position.x + cameraFrustumSize * 1.8)
+            if (newPosition.x <= camera.transform.position.x - cameraFrustumSize * 1.8f)
                 newPosition.x += 5.0f;
-            if (newPosition.y <= camera.transform.position.y - cameraFrustumSize * 1.8)
-                newPosition.y -= 5.0f;
-            if (newPosition.y >= camera.transform.position.y + cameraFrustumSize * 1.8)
+            if (newPosition.x >= camera.transform.position.x + cameraFrustumSize * 1.8f)
+                newPosition.x -= 5.0f;
+            if (newPosition.y <= camera.transform.position.y - cameraFrustumSize * 0.8f)
                 newPosition.y += 5.0f;
+            if (newPosition.y >= camera.transform.position.y + cameraFrustumSize * 0.8f)
+                newPosition.y -= 5.0f;
 
             newEnemy.transform.position = newPosition;
 
@@ -174,18 +174,8 @@ public class SceneManager : MonoBehaviour
             Vector3 newPosition = camera.transform.position;
             newPosition.z = 0.0f;
 
-            newPosition.x += Random.Range(-cameraFrustumSize * 2, cameraFrustumSize * 2);
-            newPosition.y += Random.Range(-cameraFrustumSize, cameraFrustumSize);
-
-            //assure the enemy is inside the screen
-            if (newPosition.x <= camera.transform.position.x - cameraFrustumSize * 1.8)
-                newPosition.x -= 5.0f;
-            if (newPosition.x >= camera.transform.position.x + cameraFrustumSize * 1.8)
-                newPosition.x += 5.0f;
-            if (newPosition.y <= camera.transform.position.y - cameraFrustumSize * 1.8)
-                newPosition.y -= 5.0f;
-            if (newPosition.y >= camera.transform.position.y + cameraFrustumSize * 1.8)
-                newPosition.y += 5.0f;
+            newPosition = camera.transform.position + new Vector3(0.0f, cameraFrustumSize, 0.0f);
+            newPosition.x += Random.Range(-cameraFrustumSize * 1.8f, cameraFrustumSize * 1.8f);
 
             newEnemy.transform.position = newPosition;
             ++countEnemy;

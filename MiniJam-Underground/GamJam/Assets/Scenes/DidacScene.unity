@@ -483,7 +483,7 @@ MonoBehaviour:
     maxSizePlatform: {x: 4, y: 0.4}
     delayBetweenPlatforms: 2
     doorIsOpen: 0
-    numEnemies: 5
+    numEnemies: 1
     typeEnemies:
     - {fileID: 6578330405783535136, guid: 1920a33a05976d34fb828d73a808a37e, type: 3}
     delayBetweenEnemies: 0
@@ -498,7 +498,7 @@ MonoBehaviour:
     numEnemies: 5
     typeEnemies:
     - {fileID: 6578330405783535136, guid: 1920a33a05976d34fb828d73a808a37e, type: 3}
-    delayBetweenEnemies: 0
+    delayBetweenEnemies: 1.59
   door: {fileID: 231191652}
   camera: {fileID: 1666776111}
   state: 0
