@@ -9,6 +9,7 @@ public class BasicGroundEnemy : MonoBehaviour
         MOVE,
         ATTACK,
         GETHIT,
+        DIE,
         NONE
     }
     Behaviour EnemyBehaviour;
@@ -46,20 +47,7 @@ public class BasicGroundEnemy : MonoBehaviour
 
     void Update()
     {
-        //if (rigid_body.velocity.x > 0.1F)
-        //{
-        //    if (transform.localScale.z < 0)
-        //    {
-        //        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        //    }
-        //}
-        //else if (rigid_body.velocity.x < -0.1F)
-        //{
-        //    if (transform.localScale.z > 0)
-        //    {
-        //        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        //    }
-        //}
+       
         // Bidirectional Movement
         switch (EnemyBehaviour)
         {
@@ -79,7 +67,7 @@ public class BasicGroundEnemy : MonoBehaviour
 
                 if (Player.transform.position.x > transform.position.x && change_direction_r)
                 {
-                    if(!direction_right)
+                    if (!direction_right)
                         ChangeDirection();
                     change_direction_r = false;
                     change_direction_l = true;
@@ -96,9 +84,9 @@ public class BasicGroundEnemy : MonoBehaviour
                 break;
 
             case Behaviour.GETHIT:
-                
+
                 // Add Force up
-                if(can_gethit)
+                if (can_gethit)
                 {
                     rigid_body.AddForce(Vector2.up * gethit_force);
                     can_gethit = false;
@@ -111,23 +99,26 @@ public class BasicGroundEnemy : MonoBehaviour
                     gethit_timer = 0;
                     can_gethit = true;
                     EnemyBehaviour = Behaviour.MOVE;
-                }            
+                }
 
                 break;
 
             case Behaviour.NONE:
                 break;
-
+            case Behaviour.DIE:
+                animator.SetBool("Die", true);
+                Destroy(gameObject,2.5F);
+                break;
             default:
                 break;
         }
 
         //Player Detection
-        if(playerDetection.player_detected)
+        if (playerDetection.player_detected && EnemyBehaviour != Behaviour.DIE)
         {
             EnemyBehaviour = Behaviour.ATTACK;
         }
-        else
+        else if(EnemyBehaviour != Behaviour.DIE)
         {
             EnemyBehaviour = Behaviour.MOVE;
         }
@@ -142,8 +133,12 @@ public class BasicGroundEnemy : MonoBehaviour
         {
             EnemyBehaviour = Behaviour.NONE;
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Die();
+        }
     }
-    
+
 
     private void Move(float vel, int direction)
     {
@@ -164,6 +159,11 @@ public class BasicGroundEnemy : MonoBehaviour
         direction_right = !direction_right;
         change_direction_r = !change_direction_r;
         change_direction_l = !change_direction_l;
+    }
+
+    public void Die()
+    {
+        EnemyBehaviour = Behaviour.DIE;
     }
 
     private bool RandomBool() { return (Random.Range(0, 1) == 1); }
