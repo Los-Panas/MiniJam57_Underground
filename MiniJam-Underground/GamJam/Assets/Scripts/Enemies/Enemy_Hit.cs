@@ -6,10 +6,19 @@ public class Enemy_Hit : MonoBehaviour
 {
     public int hits_to_kill = 1;
     public GameObject soul;
-    public void KillEnemy()
+    bool first = false;
+    public bool KillEnemy()
     {
-        // TO DO: Dissolve Shader
-        // TO DO: Particle System
-        Instantiate(soul, transform);
+        if (!first)
+        {
+            first = true;
+            SendMessage("Die");
+            // TO DO: Dissolve Shader
+            // TO DO: Particle System
+            Instantiate(soul, transform);
+
+            return true;
+        }
+        return false;
     }
 }
