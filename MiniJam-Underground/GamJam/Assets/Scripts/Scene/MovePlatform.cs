@@ -33,7 +33,7 @@ public class MovePlatform : MonoBehaviour
                 break;
         }
 
-        if (destroyTimer + 2.0f < Time.time && !GetComponent<Renderer>().isVisible)
+        if (destroyTimer + 2.0f < Time.time && !GetComponentInChildren<Renderer>().isVisible)
             Destroy(transform.gameObject);
     }
 
