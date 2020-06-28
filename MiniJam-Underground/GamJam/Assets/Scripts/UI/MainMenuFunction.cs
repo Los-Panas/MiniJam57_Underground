@@ -15,6 +15,7 @@ public class MainMenuFunction : MonoBehaviour
     public GameObject settingsPanel;
     public GameObject itchio;
     public GameObject github;
+    public GameObject creditsPanel;
     public AnimationCurve curve;
     public AudioMixer mixer;
 
@@ -119,6 +120,21 @@ public class MainMenuFunction : MonoBehaviour
     public void OpenGitHub()
     {
         Application.OpenURL("https://github.com/Los-Panas/MiniJam57_Underground");
+    }
+
+    public void OpenCredits()
+    {
+        //TODO : Reset UI navigation
+        // TODO : Fer un SetEnable(false) de la HUD!!!
+        mainPanel.SetActive(false);
+        creditsPanel.SetActive(true);
+    }
+    public void CloseCredits()
+    {
+        // TODO : Fer un SetEnable(false) de la HUD!!!
+        // TODO : Reset UI navigation
+        mainPanel.SetActive(true);
+        creditsPanel.SetActive(false);
     }
     public void ResetGame()
     {
