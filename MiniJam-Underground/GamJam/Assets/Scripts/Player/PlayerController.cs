@@ -1,10 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.SceneManagement;
-using UnityEditor.ShaderGraph.Internal;
+//using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.ParticleSystem;
 
@@ -38,7 +34,6 @@ public class PlayerController : MonoBehaviour
         JUMP = 3,
         AIR = 4,
         DASH = 5,
-        HIT = 6,
     }
 
     public float friction = 0.0F;
@@ -77,6 +72,8 @@ public class PlayerController : MonoBehaviour
     Light soul_lantern_light_c;
     float original_lantern_light_range = 0.0f;
     bool first_emergency = true;
+
+    bool was_grounded_on_dash = false;
 
     // Souls
     public float seconds_for_soul = 10.0f;
@@ -257,8 +254,6 @@ public class PlayerController : MonoBehaviour
                     }
                 }
                 break;
-            case State.HIT:
-                break;
             default:
                 break;
         }
@@ -278,7 +273,7 @@ public class PlayerController : MonoBehaviour
         {
             if (time_next_dash + time_passed_dash < Time.realtimeSinceStartup)
             {
-                if (isGrounded)
+                if (isGrounded || was_grounded_on_dash)
                 {
                     can_dash = true;
                 }
@@ -497,31 +492,33 @@ public class PlayerController : MonoBehaviour
                 {
                     if (isGrounded)
                     {
+                        was_grounded_on_dash = true;
                         down_acceleration = 0.0F;
                         ToIdle();
                     }
                     else
                     {
+                        was_grounded_on_dash = false;
                         down_acceleration = 0.0F;
                         state = State.AIR;
                     }
                 }
                 break;
-            case State.HIT:
-                if ((Time.realtimeSinceStartup - hit_time) >= knockback_time)
-                {
-                    if (isGrounded)
-                    {
-                        down_acceleration = 0.0F;
-                        ToIdle();
-                    }
-                    else
-                    {
-                        down_acceleration = 0.0F;
-                        state = State.AIR;
-                    }
-                }
-                break;
+            //case State.HIT:
+            //    if ((Time.realtimeSinceStartup - hit_time) >= knockback_time)
+            //    {
+            //        if (isGrounded)
+            //        {
+            //            down_acceleration = 0.0F;
+            //            ToIdle();
+            //        }
+            //        else
+            //        {
+            //            down_acceleration = 0.0F;
+            //            state = State.AIR;
+            //        }
+            //    }
+            //    break;
             default:
                 break;
         }
@@ -639,7 +636,6 @@ public class PlayerController : MonoBehaviour
                 Vector3 vector = (collision.gameObject.transform.position - transform.position);
                 rigid_body.velocity = Vector2.zero;
                 rigid_body.AddForce(new Vector2(vector.y, vector.x) * 300);
-                state = State.HIT;
                 hit_time = Time.realtimeSinceStartup;
 
                 if (soul_power > 0)
@@ -746,7 +742,7 @@ public class PlayerController : MonoBehaviour
 
     void Die()
     {
-        EditorSceneManager.LoadScene(EditorSceneManager.GetActiveScene().name);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
 }
