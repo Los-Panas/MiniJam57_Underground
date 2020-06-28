@@ -38,9 +38,9 @@ public class Soul : MonoBehaviour
                 light_c.color = new Color(0.0f, 0.85f, 0.0f, 1);
                 break;
             case 3:
-                material.SetColor("_EmissionColor", Color.blue);
-                particle.startColor = Color.blue;
-                light_c.color = Color.blue;
+                material.SetColor("_EmissionColor", new Color(0.4f,1,1));
+                particle.startColor = new Color(0.4f, 1, 1);
+                light_c.color = new Color(0.4f, 1, 1);
                 break;
             case 1:
                 material.SetColor("_EmissionColor", Color.yellow);
@@ -80,7 +80,7 @@ public class Soul : MonoBehaviour
     {
         if (other.CompareTag("Player")) 
         {
-            GameObject.Find("PITODECULO").GetComponent<PlayerController>().AddSoul(color);
+            other.transform.parent.GetComponent<PlayerController>().AddSoul(color);
             Destroy(gameObject);
         }
     }
