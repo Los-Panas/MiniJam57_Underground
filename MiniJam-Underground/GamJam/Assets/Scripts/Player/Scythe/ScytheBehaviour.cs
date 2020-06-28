@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -67,6 +68,10 @@ public class ScytheBehaviour : MonoBehaviour
 
 
     public GameObject trail;
+    public GameObject scythe_light;
+    public float min_light_range = 2;
+    public float max_light_range = 5;
+    Light light;
 
     // Start is called before the first frame update
     void Start()
@@ -83,6 +88,9 @@ public class ScytheBehaviour : MonoBehaviour
         state = ScytheState.ATTACHED;
 
         trail.SetActive(false);
+        scythe_light.SetActive(true);
+        light = scythe_light.GetComponent<Light>();
+        light.range = min_light_range;
     }
 
     // Update is called once per frame
@@ -129,6 +137,7 @@ public class ScytheBehaviour : MonoBehaviour
 
         if ((pivotObject.transform.position - transform.position).magnitude < minDistanceToReattach)
         {
+            light.range = min_light_range;
             trail.SetActive(false);
             state = ScytheState.ATTACHED;
             current_hits = 0;
@@ -210,6 +219,7 @@ public class ScytheBehaviour : MonoBehaviour
             moveDirection.y = Mathf.Sin(target_angle_rad);
             launchTime = Time.time;
             ScytheSoulContainer.change_container = true;
+            StartCoroutine(StartLight(Time.realtimeSinceStartup));
             trail.SetActive(true);
 
             UpdateRotAndMovDirection();
@@ -253,9 +263,27 @@ public class ScytheBehaviour : MonoBehaviour
 
         if(enemy_hit.hits_to_kill <= 0)
         {
-            enemy_hit.KillEnemy();
+            if (!enemy_hit.KillEnemy())
+                --current_hits;
         }
        
     }
 
+    IEnumerator StartLight(float time)
+    {
+        while (light.range != max_light_range) 
+        {
+            float t = (Time.realtimeSinceStartup - time) / 0.5f;
+            float lerp = Mathf.Lerp(min_light_range, max_light_range, t);
+
+            light.range = lerp;
+
+            if (t >= 1) 
+            {
+                light.range = max_light_range;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+    }
 }
