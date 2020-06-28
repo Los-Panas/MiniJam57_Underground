@@ -24,7 +24,6 @@ public class FlyingSkull : MonoBehaviour
 
     GameObject player;
     GameObject skull;
-    Quaternion offset_rotation = Quaternion.Euler(0, 270, 0);
 
     // Start is called before the first frame update
     void Start()
@@ -61,7 +60,7 @@ public class FlyingSkull : MonoBehaviour
                 break;
             case States.ATTACKING:
                 Vector3 direction = (player.transform.position - transform.position).normalized;
-                skull.transform.localRotation = Quaternion.LookRotation(-direction) * offset_rotation;
+                skull.transform.localRotation = Quaternion.LookRotation(-direction);
                 transform.position += direction * chasing_speed * Time.deltaTime;
                 break;
         }
@@ -85,11 +84,11 @@ public class FlyingSkull : MonoBehaviour
             float t = (Time.realtimeSinceStartup - time) / 0.5f;
             Quaternion lerp = Quaternion.Lerp(previous, next, t);
 
-            skull.transform.localRotation = lerp * offset_rotation;
+            skull.transform.localRotation = lerp;
 
             if (t >= 1)
             {
-                skull.transform.localRotation = next * offset_rotation;
+                skull.transform.localRotation = next;
             }
 
             yield return new WaitForEndOfFrame();
