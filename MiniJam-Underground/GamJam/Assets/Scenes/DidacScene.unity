@@ -478,9 +478,14 @@ MonoBehaviour:
   - backgroundScroll: 0
     backgroundSpeed: -0.2
     typePlatforms:
-    - {fileID: 9102979480803655512, guid: e116f060d41849440bd751dfb43b49ca, type: 3}
-    minSizePlatform: {x: 1.5, y: 0.4}
-    maxSizePlatform: {x: 4, y: 0.4}
+    - {fileID: 205607462445460516, guid: 4e401bbe30b649c4096c2719fc53efa4, type: 3}
+    - {fileID: 5639770104754924450, guid: f23e4eab8883a734a84c584e9a83655f, type: 3}
+    - {fileID: 2393369105177857280, guid: bc0083a57beb46744876ffa230c9385c, type: 3}
+    - {fileID: 4550671630384962828, guid: b3d5feef8e7de494883b0ef965a94333, type: 3}
+    - {fileID: 4047517587478732515, guid: 440a9fd57829ea94abb1b8c47dcf674f, type: 3}
+    - {fileID: 6252435577168093957, guid: 03ff0c15d432804489f2de1af3c893af, type: 3}
+    minSizePlatform: {x: 1, y: 1}
+    maxSizePlatform: {x: 1, y: 1}
     delayBetweenPlatforms: 2
     doorIsOpen: 0
     numEnemies: 1
