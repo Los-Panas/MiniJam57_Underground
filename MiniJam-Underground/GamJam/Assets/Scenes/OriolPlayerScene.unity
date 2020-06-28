@@ -128,20 +128,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6745057261716553500, guid: 2ed9aa35ac81a154dbe7370fbb7b900e,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6745057261716553502, guid: 2ed9aa35ac81a154dbe7370fbb7b900e,
         type: 3}
       propertyPath: m_Name
       value: EnemyPlatform
-      objectReference: {fileID: 0}
-    - target: {fileID: 6745057261716553502, guid: 2ed9aa35ac81a154dbe7370fbb7b900e,
-        type: 3}
-      propertyPath: m_TagString
-      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 6745057261716553505, guid: 2ed9aa35ac81a154dbe7370fbb7b900e,
         type: 3}
@@ -7901,21 +7891,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8517802900291451270, guid: 770298c834fe3a8489748b905f6ce03c,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 506f07abe955b55418701cb40c06edd8,
-        type: 3}
     - target: {fileID: 8517802900291451321, guid: 770298c834fe3a8489748b905f6ce03c,
         type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8517802900291451321, guid: 770298c834fe3a8489748b905f6ce03c,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.21
       objectReference: {fileID: 0}
     - target: {fileID: 8517802900857841336, guid: 770298c834fe3a8489748b905f6ce03c,
         type: 3}
