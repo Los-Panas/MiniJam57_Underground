@@ -18,47 +18,47 @@ public class OpenPersonalWebsite : MonoBehaviour
 
     public void OpenPolWeb()
     {
-        Application.OpenURL("https://github.com/Los-Panas/MiniJam57_Underground");
+        Application.OpenURL("https://polrecasenssarra.github.io/Web/");
     }
     public void OpenOriolWeb()
     {
-        Application.OpenURL("https://github.com/Los-Panas/MiniJam57_Underground");
+        Application.OpenURL("https://github.com/OriolCS2");
     }
 
     public void OpenVictorWeb()
     {
-        Application.OpenURL("https://github.com/Los-Panas/MiniJam57_Underground");
+        Application.OpenURL("https://github.com/VictorSegura99");
     }
 
     public void OpenMarcWeb()
     {
-        Application.OpenURL("https://github.com/Los-Panas/MiniJam57_Underground");
+        Application.OpenURL("https://optus23.github.io/");
     }
 
     public void OpenDidacWeb()
     {
-        Application.OpenURL("https://github.com/Los-Panas/MiniJam57_Underground");
+        Application.OpenURL("https://github.com/didaclis");
     }
 
     public void OpenLluisWeb()
     {
-        Application.OpenURL("https://github.com/Los-Panas/MiniJam57_Underground");
+        Application.OpenURL("https://github.com/youis11");
     }
 
     public void OpenEnricWeb()
     {
-        Application.OpenURL("https://github.com/Los-Panas/MiniJam57_Underground");
+        Application.OpenURL("https://github.com/PerezEnric");
     }
     public void OpenChristianWeb()
     {
-        Application.OpenURL("https://github.com/Los-Panas/MiniJam57_Underground");
+        Application.OpenURL("https://github.com/christt105");
     }
     public void OpenJossWeb()
     {
-        Application.OpenURL("https://github.com/Los-Panas/MiniJam57_Underground");
+        Application.OpenURL("https://github.com/peterMcP");
     }
     public void OpenIvansWeb()
     {
-        Application.OpenURL("https://github.com/Los-Panas/MiniJam57_Underground");
+        Application.OpenURL("https://ivanropero.com/");
     }
 }

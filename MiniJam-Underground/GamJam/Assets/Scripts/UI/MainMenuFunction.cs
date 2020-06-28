@@ -126,7 +126,6 @@ public class MainMenuFunction : MonoBehaviour
 
     public void OpenCredits()
     {
-        //TODO : Reset UI navigation
         mainPanel.SetActive(false);
         creditsPanel.SetActive(true);
 
@@ -136,8 +135,6 @@ public class MainMenuFunction : MonoBehaviour
     }
     public void CloseCredits()
     {
-        // TODO : Fer un SetEnable(false) de la HUD!!!
-        // TODO : Reset UI navigation
         mainPanel.SetActive(true);
         creditsPanel.SetActive(false);
         GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("PlayButton"));
