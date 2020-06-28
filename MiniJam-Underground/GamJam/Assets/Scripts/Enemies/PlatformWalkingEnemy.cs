@@ -83,7 +83,7 @@ public class PlatformWalkingEnemy : MonoBehaviour
     {
         deadCalled = true;
         behaviour = Behaviour.DEAD;
-        Instantiate(dieParticles, transform.position - new Vector3(0, 1.5F,1), Quaternion.identity);
+        //Instantiate(dieParticles, transform.position - new Vector3(0, 1.5F,-1), Quaternion.identity);
         StartCoroutine(Dying());
     }
 
