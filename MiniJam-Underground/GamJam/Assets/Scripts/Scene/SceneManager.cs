@@ -157,6 +157,7 @@ public class SceneManager : MonoBehaviour
             //take random enemy
             int enemyType = Random.Range(0, floors[pos].typeEnemies.Length);
             GameObject newEnemy = Instantiate(floors[pos].typeEnemies[enemyType]);
+            newEnemy.transform.parent = door.transform;
 
             finalEnemy.enemy = newEnemy;
 
@@ -180,7 +181,7 @@ public class SceneManager : MonoBehaviour
 
             finalEnemy.future_position = newPosition;
 
-            newEnemy.transform.position = door.transform.position + new Vector3(0.0f, cameraFrustumSize - 1.0f, -door.transform.position.z); 
+            newEnemy.transform.position = door.transform.position + new Vector3(0.0f, door.transform.FindChild("Plane").GetComponent<Renderer>().bounds.size.y * 0.25f, 0.0f); 
 
             enemyMovement.Add(finalEnemy);
 
@@ -276,6 +277,7 @@ public class SceneManager : MonoBehaviour
             Debug.Log(current_enemy.future_position);
             Vector3 distance = current_enemy.future_position - current_enemy.enemy.transform.position;
             current_enemy.enemy.transform.position += distance;
+            current_enemy.enemy.transform.parent = null;
             //while (current_enemy.enemy.transform.position != current_enemy.future_position)
             //{
             //    current_enemy.enemy.transform.position += distance / floors[countFloor].delayBetweenEnemies;
