@@ -542,7 +542,7 @@ public class PlayerController : MonoBehaviour
         {
             timer_shader += Time.deltaTime;
             //dissolve_value = (timer_shader * duration_shader)/2;
-            Debug.Log(dissolve_value);
+            //Debug.Log(dissolve_value);
 
             dissolve_value = Mathf.Lerp(2, 0, timer_shader / duration_shader);
             dissolveMat.SetFloat("Vector1_8490105A", dissolve_value);
