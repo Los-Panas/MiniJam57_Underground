@@ -20,6 +20,10 @@ public class MainMenuFunction : MonoBehaviour
     public AnimationCurve curve;
     public AudioMixer mixer;
 
+    public GameObject soul1;
+    public GameObject soul2;
+    public GameObject soul3;
+
     bool startGame = false;
     AudioScriptLevel audio;
 
@@ -50,6 +54,9 @@ public class MainMenuFunction : MonoBehaviour
         LeanTween.moveY(itchio, -700.0f, 1.7f).setEase(curve);
         LeanTween.moveY(github, -700.0f, 1.3f).setEase(curve);
         LeanTween.moveY(credits, -700.0f, 1.4f).setEase(curve);
+        LeanTween.moveY(soul1, -700.0f, 1.1f).setEase(curve);
+        LeanTween.moveY(soul2, -700.0f, 1.6f).setEase(curve);
+        LeanTween.moveY(soul3, -700.0f, 1.3f).setEase(curve);
         LeanTween.moveY(titleText, 700.0f, 1.5f).setEase(curve).setOnComplete(DestroyMe);
     }
 
@@ -84,6 +91,9 @@ public class MainMenuFunction : MonoBehaviour
         Destroy(itchio);
         Destroy(github);
         Destroy(titleText);
+        Destroy(soul1);
+        Destroy(soul2);
+        Destroy(soul3);
         transform.gameObject.SetActive(false);
         StartGameplay();
     }

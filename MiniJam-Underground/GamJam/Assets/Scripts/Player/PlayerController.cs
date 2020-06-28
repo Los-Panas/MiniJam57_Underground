@@ -644,7 +644,8 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    Die();
+                    GameObject.Find("EndPanel").SetActive(true);
+                    Invoke("RestartScene", 5);
                 }
             }
         }
@@ -740,7 +741,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Die()
+    void RestartScene()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
