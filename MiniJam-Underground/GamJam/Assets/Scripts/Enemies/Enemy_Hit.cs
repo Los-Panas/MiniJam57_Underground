@@ -6,6 +6,7 @@ public class Enemy_Hit : MonoBehaviour
 {
     public int hits_to_kill = 1;
     public GameObject soul;
+    public bool isPlatform;
     bool first = false;
 
     public bool KillEnemy()
@@ -17,6 +18,7 @@ public class Enemy_Hit : MonoBehaviour
             SendMessage("Die");
             // TO DO: Dissolve Shader
             // TO DO: Particle System
+            transform.parent.GetComponent<SceneManager>().DefeatEnemy(isPlatform);
             Instantiate(soul, transform.position, Quaternion.identity);
 
             return true;
