@@ -65,6 +65,9 @@ public class ScytheBehaviour : MonoBehaviour
     public string secondaryAxisVertical = "Vertical2";
     public string soulHarvesterButton = "Fire2";
 
+
+    public GameObject trail;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,6 +82,7 @@ public class ScytheBehaviour : MonoBehaviour
         // refresh internal state at start
         state = ScytheState.ATTACHED;
 
+        trail.SetActive(false);
     }
 
     // Update is called once per frame
@@ -124,8 +128,10 @@ public class ScytheBehaviour : MonoBehaviour
         transform.Rotate(new Vector3(0.0f, 0.0f, (rotationReturnSpeed * rotationDir) * Time.deltaTime));
 
         if ((pivotObject.transform.position - transform.position).magnitude < minDistanceToReattach)
+        {
+            trail.SetActive(false);
             state = ScytheState.ATTACHED;
-
+        }
     }
 
     private void LaunchedBehaviour()
@@ -203,6 +209,7 @@ public class ScytheBehaviour : MonoBehaviour
             moveDirection.y = Mathf.Sin(target_angle_rad);
             launchTime = Time.time;
             ScytheSoulContainer.change_container = true;
+            trail.SetActive(true);
 
             UpdateRotAndMovDirection();
         }
@@ -230,7 +237,7 @@ public class ScytheBehaviour : MonoBehaviour
     {
         Enemy_Hit enemy_hit = col.GetComponent<Enemy_Hit>();
 
-        if (!enemy_hit && state != ScytheState.LAUNCHED)
+        if (!enemy_hit || state != ScytheState.LAUNCHED)
             return;
 
         --enemy_hit.hits_to_kill;
