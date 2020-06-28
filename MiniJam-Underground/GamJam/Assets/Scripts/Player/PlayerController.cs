@@ -222,6 +222,8 @@ public class PlayerController : MonoBehaviour
                     dash_direction = DashDirection.NONE;
                     dash_time = time_dashing;
                     transform.GetChild(0).gameObject.layer = 0;
+
+                    rigid_body.bodyType = RigidbodyType2D.Dynamic;
                 }
                 else
                 {
@@ -363,6 +365,8 @@ public class PlayerController : MonoBehaviour
                     can_dash = false;
                     transform.GetChild(0).gameObject.layer = 9;
                     dash_effect = true;
+
+                    rigid_body.bodyType = RigidbodyType2D.Kinematic;
                 }
                 else if (angle >= 22.5F && angle <= 67.5F)
                 {
@@ -374,6 +378,8 @@ public class PlayerController : MonoBehaviour
                     can_dash = false;
                     transform.GetChild(0).gameObject.layer = 9;
                     dash_effect = true;
+
+                    rigid_body.bodyType = RigidbodyType2D.Kinematic;
                 }
                 else if (angle <= 22.5F && angle >= -22.5F)
                 {
@@ -429,6 +435,8 @@ public class PlayerController : MonoBehaviour
                     can_dash = false;
                     transform.GetChild(0).gameObject.layer = 9;
                     dash_effect = true;
+
+                    rigid_body.bodyType = RigidbodyType2D.Kinematic;
                 }
                 else if (angle >= 167.5F || angle <= -167.5F)
                 {
