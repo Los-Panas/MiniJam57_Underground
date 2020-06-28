@@ -47,9 +47,9 @@ public class MainMenuFunction : MonoBehaviour
         LeanTween.moveY(itchio, -700.0f, 1.7f).setEase(curve);
         LeanTween.moveY(github, -700.0f, 1.3f).setEase(curve);
         LeanTween.moveY(credits, -700.0f, 1.4f).setEase(curve);
-        LeanTween.moveY(soul1, -700.0f, 1.1f).setEase(curve);
-        LeanTween.moveY(soul2, -700.0f, 1.6f).setEase(curve);
-        LeanTween.moveY(soul3, -700.0f, 1.3f).setEase(curve);
+        LeanTween.moveY(soul1, -250, 2.1f).setEase(curve);
+        LeanTween.moveY(soul2, -250, 2.6f).setEase(curve);
+        LeanTween.moveY(soul3, -250, 2.3f).setEase(curve);
         LeanTween.moveY(titleText, 700.0f, 1.5f).setEase(curve).setOnComplete(DestroyMe);
     }
 
