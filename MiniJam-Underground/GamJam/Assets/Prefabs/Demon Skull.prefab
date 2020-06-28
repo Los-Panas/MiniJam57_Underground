@@ -366,7 +366,7 @@ GameObject:
   - component: {fileID: 5500915789687093213}
   - component: {fileID: 1210604160}
   - component: {fileID: 4807619519923382481}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Demon Skull
   m_TagString: Enemy
   m_Icon: {fileID: 0}
