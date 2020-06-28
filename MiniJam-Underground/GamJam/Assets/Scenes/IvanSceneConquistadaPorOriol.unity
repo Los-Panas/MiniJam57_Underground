@@ -1030,9 +1030,10 @@ MonoBehaviour:
     maxSizePlatform: {x: 1, y: 1}
     delayBetweenPlatforms: 1.01
     doorIsOpen: 0
-    numEnemies: 1
+    numEnemies: 10
     typeEnemies:
-    - {fileID: 6578330405783535136, guid: 1920a33a05976d34fb828d73a808a37e, type: 3}
+    - {fileID: 5028069862536150375, guid: 40531a4c3e254194f9f2662e0dbe8fbc, type: 3}
+    - {fileID: 1405387845281000907, guid: cca109a303fa7f848b691448e3cf6ab2, type: 3}
     delayBetweenEnemies: 0.97
   - backgroundScroll: 0
     backgroundSpeed: -0.1
