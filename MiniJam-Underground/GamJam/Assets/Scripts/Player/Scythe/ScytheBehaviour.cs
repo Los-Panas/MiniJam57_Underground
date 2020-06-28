@@ -86,7 +86,7 @@ public class ScytheBehaviour : MonoBehaviour
             case ScytheState.ATTACHED:
                 {
                     AttachedBehaviour();
-                    SoulHarvesterBehaviour();
+                    //SoulHarvesterBehaviour();
                     break;
                 }
             case ScytheState.LAUNCHED:
@@ -221,6 +221,22 @@ public class ScytheBehaviour : MonoBehaviour
         }
         else
             rotationDir = -1;
+    }
+
+    public void OnChildTriggerEnter(Collider2D col)
+    {
+        Enemy_Hit enemy_hit = col.GetComponent<Enemy_Hit>();
+
+        if (!enemy_hit && state != ScytheState.LAUNCHED)
+            return;
+
+        --enemy_hit.hits_to_kill;
+
+        if(enemy_hit.hits_to_kill <= 0)
+        {
+            enemy_hit.KillEnemy();
+        }
+       
     }
 
 }
