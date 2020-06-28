@@ -104,6 +104,7 @@ public class PlayerController : MonoBehaviour
 
     // GM Fresh Lamp
     public GameObject Lamp;
+    
 
     void Start()
     {
