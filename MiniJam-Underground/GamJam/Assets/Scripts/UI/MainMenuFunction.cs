@@ -30,6 +30,7 @@ public class MainMenuFunction : MonoBehaviour
     public GameObject player;
     public GameObject HUD;
     public GameObject soul;
+    public GameObject Scythe;
     public SceneManager sceneManager;
 
     // Start is called before the first frame update
@@ -50,7 +51,7 @@ public class MainMenuFunction : MonoBehaviour
         LeanTween.moveY(soul1, -250, 2.1f).setEase(curve);
         LeanTween.moveY(soul2, -250, 2.6f).setEase(curve);
         LeanTween.moveY(soul3, -250, 2.3f).setEase(curve);
-        LeanTween.moveY(titleText, 700.0f, 1.5f).setEase(curve).setOnComplete(DestroyMe);
+        LeanTween.moveY(titleText, 0, 2.6f).setEase(curve).setOnComplete(DestroyMe);
     }
 
     public void OpenSettings()
@@ -98,6 +99,7 @@ public class MainMenuFunction : MonoBehaviour
         player.SetActive(true);
         soul.SetActive(true);
         HUD.SetActive(true);
+        Scythe.SetActive(true);
         sceneManager.enabled = true;
     }
 

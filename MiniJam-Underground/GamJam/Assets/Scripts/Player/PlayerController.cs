@@ -79,9 +79,8 @@ public class PlayerController : MonoBehaviour
     public float seconds_for_soul = 10.0f;
     public float soul_power_to_add = 20.0f;
     float soul_power = 0.0f;
-    float souls_picked = 0.0f;
 
-    // Internal Light
+    // Internal Lights
     GameObject internal_light;
     public float min_range = 4.0f;
     public float max_range = 10.0f;
@@ -105,9 +104,12 @@ public class PlayerController : MonoBehaviour
 
     Animator animator;
 
+    // Audio
     AudioSource audio;
+    AudioSource parent_audio;
     AudioClip jump;
     AudioClip dash;
+    AudioClip soul;
 
     void Start()
     {
@@ -138,8 +140,10 @@ public class PlayerController : MonoBehaviour
 
         // Audios
         audio = GetComponent<AudioSource>();
+        parent_audio = transform.parent.GetComponent<AudioSource>();
         jump = (AudioClip)Resources.Load("SFX/jump");
         dash = (AudioClip)Resources.Load("SFX/dash");
+        soul = (AudioClip)Resources.Load("SFX/soul");
     }
 
     void Update()
@@ -527,7 +531,7 @@ public class PlayerController : MonoBehaviour
 
     public void AddSoul(int color)
     {
-        ++souls_picked;
+        parent_audio.PlayOneShot(soul);
         ChangeSoulPower(soul_power_to_add);
         TurnOnEmergencyLight(false);
 

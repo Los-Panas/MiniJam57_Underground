@@ -61,7 +61,7 @@ public class SceneManager : MonoBehaviour
     private int countEnemy;
     private float enemyTimer;
     private float platformTimer;
-
+    private AudioSource emitter;
     private ArrayList enemyMovement;
     // Start is called before the first frame update
     void Start()
@@ -69,6 +69,7 @@ public class SceneManager : MonoBehaviour
         enemyMovement = new ArrayList();
         countFloor = 0;
         platformTimer = Time.time;
+        emitter = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -141,6 +142,7 @@ public class SceneManager : MonoBehaviour
                         state = ElevatorState.Stop;
                         doorsState = ElevatorDoorsState.Close;
                         enemyMovement.Clear();
+                        emitter.Play();
                     }
                     break;
             }

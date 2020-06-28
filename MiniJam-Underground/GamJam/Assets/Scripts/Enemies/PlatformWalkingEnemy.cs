@@ -68,7 +68,7 @@ public class PlatformWalkingEnemy : MonoBehaviour
             case Behaviour.NONE:
                 break;
         }
-        Debug.Log("VELOCITY: X:" + rigid_body.velocity.x + " Y: " + rigid_body.velocity.y);
+        //Debug.Log("VELOCITY: X:" + rigid_body.velocity.x + " Y: " + rigid_body.velocity.y);
         //if (Input.GetKeyDown(KeyCode.R))
         //    mov_direction = MovingDirection.RIGHT;
         //if (Input.GetKeyDown(KeyCode.L))
@@ -92,7 +92,7 @@ public class PlatformWalkingEnemy : MonoBehaviour
         Color color = transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().material.color;
         while (color.a >= 0.0F)
         {
-            color.a -= Time.deltaTime;
+            color.a -= 2* Time.deltaTime;
             transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().material.color = color;
             yield return new WaitForEndOfFrame();
         }
