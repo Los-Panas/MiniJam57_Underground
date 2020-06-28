@@ -1165,3 +1165,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hits_to_kill: 1
   soul: {fileID: 6578330405783535136, guid: 1920a33a05976d34fb828d73a808a37e, type: 3}
+  wall: {fileID: 8478530950991688112, guid: 7200b5aca90d3ad40a75cdf3687f940d, type: 3}
+  isPlatform: 0
