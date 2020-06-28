@@ -105,4 +105,10 @@ public class MainMenuFunction : MonoBehaviour
             Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
         }
     }
+
+
+    public void ResetGame()
+    {
+
+    }
 }
