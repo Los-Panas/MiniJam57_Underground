@@ -8,6 +8,7 @@ public class Enemy_Hit : MonoBehaviour
     public GameObject soul;
     public void KillEnemy()
     {
+        SendMessage("Die");
         // TO DO: Dissolve Shader
         // TO DO: Particle System
         Instantiate(soul, transform);
