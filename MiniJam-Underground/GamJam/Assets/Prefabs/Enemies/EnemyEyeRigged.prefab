@@ -1124,6 +1124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 500
   life: 100
+  dieParticles: {fileID: 194016, guid: eed397229ab066b47952626feb5acb74, type: 3}
 --- !u!61 &4751855600473815954
 BoxCollider2D:
   m_ObjectHideFlags: 0

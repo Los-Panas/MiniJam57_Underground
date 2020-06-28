@@ -7,6 +7,7 @@ public class Enemy_Hit : MonoBehaviour
     public int hits_to_kill = 1;
     public GameObject soul;
     bool first = false;
+
     public bool KillEnemy()
     {
         if (!first)
