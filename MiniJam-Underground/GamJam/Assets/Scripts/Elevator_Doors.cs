@@ -143,4 +143,10 @@ public class Elevator_Doors : MonoBehaviour
 
         return false;
     }
+
+    public void InstantCloseDoors()
+    {
+        left_door.transform.position = new Vector3(startPos.x, left_door.transform.position.y, left_door.transform.position.z);
+        right_door.transform.position = new Vector3(startPos.y, right_door.transform.position.y, left_door.transform.position.z);
+    }
 }

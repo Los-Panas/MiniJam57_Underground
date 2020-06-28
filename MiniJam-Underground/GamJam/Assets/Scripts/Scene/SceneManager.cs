@@ -50,7 +50,9 @@ public class SceneManager : MonoBehaviour
     private ElevatorDoorsState doorsState = ElevatorDoorsState.Open;
     private int countFloor;
     private int defeatEnemies;
-    float platformTimer;
+    private int countEnemy;
+    private float enemyTimer;
+    private float platformTimer;
     // Start is called before the first frame update
     void Start()
     {
@@ -76,18 +78,27 @@ public class SceneManager : MonoBehaviour
                         switch (doorsState)
                         {
                             case ElevatorDoorsState.Open:
-                                if (door.GetComponent<Elevator_Doors>().CloseDoors())
+                                if (!floors[countFloor].doorIsOpen)
+                                {
+                                    if (door.GetComponent<Elevator_Doors>().CloseDoors())
+                                    {
+                                        GetComponent<ScrollBackground>().StartMovment((int)floors[countFloor].backgroundScroll, floors[countFloor].backgroundSpeed, floors[countFloor].doorIsOpen);
+                                        state = ElevatorState.Run;
+                                    }
+                                }
+                                else
                                 {
                                     GetComponent<ScrollBackground>().StartMovment((int)floors[countFloor].backgroundScroll, floors[countFloor].backgroundSpeed, floors[countFloor].doorIsOpen);
                                     state = ElevatorState.Run;
+                                    enemyTimer = Time.time;
                                 }
-
-                                    break;
+                                break;
                             case ElevatorDoorsState.Close:
                                 if (door.GetComponent<Elevator_Doors>().OpenDoors())
                                 {
                                     doorsState = ElevatorDoorsState.Open;
-                                    SpawmEnemies(countFloor);
+                                    if (!floors[countFloor].doorIsOpen)
+                                            SpawmEnemies(countFloor);
                                 }
                                 break;
                         }
@@ -98,7 +109,11 @@ public class SceneManager : MonoBehaviour
                     PlatformSpawner(countFloor);
                     if (floors[countFloor].doorIsOpen)
                     {
-                        SpawmEnemies(countFloor);
+                        SpawmEnemiesWithDelay(countFloor);
+                        if(!door.GetComponentInChildren<Renderer>().isVisible)
+                        {
+                            door.GetComponent<Elevator_Doors>().InstantCloseDoors();
+                        }
                     }
 
                     if(floors[countFloor].numEnemies == defeatEnemies)
@@ -145,6 +160,39 @@ public class SceneManager : MonoBehaviour
 
         }
     }
+
+    private void SpawmEnemiesWithDelay(int pos)
+    {
+        if (countEnemy < floors[pos].numEnemies && enemyTimer + floors[pos].delayBetweenEnemies < Time.time)
+        {
+            //take random enemy
+            int enemyType = Random.Range(0, floors[pos].typeEnemies.Length);
+            GameObject newEnemy = Instantiate(floors[pos].typeEnemies[enemyType]);
+
+            //put in random position
+            float cameraFrustumSize = camera.GetComponent<Camera>().orthographicSize;
+            Vector3 newPosition = camera.transform.position;
+            newPosition.z = 0.0f;
+
+            newPosition.x += Random.Range(-cameraFrustumSize * 2, cameraFrustumSize * 2);
+            newPosition.y += Random.Range(-cameraFrustumSize, cameraFrustumSize);
+
+            //assure the enemy is inside the screen
+            if (newPosition.x <= camera.transform.position.x - cameraFrustumSize * 1.8)
+                newPosition.x -= 5.0f;
+            if (newPosition.x >= camera.transform.position.x + cameraFrustumSize * 1.8)
+                newPosition.x += 5.0f;
+            if (newPosition.y <= camera.transform.position.y - cameraFrustumSize * 1.8)
+                newPosition.y -= 5.0f;
+            if (newPosition.y >= camera.transform.position.y + cameraFrustumSize * 1.8)
+                newPosition.y += 5.0f;
+
+            newEnemy.transform.position = newPosition;
+            ++countEnemy;
+            enemyTimer = Time.time;
+        }
+    }
+
 
     private void PlatformSpawner(int pos)
     {
