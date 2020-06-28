@@ -5052,7 +5052,10 @@ MonoBehaviour:
   secondaryAxisHorizontal: Horizontal2
   secondaryAxisVertical: Vertical2
   soulHarvesterButton: Fire2
-  trail: {fileID: 0}
+  trail: {fileID: 5326477100334280898}
+  scythe_light: {fileID: 3307625146092643890}
+  min_light_range: 2
+  max_light_range: 8
 --- !u!1 &3307625146092643890
 GameObject:
   m_ObjectHideFlags: 0
@@ -5078,7 +5081,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3307625146092643890}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.07, z: 0}
+  m_LocalPosition: {x: 0, y: 1.07, z: -1.759}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2322890898405691867}
@@ -5097,7 +5100,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 2
-  m_Range: 5
+  m_Range: 2
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
