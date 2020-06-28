@@ -648,10 +648,14 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    GameObject.Find("DiePanel").SetActive(true);
                     Invoke("RestartScene", 5);
                 }
             }
+        }
+
+        if (collision.CompareTag("Dead")) 
+        {
+
         }
     }
 
