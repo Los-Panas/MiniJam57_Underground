@@ -34,6 +34,9 @@ public class BasicGroundEnemy : MonoBehaviour
     Animator animator;
     bool change_direction_r = true;
     bool change_direction_l = true;
+
+    public GameObject fx_particle;
+
     void Start()
     {
         EnemyBehaviour = Behaviour.MOVE;
@@ -43,6 +46,8 @@ public class BasicGroundEnemy : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
 
         direction_right = RandomBool();
+
+        fx_particle.SetActive(false);
     }
 
     void Update()
@@ -106,6 +111,8 @@ public class BasicGroundEnemy : MonoBehaviour
             case Behaviour.NONE:
                 break;
             case Behaviour.DIE:
+                fx_particle.SetActive(true);
+
                 animator.SetBool("Die", true);
                 Destroy(gameObject,2.5F);
                 break;
