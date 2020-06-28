@@ -104,10 +104,13 @@ public class PlayerController : MonoBehaviour
 
     // GM Fresh Lamp
     public GameObject Lamp;
-    
+
+    Animator animator;
+
 
     void Start()
     {
+        animator = gameObject.GetComponent<Animator>();
         rigid_body = GetComponent<Rigidbody2D>();
         dash_time = time_dashing;
 
@@ -290,6 +293,8 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         // TODO: set animator to jump anim
+        animator.SetBool("isJumping", true);
+        animator.SetBool("isRunning", false);
         isGrounded = false;
         rigid_body.AddForce(new Vector2(0, jump_force), ForceMode2D.Impulse);
         state = State.AIR;
@@ -298,6 +303,8 @@ public class PlayerController : MonoBehaviour
     void ToIdle()
     {
         // TODO: set animator to idle anim
+        animator.SetBool("isJumping", false);
+        animator.SetBool("isRunning", false);
         state = State.IDLE;
         rigid_body.velocity = Vector2.zero;
     }
@@ -436,6 +443,9 @@ public class PlayerController : MonoBehaviour
                 if (player_input.axis.x != 0)
                 {
                     // TODO: set animator to run anim
+                    animator.SetBool("isRunning", true);
+                    animator.SetBool("isJumping", false);
+
                     state = State.RUN;
                 }
                 if (player_input.jump && isGrounded)
