@@ -12,6 +12,7 @@ public class Enemy_Hit : MonoBehaviour
     {
         if (!first)
         {
+            gameObject.layer = 13;
             first = true;
             SendMessage("Die");
             // TO DO: Dissolve Shader

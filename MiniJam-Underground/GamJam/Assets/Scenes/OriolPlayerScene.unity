@@ -377,6 +377,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyBasicGround
       objectReference: {fileID: 0}
+    - target: {fileID: 1405387845281000907, guid: cca109a303fa7f848b691448e3cf6ab2,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 1405387845281000916, guid: cca109a303fa7f848b691448e3cf6ab2,
+        type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1405387845281000916, guid: cca109a303fa7f848b691448e3cf6ab2,
+        type: 3}
+      propertyPath: m_UseAutoMass
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1405387845281000919, guid: cca109a303fa7f848b691448e3cf6ab2,
         type: 3}
       propertyPath: m_LocalPosition.x

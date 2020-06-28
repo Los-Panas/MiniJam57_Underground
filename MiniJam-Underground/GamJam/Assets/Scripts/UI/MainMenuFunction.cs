@@ -15,6 +15,8 @@ public class MainMenuFunction : MonoBehaviour
     public GameObject settingsPanel;
     public GameObject itchio;
     public GameObject github;
+    public GameObject credits;
+    public GameObject creditsPanel;
     public AnimationCurve curve;
     public AudioMixer mixer;
 
@@ -47,6 +49,7 @@ public class MainMenuFunction : MonoBehaviour
         LeanTween.moveY(buttonQuit, -700.0f, 1.2f).setEase(curve);
         LeanTween.moveY(itchio, -700.0f, 1.7f).setEase(curve);
         LeanTween.moveY(github, -700.0f, 1.3f).setEase(curve);
+        LeanTween.moveY(credits, -700.0f, 1.4f).setEase(curve);
         LeanTween.moveY(titleText, 700.0f, 1.5f).setEase(curve).setOnComplete(DestroyMe);
     }
 
@@ -119,6 +122,22 @@ public class MainMenuFunction : MonoBehaviour
     public void OpenGitHub()
     {
         Application.OpenURL("https://github.com/Los-Panas/MiniJam57_Underground");
+    }
+
+    public void OpenCredits()
+    {
+        mainPanel.SetActive(false);
+        creditsPanel.SetActive(true);
+
+        GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("PolButton"));
+
+
+    }
+    public void CloseCredits()
+    {
+        mainPanel.SetActive(true);
+        creditsPanel.SetActive(false);
+        GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("PlayButton"));
     }
     public void ResetGame()
     {
