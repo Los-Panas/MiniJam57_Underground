@@ -50,7 +50,7 @@ public class MainMenuFunction : MonoBehaviour
         LeanTween.moveY(soul1, -250, 2.1f).setEase(curve);
         LeanTween.moveY(soul2, -250, 2.6f).setEase(curve);
         LeanTween.moveY(soul3, -250, 2.3f).setEase(curve);
-        LeanTween.moveY(titleText, 700.0f, 1.5f).setEase(curve).setOnComplete(DestroyMe);
+        LeanTween.moveY(titleText, 0, 2.6f).setEase(curve).setOnComplete(DestroyMe);
     }
 
     public void OpenSettings()
