@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour
     MainModule soul_lantern_particle;
     Light soul_lantern_light_c;
     float original_lantern_light_range = 0.0f;
+    bool first_emergency = true;
 
     // Souls
     public float seconds_for_soul = 10.0f;
@@ -104,6 +105,7 @@ public class PlayerController : MonoBehaviour
 
     // GM Fresh Lamp
     public GameObject Lamp;
+    
 
     void Start()
     {
@@ -134,7 +136,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
         if (rigid_body.velocity.x > 0.1F)
         {
             if (transform.localScale.z < 0)
@@ -560,6 +561,7 @@ public class PlayerController : MonoBehaviour
         lantern_soul.SetActive(!turn_on);
         soul_lantern_light_c.gameObject.SetActive(!turn_on);
         internal_light.SetActive(turn_on);
+        first_emergency = turn_on;
 
         StartCoroutine(FadeSoulsBar(!turn_on, Time.realtimeSinceStartup));
 
@@ -571,7 +573,11 @@ public class PlayerController : MonoBehaviour
         float t = (Time.realtimeSinceStartup - time_internal_light) / 2;
         float lerp = 0.0f;
 
-        if (t < 0.5f)
+        if (first_emergency && t < 0.5f)
+        {
+            lerp = Mathf.Lerp(0.0f, 10.0f, t * 2);
+        }
+        else if (t < 0.5f)
         {
             lerp = Mathf.Lerp(4.0f, 10.0f, t * 2);
         }
@@ -584,6 +590,8 @@ public class PlayerController : MonoBehaviour
 
         if (t >= 1)
         {
+            if (first_emergency)
+                first_emergency = false;
             time_internal_light = Time.realtimeSinceStartup;
         }
 
