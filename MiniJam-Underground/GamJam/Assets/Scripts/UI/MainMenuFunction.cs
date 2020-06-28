@@ -16,6 +16,7 @@ public class MainMenuFunction : MonoBehaviour
     public AudioMixer mixer;
 
     bool startGame = false;
+    AudioScriptLevel audio;
 
 
     Elevator_Doors door = null;
@@ -24,6 +25,7 @@ public class MainMenuFunction : MonoBehaviour
     void Start()
     {
         door = GameObject.Find("FirstElevator").GetComponent<Elevator_Doors>();
+        audio = GameObject.Find("Main Camera").GetComponent<AudioScriptLevel>();
     }
 
     // Update is called once per frame
@@ -65,12 +67,13 @@ public class MainMenuFunction : MonoBehaviour
         Destroy(buttonSettings);
         Destroy(buttonQuit);
         Destroy(titleText);
-
+        transform.gameObject.SetActive(false);
         StartGameplay();
     }
 
     public void StartGameplay()
     {
+        audio.ChangeMusic();
         startGame = true;
         door.OpenDoor();
     }

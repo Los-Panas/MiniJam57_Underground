@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3777652642889287606}
   - component: {fileID: 3739767168833167364}
+  - component: {fileID: 7054585679689108717}
   m_Layer: 12
   m_Name: platform_Mega_Final1
   m_TagString: Ground
@@ -58,6 +59,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10.114917, y: 0.84257317}
   m_EdgeRadius: 0
+--- !u!114 &7054585679689108717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4550671630384962828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0ca673a5a321244b4936c835e0f33d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4803916232810587605
 GameObject:
   m_ObjectHideFlags: 0

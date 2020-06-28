@@ -63,6 +63,7 @@ public class PlatformWalkingEnemy : MonoBehaviour
             case Behaviour.NONE:
                 break;
         }
+        Debug.Log("VELOCITY: X:" + rigid_body.velocity.x + " Y: " + rigid_body.velocity.y);
         //if (Input.GetKeyDown(KeyCode.R))
         //    mov_direction = MovingDirection.RIGHT;
         //if (Input.GetKeyDown(KeyCode.L))
