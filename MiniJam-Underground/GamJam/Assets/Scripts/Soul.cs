@@ -19,9 +19,9 @@ public class Soul : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        material = transform.GetChild(0).GetComponent<Renderer>().material;
-        particle = transform.GetChild(3).GetComponent<ParticleSystem>().main;
-        light_c = transform.GetChild(4).GetComponent<Light>();
+        material = transform.GetComponentInChildren<Renderer>().material;
+        particle = transform.GetComponentInChildren<ParticleSystem>().main;
+        light_c = transform.GetComponentInChildren<Light>();
 
         color = Random.Range(0, 4);
         

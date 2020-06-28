@@ -188,17 +188,23 @@ public class ScytheBehaviour : MonoBehaviour
         Vector3 new_pos = new Vector3((follow_pos.x + (tilt_axis.x * tilt_offset)), (follow_pos.y + (-tilt_axis.y * tilt_offset)), transform.position.z);
         transform.position = new_pos;
 
+        // soul container remains in lamp
+        ScytheSoulContainer.change_container = false;
+
         // check if player wants to throw the scythe
-        if(Input.GetButton(shot))
+        if (Input.GetButton(shot))
         {
             state = ScytheState.LAUNCHED;
             float target_angle_rad = target_angle * Mathf.Deg2Rad;
             moveDirection.x = Mathf.Cos(target_angle_rad);
             moveDirection.y = Mathf.Sin(target_angle_rad);
             launchTime = Time.time;
+            ScytheSoulContainer.change_container = true;
 
             UpdateRotAndMovDirection();
         }
+
+        
     }
 
     private Vector2 GetSecondAxis()
