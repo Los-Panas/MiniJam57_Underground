@@ -30,6 +30,7 @@ public class MainMenuFunction : MonoBehaviour
     public GameObject player;
     public GameObject HUD;
     public GameObject soul;
+    public GameObject Scythe;
     public SceneManager sceneManager;
 
     // Start is called before the first frame update
@@ -98,6 +99,7 @@ public class MainMenuFunction : MonoBehaviour
         player.SetActive(true);
         soul.SetActive(true);
         HUD.SetActive(true);
+        Scythe.SetActive(true);
         sceneManager.enabled = true;
     }
 

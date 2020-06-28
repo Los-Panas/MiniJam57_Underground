@@ -218,6 +218,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scythe
       objectReference: {fileID: 0}
+    - target: {fileID: 1247587435913091620, guid: 38ca1ce0dcc39cd4bb960c56f5fc124a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7613713023126093409, guid: 38ca1ce0dcc39cd4bb960c56f5fc124a,
         type: 3}
       propertyPath: pivotObject
@@ -787,31 +792,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6217581040287498749, guid: a8a3d6e0aa7900f40b55f151438fb7cb,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6217581040287498749, guid: a8a3d6e0aa7900f40b55f151438fb7cb,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6217581040287498749, guid: a8a3d6e0aa7900f40b55f151438fb7cb,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -32.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 6217581040287498749, guid: a8a3d6e0aa7900f40b55f151438fb7cb,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6217581040287498749, guid: a8a3d6e0aa7900f40b55f151438fb7cb,
-        type: 3}
-      propertyPath: m_Pivot.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6217581041109269889, guid: a8a3d6e0aa7900f40b55f151438fb7cb,
         type: 3}
       propertyPath: m_Name
@@ -852,6 +832,11 @@ PrefabInstance:
       propertyPath: sceneManager
       value: 
       objectReference: {fileID: 1960310736}
+    - target: {fileID: 6217581041109269892, guid: a8a3d6e0aa7900f40b55f151438fb7cb,
+        type: 3}
+      propertyPath: Scythe
+      value: 
+      objectReference: {fileID: 1423768475}
     - target: {fileID: 6217581041109269893, guid: a8a3d6e0aa7900f40b55f151438fb7cb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -959,6 +944,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8a3d6e0aa7900f40b55f151438fb7cb, type: 3}
+--- !u!1 &1423768475 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1247587435913091620, guid: 38ca1ce0dcc39cd4bb960c56f5fc124a,
+    type: 3}
+  m_PrefabInstance: {fileID: 600463882}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1482571698 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8096625547677823197, guid: 9c78ac7087f65e44da40b111ede9b14b,
