@@ -26,6 +26,8 @@ public class PlatformWalkingEnemy : MonoBehaviour
     float offset_x = 0f;
     float offset_y = 0f;
 
+    bool deadCalled = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,7 +60,10 @@ public class PlatformWalkingEnemy : MonoBehaviour
                 break;
             case Behaviour.DEAD:
                 rigid_body.velocity = Vector2.zero;
-                Invoke("Die", 2f);
+                if (!deadCalled)
+                {
+                    Die();
+                }
                 break;
             case Behaviour.NONE:
                 break;
@@ -73,10 +78,20 @@ public class PlatformWalkingEnemy : MonoBehaviour
         //if (Input.GetKeyDown(KeyCode.D))
         //    mov_direction = MovingDirection.DOWN;    
     }
-    void Die()
+
+    public void Die()
     {
-        Destroy(this.gameObject);
+        deadCalled = true;
+        behaviour = Behaviour.DEAD;
+        StartCoroutine(Dying());
     }
+
+    IEnumerator Dying()
+    {
+        Destroy(gameObject);
+        return null;
+    }
+
     IEnumerator Rotation(float prev, float next, float time)
     {
         float rot = prev;
@@ -154,18 +169,18 @@ public class PlatformWalkingEnemy : MonoBehaviour
             give_time = false;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.gameObject.transform.parent)
-        {
-            if (collision.gameObject.transform.parent.CompareTag("Player")) //THIS HAS TO BE THE SCYTHER NOT THE PLAYER 
-            {
-                life -= 50;
-                behaviour = Behaviour.GETHIT;
-            }
-        }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if(collision.gameObject.transform.parent)
+    //    {
+    //        if (collision.gameObject.transform.parent.CompareTag("Player")) //THIS HAS TO BE THE SCYTHER NOT THE PLAYER 
+    //        {
+    //            life -= 50;
+    //            behaviour = Behaviour.GETHIT;
+    //        }
+    //    }
     
-    }
+    //}
     private void OnDrawGizmos()
     {
         Gizmos.DrawRay(new Vector2(transform.position.x + offset_x, transform.position.y + offset_y), rayray);

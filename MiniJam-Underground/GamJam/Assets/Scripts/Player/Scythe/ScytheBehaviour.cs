@@ -140,6 +140,7 @@ public class ScytheBehaviour : MonoBehaviour
             light.range = min_light_range;
             trail.SetActive(false);
             state = ScytheState.ATTACHED;
+            current_hits = 0;
         }
     }
 
@@ -247,14 +248,23 @@ public class ScytheBehaviour : MonoBehaviour
     {
         Enemy_Hit enemy_hit = col.GetComponent<Enemy_Hit>();
 
-        if (!enemy_hit || state != ScytheState.LAUNCHED)
+        if (!enemy_hit || state == ScytheState.ATTACHED)
             return;
 
+        // if we reach the max hits per throw, return state
+        if(current_hits >= maxHitsOnThrow)
+        {
+            state = ScytheState.RETURNING;
+            return;
+        }
+
+        ++current_hits;
         --enemy_hit.hits_to_kill;
 
         if(enemy_hit.hits_to_kill <= 0)
         {
-            enemy_hit.KillEnemy();
+            if (!enemy_hit.KillEnemy())
+                --current_hits;
         }
        
     }
