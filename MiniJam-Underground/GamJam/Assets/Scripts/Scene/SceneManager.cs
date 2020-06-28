@@ -234,11 +234,11 @@ public class SceneManager : MonoBehaviour
                     //calculate position outside camera and correct movement direction
                     //change 3 in prespective
                     if(floors[pos].backgroundSpeed < 0)
-                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, -cameraFrustumSize * 3, 0.0f);
+                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, -cameraFrustumSize * 2, 0.0f);
                     else 
-                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, cameraFrustumSize * 3,0.0f);
+                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, cameraFrustumSize * 2,0.0f);
 
-                    newPlatformPosition.x += Random.Range(-cameraFrustumSize * 2, cameraFrustumSize * 2);
+                    newPlatformPosition.x += Random.Range(-cameraFrustumSize * 1.5f, cameraFrustumSize * 1.5f);
                     newPlatformPosition.z = 0.0f;
                     break;
 

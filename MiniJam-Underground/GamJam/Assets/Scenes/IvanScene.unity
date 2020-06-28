@@ -624,7 +624,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floors:
   - backgroundScroll: 0
-    backgroundSpeed: -0.2
+    backgroundSpeed: -0.1
     typePlatforms:
     - {fileID: 4550671630384962828, guid: b3d5feef8e7de494883b0ef965a94333, type: 3}
     - {fileID: 4047517587478732515, guid: 440a9fd57829ea94abb1b8c47dcf674f, type: 3}
@@ -636,14 +636,14 @@ MonoBehaviour:
     - {fileID: 7769383045344378333, guid: 14c267ad3011f5043b7a9ba25a39b5ea, type: 3}
     minSizePlatform: {x: 1, y: 1}
     maxSizePlatform: {x: 1, y: 1}
-    delayBetweenPlatforms: 1.89
+    delayBetweenPlatforms: 1.01
     doorIsOpen: 0
     numEnemies: 1
     typeEnemies:
     - {fileID: 6578330405783535136, guid: 1920a33a05976d34fb828d73a808a37e, type: 3}
     delayBetweenEnemies: 0.97
   - backgroundScroll: 0
-    backgroundSpeed: -0.2
+    backgroundSpeed: -0.1
     typePlatforms:
     - {fileID: 4550671630384962828, guid: b3d5feef8e7de494883b0ef965a94333, type: 3}
     - {fileID: 4047517587478732515, guid: 440a9fd57829ea94abb1b8c47dcf674f, type: 3}
@@ -653,7 +653,7 @@ MonoBehaviour:
     - {fileID: 2393369105177857280, guid: bc0083a57beb46744876ffa230c9385c, type: 3}
     minSizePlatform: {x: 1, y: 1}
     maxSizePlatform: {x: 1, y: 1}
-    delayBetweenPlatforms: 1.86
+    delayBetweenPlatforms: 1.24
     doorIsOpen: 0
     numEnemies: 10
     typeEnemies:
@@ -827,12 +827,12 @@ PrefabInstance:
     - target: {fileID: 8348666021429824763, guid: 1d08a2d99769a044db46b583a248c104,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.42
+      value: -5.157
       objectReference: {fileID: 0}
     - target: {fileID: 8348666021429824763, guid: 1d08a2d99769a044db46b583a248c104,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.86
+      value: -10.23
       objectReference: {fileID: 0}
     - target: {fileID: 8348666021429824763, guid: 1d08a2d99769a044db46b583a248c104,
         type: 3}
@@ -877,7 +877,17 @@ PrefabInstance:
     - target: {fileID: 8348666021429824763, guid: 1d08a2d99769a044db46b583a248c104,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.9344969
+      value: 3.1105666
+      objectReference: {fileID: 0}
+    - target: {fileID: 8348666021429824763, guid: 1d08a2d99769a044db46b583a248c104,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.1344724
+      objectReference: {fileID: 0}
+    - target: {fileID: 8348666021429824763, guid: 1d08a2d99769a044db46b583a248c104,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.1344724
       objectReference: {fileID: 0}
     - target: {fileID: 8689619820615996993, guid: 1d08a2d99769a044db46b583a248c104,
         type: 3}
