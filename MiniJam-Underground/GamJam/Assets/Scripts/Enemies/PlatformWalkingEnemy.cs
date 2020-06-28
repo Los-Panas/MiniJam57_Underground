@@ -32,10 +32,11 @@ public class PlatformWalkingEnemy : MonoBehaviour
         behaviour = Behaviour.MOVE;
         mov_direction = MovingDirection.UP;
         rayray = Vector2.down;
-        offset_x = -0.4f;
+        offset_x = -0.1f;
         offset_y = 0f;
         rigid_body = GetComponent<Rigidbody2D>();
         Player = GameObject.FindGameObjectWithTag("Player");
+        rigid_body.velocity = new Vector2((speed * Time.deltaTime), 0);
     }
 
     // Update is called once per frame
@@ -44,12 +45,14 @@ public class PlatformWalkingEnemy : MonoBehaviour
         switch (behaviour)
         {
             case Behaviour.MOVE:
-                ManageMovement();
+                CheckPlatform();
                 break;
             case Behaviour.GETHIT:
                 {
                     if (life <= 0)
                         behaviour = Behaviour.DEAD;
+
+                    behaviour = Behaviour.MOVE;
                 }
                
                 break;
@@ -67,14 +70,26 @@ public class PlatformWalkingEnemy : MonoBehaviour
         //if (Input.GetKeyDown(KeyCode.U))
         //    mov_direction = MovingDirection.UP;
         //if (Input.GetKeyDown(KeyCode.D))
-        //    mov_direction = MovingDirection.DOWN;
-        
-        CheckPlatform();
-        
+        //    mov_direction = MovingDirection.DOWN;    
     }
     void Die()
     {
         Destroy(this.gameObject);
+    }
+    IEnumerator Rotation(float prev, float next, float time)
+    {
+        float rot = prev;
+        while(rot != next)
+        {
+            float t = (Time.realtimeSinceStartup - time)/ 0.5f;
+            rigid_body.SetRotation(Mathf.Lerp(prev, next, t));
+            if (t >= 1f)
+            {
+                rigid_body.SetRotation(next);
+                rot = next;
+            }
+            yield return new WaitForEndOfFrame();
+        }
     }
     void ManageMovement()
     {
@@ -84,27 +99,28 @@ public class PlatformWalkingEnemy : MonoBehaviour
                 {
                     rigid_body.velocity = new Vector2((speed * Time.deltaTime), 0);
                     rayray = Vector2.down;
-                    offset_x = -0.4f;
+                    offset_x = -0.1f;
                     offset_y = 0f;
-                    rigid_body.SetRotation(90);
+                    StartCoroutine(Rotation(rigid_body.rotation, 0, Time.realtimeSinceStartup));
                 }
                 break;
             case MovingDirection.RIGHT:
-                { 
+                {
+                    
                     rigid_body.velocity = new Vector2(0,-(speed * Time.deltaTime));
                     rayray = Vector2.left;
                     offset_x = 0f;
-                    offset_y = 0.4f;
-                    rigid_body.SetRotation(180);
+                    offset_y = 0.1f;
+                    StartCoroutine(Rotation(360, 270, Time.realtimeSinceStartup));
                 }
                 break;
             case MovingDirection.DOWN:
                 {
                     rigid_body.velocity = new Vector2(-(speed * Time.deltaTime), 0);
                     rayray = Vector2.up;
-                    offset_x = 0.4f;
+                    offset_x = 0.1f;
                     offset_y = 0f;
-                    rigid_body.SetRotation(270);
+                    StartCoroutine(Rotation(rigid_body.rotation, 180, Time.realtimeSinceStartup));
                 }
                 break;
             case MovingDirection.LEFT:
@@ -112,8 +128,8 @@ public class PlatformWalkingEnemy : MonoBehaviour
                     rigid_body.velocity = new Vector2(0,(speed * Time.deltaTime));
                     rayray = Vector2.right;
                     offset_x = 0f;
-                    offset_y = -0.4f;
-                    rigid_body.SetRotation(0);
+                    offset_y = -0.1f;
+                    StartCoroutine(Rotation(rigid_body.rotation, 90, Time.realtimeSinceStartup));
                 }
                 break;
         }
@@ -121,7 +137,7 @@ public class PlatformWalkingEnemy : MonoBehaviour
 
     void CheckPlatform()
     { 
-        RaycastHit2D hit =  Physics2D.Raycast(new Vector2(transform.position.x + offset_x, transform.position.y + offset_y), rayray, 100f, 1<<12);
+        RaycastHit2D hit =  Physics2D.Raycast(new Vector2(transform.position.x + offset_x, transform.position.y + offset_y), rayray, 1f, 1<<12);
         if (!hit)
         {
             if (!give_time)
@@ -130,7 +146,7 @@ public class PlatformWalkingEnemy : MonoBehaviour
                 if ((int)mov_direction >= 4)
                     mov_direction = MovingDirection.UP;
                 give_time = true;
-                
+                ManageMovement();
             }        
         }
         else
@@ -139,11 +155,15 @@ public class PlatformWalkingEnemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.transform.parent.CompareTag("Player") == true) //THIS HAS TO BE THE SCYTHER NOT THE PLAYER 
+        if(collision.gameObject.transform.parent)
         {
-            life -= 50;
-            behaviour = Behaviour.GETHIT;
+            if (collision.gameObject.transform.parent.CompareTag("Player")) //THIS HAS TO BE THE SCYTHER NOT THE PLAYER 
+            {
+                life -= 50;
+                behaviour = Behaviour.GETHIT;
+            }
         }
+    
     }
     private void OnDrawGizmos()
     {
