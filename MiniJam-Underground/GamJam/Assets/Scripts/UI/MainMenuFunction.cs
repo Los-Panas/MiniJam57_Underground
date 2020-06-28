@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class MainMenuFunction : MonoBehaviour
 {
@@ -49,11 +50,18 @@ public class MainMenuFunction : MonoBehaviour
     {
         mainPanel.SetActive(false);
         settingsPanel.SetActive(true);
+
+        GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("SliderVolume"));
+        Debug.Log(GameObject.Find("SliderVolume"));
+
+
     }
     public void CloseSettings()
     {
+        
         mainPanel.SetActive(true);
         settingsPanel.SetActive(false);
+        GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("PlayButton"));
     }
 
     public void Quit()
