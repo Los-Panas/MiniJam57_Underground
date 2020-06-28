@@ -20,26 +20,18 @@ public class MainMenuFunction : MonoBehaviour
     public AnimationCurve curve;
     public AudioMixer mixer;
 
-    bool startGame = false;
     AudioScriptLevel audio;
 
+    public GameObject player;
+    public GameObject HUD;
+    public GameObject soul;
+    public SceneManager sceneManager;
 
-    Elevator_Doors door = null;
     // Start is called before the first frame update
 
     void Start()
     {
-        door = GameObject.Find("FirstElevator").GetComponent<Elevator_Doors>();
         audio = GameObject.Find("Main Camera").GetComponent<AudioScriptLevel>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (startGame && door.status == Elevator_Doors.Doors_Status.CLOSED)
-        {
-            // TODO: spawn player and the basic enemy to kill and start going down
-        }
     }
 
     public void Play()
@@ -91,8 +83,11 @@ public class MainMenuFunction : MonoBehaviour
     public void StartGameplay()
     {
         audio.ChangeMusic();
-        startGame = true;
-        door.OpenDoor();
+
+        player.SetActive(true);
+        soul.SetActive(true);
+        HUD.SetActive(true);
+        sceneManager.enabled = true;
     }
 
     public void Setlevel(float value)
