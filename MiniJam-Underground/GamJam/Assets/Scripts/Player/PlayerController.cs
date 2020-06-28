@@ -644,7 +644,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    GameObject.Find("EndPanel").SetActive(true);
+                    GameObject.Find("DiePanel").SetActive(true);
                     Invoke("RestartScene", 5);
                 }
             }
