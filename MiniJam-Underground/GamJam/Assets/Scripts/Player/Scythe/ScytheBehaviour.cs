@@ -12,6 +12,7 @@ public enum ScytheState
 public class ScytheBehaviour : MonoBehaviour
 {
     public GameObject pivotObject;
+    public GameObject flippedScaleObject;
     public Vector3 pivotOffset;
     [Header("Time relative variables")]
     [SerializeField]
@@ -64,18 +65,24 @@ public class ScytheBehaviour : MonoBehaviour
     public string secondaryAxisVertical = "Vertical2";
     public string soulHarvesterButton = "Fire2";
 
+
+    public GameObject trail;
+
     // Start is called before the first frame update
     void Start()
     {
         // try to link player object if not linked on inspector
         if(!pivotObject)
             pivotObject = GameObject.FindGameObjectWithTag("Player");
+        if (!flippedScaleObject)
+            Debug.LogError("Attach an gameobject to search scale on");
         // assign start facing direction
         if (pivotObject.transform.localScale.z > 0.0f)
             facingForward = true;
         // refresh internal state at start
         state = ScytheState.ATTACHED;
 
+        trail.SetActive(false);
     }
 
     // Update is called once per frame
@@ -121,8 +128,10 @@ public class ScytheBehaviour : MonoBehaviour
         transform.Rotate(new Vector3(0.0f, 0.0f, (rotationReturnSpeed * rotationDir) * Time.deltaTime));
 
         if ((pivotObject.transform.position - transform.position).magnitude < minDistanceToReattach)
+        {
+            trail.SetActive(false);
             state = ScytheState.ATTACHED;
-
+        }
     }
 
     private void LaunchedBehaviour()
@@ -157,7 +166,7 @@ public class ScytheBehaviour : MonoBehaviour
     {
         Vector2 tilt_axis = GetSecondAxis();
 
-        Vector3 target_scale = pivotObject.transform.localScale;
+        Vector3 target_scale = flippedScaleObject.transform.localScale;
         if ((target_scale.x < 0.0f || target_scale.y < 0.0f || target_scale.z < 0.0f) && facingForward)
         {
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
@@ -200,6 +209,7 @@ public class ScytheBehaviour : MonoBehaviour
             moveDirection.y = Mathf.Sin(target_angle_rad);
             launchTime = Time.time;
             ScytheSoulContainer.change_container = true;
+            trail.SetActive(true);
 
             UpdateRotAndMovDirection();
         }

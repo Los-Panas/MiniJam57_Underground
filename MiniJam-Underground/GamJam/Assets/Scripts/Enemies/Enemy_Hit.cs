@@ -11,6 +11,6 @@ public class Enemy_Hit : MonoBehaviour
         SendMessage("Die");
         // TO DO: Dissolve Shader
         // TO DO: Particle System
-        Instantiate(soul, transform);
+        Instantiate(soul);
     }
 }
