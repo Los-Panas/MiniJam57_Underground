@@ -23,11 +23,14 @@ public class FlyingSkull : MonoBehaviour
     float time = 0.0f;
 
     GameObject player;
+    GameObject skull;
+    Quaternion offset_rotation = Quaternion.Euler(0, 270, 0);
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player").transform.GetChild(0).gameObject;
+        skull = transform.GetChild(0).gameObject;
     }
 
     // Update is called once per frame
@@ -48,7 +51,7 @@ public class FlyingSkull : MonoBehaviour
                     acceleration_factor = (0.5f - (t - 0.5f)) * 4;
                 }
 
-                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + distance_float * sign * Time.deltaTime * acceleration_factor, transform.localPosition.z);
+                transform.position = new Vector3(transform.position.x, transform.position.y + distance_float * sign * Time.deltaTime * acceleration_factor, transform.position.z);
 
                 if ((Time.realtimeSinceStartup - time) >= cycle_time)
                 {
@@ -58,7 +61,7 @@ public class FlyingSkull : MonoBehaviour
                 break;
             case States.ATTACKING:
                 Vector3 direction = (player.transform.position - transform.position).normalized;
-                transform.rotation = Quaternion.LookRotation(-direction);
+                skull.transform.localRotation = Quaternion.LookRotation(-direction) * offset_rotation;
                 transform.position += direction * chasing_speed * Time.deltaTime;
                 break;
         }
@@ -72,21 +75,21 @@ public class FlyingSkull : MonoBehaviour
     public void PlayerLost()
     {
         current_state = States.IDLE;
-        StartCoroutine(LerpRotation(transform.rotation, Quaternion.LookRotation(new Vector3(0, 0, 1)), Time.realtimeSinceStartup));
+        StartCoroutine(LerpRotation(skull.transform.localRotation, Quaternion.LookRotation(new Vector3(0, 0, 1)), Time.realtimeSinceStartup));
     }
 
     IEnumerator LerpRotation(Quaternion previous, Quaternion next, float time)
     {
-        while (transform.rotation != next) 
+        while (skull.transform.localRotation != next) 
         {
             float t = (Time.realtimeSinceStartup - time) / 0.5f;
             Quaternion lerp = Quaternion.Lerp(previous, next, t);
 
-            transform.rotation = lerp;
+            skull.transform.localRotation = lerp * offset_rotation;
 
             if (t >= 1)
             {
-                transform.rotation = next;
+                skull.transform.localRotation = next * offset_rotation;
             }
 
             yield return new WaitForEndOfFrame();
