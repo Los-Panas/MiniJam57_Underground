@@ -120,8 +120,6 @@ public class PlayerController : MonoBehaviour
 
         rend = GetComponent<Renderer>();
 
-        audio = GetComponent<AudioSource>();
-
         // Lantern
         lantern_soul = GameObject.Find("Mini_Soul");
         soul_lantern_material = lantern_soul.transform.GetChild(0).GetComponent<Renderer>().material;
@@ -142,6 +140,7 @@ public class PlayerController : MonoBehaviour
         souls_bar.gameObject.transform.GetChild(2).GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
 
         // Audios
+        audio = GetComponent<AudioSource>();
         jump = (AudioClip)Resources.Load("SFX/jump");
         dash = (AudioClip)Resources.Load("SFX/dash");
     }

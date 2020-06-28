@@ -1454,6 +1454,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8931642230898017544}
     m_Modifications:
+    - target: {fileID: 1044659829561211717, guid: 789f52b412b967648a173458bc015a87,
+        type: 3}
+      propertyPath: ColorModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1653954425972064494, guid: 789f52b412b967648a173458bc015a87,
         type: 3}
       propertyPath: m_ConnectedAnchor.z
