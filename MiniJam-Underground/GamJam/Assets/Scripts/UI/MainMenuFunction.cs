@@ -125,9 +125,12 @@ public class MainMenuFunction : MonoBehaviour
     public void OpenCredits()
     {
         //TODO : Reset UI navigation
-        // TODO : Fer un SetEnable(false) de la HUD!!!
         mainPanel.SetActive(false);
         creditsPanel.SetActive(true);
+
+        GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("PolButton"));
+
+
     }
     public void CloseCredits()
     {
@@ -135,6 +138,7 @@ public class MainMenuFunction : MonoBehaviour
         // TODO : Reset UI navigation
         mainPanel.SetActive(true);
         creditsPanel.SetActive(false);
+        GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(GameObject.Find("PlayButton"));
     }
     public void ResetGame()
     {

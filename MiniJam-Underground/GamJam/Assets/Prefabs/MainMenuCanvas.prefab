@@ -89,11 +89,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 8549737123391800437}
+    m_SelectOnDown: {fileID: 6747098250503649833}
+    m_SelectOnLeft: {fileID: 7867349693614181604}
+    m_SelectOnRight: {fileID: 4665363175563948238}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.8117647, g: 0.8117647, b: 0.8117647, a: 1}
@@ -744,11 +744,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 4665363175563948238}
+    m_SelectOnDown: {fileID: 4665363175563948238}
+    m_SelectOnLeft: {fileID: 8549737123391800437}
+    m_SelectOnRight: {fileID: 7564196087707703389}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.8117647, g: 0.8117647, b: 0.8117647, a: 1}
@@ -1026,11 +1026,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 8481497621909032507}
+    m_SelectOnDown: {fileID: 8481497621909032507}
+    m_SelectOnLeft: {fileID: 6434333849171118296}
+    m_SelectOnRight: {fileID: 6138421490659061106}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.8117647, g: 0.8117647, b: 0.8117647, a: 1}
@@ -1230,11 +1230,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 8539378167661943246}
+    m_SelectOnDown: {fileID: 8539378167661943246}
+    m_SelectOnLeft: {fileID: 7564196087707703389}
+    m_SelectOnRight: {fileID: 6434333849171118296}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.8117647, g: 0.8117647, b: 0.8117647, a: 1}
@@ -1440,11 +1440,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 7867349693614181604}
+    m_SelectOnDown: {fileID: 7867349693614181604}
+    m_SelectOnLeft: {fileID: 7659294090137036306}
+    m_SelectOnRight: {fileID: 8549737123391800437}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
@@ -1804,11 +1804,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 3279533518918263993}
+    m_SelectOnDown: {fileID: 3279533518918263993}
+    m_SelectOnLeft: {fileID: 6138421490659061106}
+    m_SelectOnRight: {fileID: 7659294090137036306}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.8117647, g: 0.8117647, b: 0.8117647, a: 1}
@@ -2354,11 +2354,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 6138421490659061106}
+    m_SelectOnDown: {fileID: 6747098250503649833}
+    m_SelectOnLeft: {fileID: 8481497621909032507}
+    m_SelectOnRight: {fileID: 3279533518918263993}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.8117647, g: 0.8117647, b: 0.8117647, a: 1}
@@ -2562,11 +2562,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 7564196087707703389}
+    m_SelectOnDown: {fileID: 6747098250503649833}
+    m_SelectOnLeft: {fileID: 4665363175563948238}
+    m_SelectOnRight: {fileID: 8539378167661943246}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.8117647, g: 0.8117647, b: 0.8117647, a: 1}
@@ -3888,11 +3888,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 7659294090137036306}
+    m_SelectOnDown: {fileID: 6747098250503649833}
+    m_SelectOnLeft: {fileID: 3279533518918263993}
+    m_SelectOnRight: {fileID: 7867349693614181604}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.8117647, g: 0.8117647, b: 0.8117647, a: 1}
@@ -3942,7 +3942,7 @@ GameObject:
   - component: {fileID: 5502725108807861709}
   - component: {fileID: 6747098250503649833}
   m_Layer: 5
-  m_Name: CloseButton (1)
+  m_Name: 'CloseCreditsButton '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4019,10 +4019,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 9030071103595718891}
-    m_SelectOnDown: {fileID: 2279729303199375022}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 4665363175563948238}
+    m_SelectOnDown: {fileID: 6434333849171118296}
+    m_SelectOnLeft: {fileID: 7867349693614181604}
+    m_SelectOnRight: {fileID: 8539378167661943246}
   m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -4050,7 +4050,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6217581041109269892}
-        m_MethodName: CloseSettings
+        m_MethodName: CloseCredits
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4551,7 +4551,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6217581041109269892}
-        m_MethodName: Play
+        m_MethodName: OpenCredits
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5210,11 +5210,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 6434333849171118296}
+    m_SelectOnDown: {fileID: 6747098250503649833}
+    m_SelectOnLeft: {fileID: 8539378167661943246}
+    m_SelectOnRight: {fileID: 8481497621909032507}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.8117647, g: 0.8117647, b: 0.8117647, a: 1}
