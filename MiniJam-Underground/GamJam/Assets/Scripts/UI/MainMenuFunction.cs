@@ -13,6 +13,8 @@ public class MainMenuFunction : MonoBehaviour
     public GameObject titleText;
     public GameObject mainPanel;
     public GameObject settingsPanel;
+    public GameObject itchio;
+    public GameObject github;
     public AnimationCurve curve;
     public AudioMixer mixer;
 
@@ -41,8 +43,10 @@ public class MainMenuFunction : MonoBehaviour
     public void Play()
     {
         LeanTween.moveY(buttonPlay, -700.0f, 1.5f).setEase(curve);
-        LeanTween.moveY(buttonSettings, -700.0f, 1.5f).setEase(curve);
-        LeanTween.moveY(buttonQuit, -700.0f, 1.5f).setEase(curve);
+        LeanTween.moveY(buttonSettings, -700.0f, 1.0f).setEase(curve);
+        LeanTween.moveY(buttonQuit, -700.0f, 1.2f).setEase(curve);
+        LeanTween.moveY(itchio, -700.0f, 1.7f).setEase(curve);
+        LeanTween.moveY(github, -700.0f, 1.3f).setEase(curve);
         LeanTween.moveY(titleText, 700.0f, 1.5f).setEase(curve).setOnComplete(DestroyMe);
     }
 
@@ -74,6 +78,8 @@ public class MainMenuFunction : MonoBehaviour
         Destroy(buttonPlay);
         Destroy(buttonSettings);
         Destroy(buttonQuit);
+        Destroy(itchio);
+        Destroy(github);
         Destroy(titleText);
         transform.gameObject.SetActive(false);
         StartGameplay();
@@ -106,7 +112,14 @@ public class MainMenuFunction : MonoBehaviour
         }
     }
 
-
+    public void OpenItchio()
+    {
+        Application.OpenURL("https://polhostrex.itch.io/");
+    }
+    public void OpenGitHub()
+    {
+        Application.OpenURL("https://github.com/Los-Panas");
+    }
     public void ResetGame()
     {
 
