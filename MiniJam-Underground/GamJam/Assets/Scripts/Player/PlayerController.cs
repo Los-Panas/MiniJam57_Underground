@@ -122,11 +122,11 @@ public class PlayerController : MonoBehaviour
 
         internal_light = transform.GetChild(3).gameObject;
 
+        GameObject HUD = GameObject.Find("HUD");
+        souls_bar = HUD.transform.GetChild(0).GetComponent<Slider>();
         TurnOnEmergencyLight(true);
 
         // HUD
-        GameObject HUD = GameObject.Find("HUD");
-        souls_bar = HUD.transform.GetChild(0).GetComponent<Slider>();
         souls_bar.gameObject.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         souls_bar.gameObject.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         souls_bar.gameObject.transform.GetChild(2).GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
@@ -520,10 +520,10 @@ public class PlayerController : MonoBehaviour
                 souls_bar.gameObject.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(0.0f, 0.85f, 0.0f, 1);
                 break;
             case 3:
-                soul_lantern_material.SetColor("_EmissionColor", Color.blue);
-                soul_lantern_particle.startColor = Color.blue;
-                soul_lantern_light_c.color = Color.blue;
-                souls_bar.gameObject.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = Color.blue;
+                soul_lantern_material.SetColor("_EmissionColor", new Color(0.4f, 1, 1));
+                soul_lantern_particle.startColor = new Color(0.4f, 1, 1);
+                soul_lantern_light_c.color = new Color(0.4f, 1, 1);
+                souls_bar.gameObject.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(0.4f, 1, 1);
                 break;
             case 1:
                 soul_lantern_material.SetColor("_EmissionColor", Color.yellow);
@@ -667,7 +667,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator FadeSoulsBar(bool fade_in, float time)
     {
-        Image BG_Image = souls_bar.gameObject.transform.GetChild(0).GetComponent<Image>(); 
+        Image BG_Image = souls_bar.gameObject.transform.GetChild(0).GetComponent<Image>();
         Image fill_image = souls_bar.gameObject.transform.GetChild(1).GetChild(0).GetComponent<Image>(); 
         Image handle_image = souls_bar.gameObject.transform.GetChild(2).GetChild(0).GetComponent<Image>();
 
