@@ -108,6 +108,9 @@ public class PlayerController : MonoBehaviour
 
     Animator animator;
 
+    AudioSource audio;
+    AudioClip jump;
+    AudioClip dash;
 
     void Start()
     {
@@ -116,6 +119,8 @@ public class PlayerController : MonoBehaviour
         dash_time = time_dashing;
 
         rend = GetComponent<Renderer>();
+
+        audio = GetComponent<AudioSource>();
 
         // Lantern
         lantern_soul = GameObject.Find("Mini_Soul");
@@ -135,6 +140,10 @@ public class PlayerController : MonoBehaviour
         souls_bar.gameObject.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         souls_bar.gameObject.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         souls_bar.gameObject.transform.GetChild(2).GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+
+        // Audios
+        jump = (AudioClip)Resources.Load("SFX/jump");
+        dash = (AudioClip)Resources.Load("SFX/dash");
     }
 
     void Update()
@@ -292,6 +301,7 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
+        audio.PlayOneShot(jump);
         // TODO: set animator to jump anim
         animator.SetBool("isJumping", true);
         animator.SetBool("isRunning", false);
@@ -313,6 +323,8 @@ public class PlayerController : MonoBehaviour
     {
         if (can_dash && player_input.dash)
         {
+            audio.PlayOneShot(dash);
+
             if (player_input.axis == Vector2.zero)
             {
                 if (transform.localScale.z > 0)
