@@ -88,7 +88,7 @@ public class MainMenuFunction : MonoBehaviour
         Destroy(soul1);
         Destroy(soul2);
         Destroy(soul3);
-        transform.gameObject.SetActive(false);
+        //transform.gameObject.SetActive(false);
         StartGameplay();
     }
 
@@ -106,6 +106,12 @@ public class MainMenuFunction : MonoBehaviour
     public void Setlevel(float value)
     {
         mixer.SetFloat("MusicVolume", Mathf.Log10(value) * 20);
+    }
+
+    public void ReLoad()
+    {
+        Time.timeScale = 1.0F;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
     public void SetFullScreen()

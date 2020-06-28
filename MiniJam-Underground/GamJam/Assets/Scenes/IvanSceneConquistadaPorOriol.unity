@@ -121,6 +121,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &10154495 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7971119777671837830, guid: a8a3d6e0aa7900f40b55f151438fb7cb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1385712396}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &365535139 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6578330405783535136, guid: 1920a33a05976d34fb828d73a808a37e,
@@ -217,11 +223,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Scythe
-      objectReference: {fileID: 0}
-    - target: {fileID: 1247587435913091620, guid: 38ca1ce0dcc39cd4bb960c56f5fc124a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7613713023126093409, guid: 38ca1ce0dcc39cd4bb960c56f5fc124a,
         type: 3}
@@ -829,14 +830,14 @@ PrefabInstance:
       objectReference: {fileID: 365535139}
     - target: {fileID: 6217581041109269892, guid: a8a3d6e0aa7900f40b55f151438fb7cb,
         type: 3}
-      propertyPath: sceneManager
-      value: 
-      objectReference: {fileID: 1960310736}
-    - target: {fileID: 6217581041109269892, guid: a8a3d6e0aa7900f40b55f151438fb7cb,
-        type: 3}
       propertyPath: Scythe
       value: 
       objectReference: {fileID: 1423768475}
+    - target: {fileID: 6217581041109269892, guid: a8a3d6e0aa7900f40b55f151438fb7cb,
+        type: 3}
+      propertyPath: sceneManager
+      value: 
+      objectReference: {fileID: 1960310736}
     - target: {fileID: 6217581041109269893, guid: a8a3d6e0aa7900f40b55f151438fb7cb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1742,6 +1743,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 54942261268253754, guid: df9fe4853385712458b3d6310af4dc88,
+        type: 3}
+      propertyPath: dieMenu
+      value: 
+      objectReference: {fileID: 10154495}
     - target: {fileID: 8149069191012981962, guid: df9fe4853385712458b3d6310af4dc88,
         type: 3}
       propertyPath: m_Name
