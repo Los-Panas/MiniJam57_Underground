@@ -253,7 +253,8 @@ public class ScytheBehaviour : MonoBehaviour
 
         if(enemy_hit.hits_to_kill <= 0)
         {
-            enemy_hit.KillEnemy();
+            if (!enemy_hit.KillEnemy())
+                --current_hits;
         }
        
     }
