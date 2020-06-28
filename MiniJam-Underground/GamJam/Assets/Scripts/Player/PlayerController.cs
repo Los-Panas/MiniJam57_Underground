@@ -1,10 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.SceneManagement;
-using UnityEditor.ShaderGraph.Internal;
+//using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.ParticleSystem;
 
@@ -746,7 +742,7 @@ public class PlayerController : MonoBehaviour
 
     void Die()
     {
-        EditorSceneManager.LoadScene(EditorSceneManager.GetActiveScene().name);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
 }

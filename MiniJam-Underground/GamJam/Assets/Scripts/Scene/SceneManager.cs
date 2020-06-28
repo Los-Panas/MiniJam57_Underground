@@ -181,7 +181,7 @@ public class SceneManager : MonoBehaviour
 
             finalEnemy.future_position = newPosition;
 
-            newEnemy.transform.position = door.transform.position + new Vector3(0.0f, door.transform.FindChild("Plane").GetComponent<Renderer>().bounds.size.y * 0.25f, 0.0f); 
+            newEnemy.transform.position = door.transform.position + new Vector3(0.0f, door.transform.Find("Plane").GetComponent<Renderer>().bounds.size.y * 0.25f, 0.0f); 
 
             enemyMovement.Add(finalEnemy);
 
