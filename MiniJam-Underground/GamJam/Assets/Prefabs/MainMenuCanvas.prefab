@@ -1962,7 +1962,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6217581041109269892}
-        m_MethodName: Play
+        m_MethodName: ResetGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2365,7 +2365,7 @@ GameObject:
   - component: {fileID: 1617228820040333201}
   - component: {fileID: 2279729303199375022}
   m_Layer: 0
-  m_Name: Slider
+  m_Name: SliderVolume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
