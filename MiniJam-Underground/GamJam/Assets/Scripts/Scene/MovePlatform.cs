@@ -12,10 +12,12 @@ public class MovePlatform : MonoBehaviour
 
     private AxisMovement axis = AxisMovement.Vertical;
     private float speed = 1.0f;
+
+    private float destroyTimer;
     // Start is called before the first frame update
     void Start()
     {
-        
+        destroyTimer = Time.time;
     }
 
     // Update is called once per frame
@@ -30,6 +32,9 @@ public class MovePlatform : MonoBehaviour
                 transform.position += new Vector3(-speed * Time.deltaTime, 0.0f, 0.0f);
                 break;
         }
+
+        if (destroyTimer + 2.0f < Time.time && !GetComponent<Renderer>().isVisible)
+            Destroy(transform.gameObject);
     }
 
     public void InitValues(int newAxis, float newSpeed, Vector2 size)
