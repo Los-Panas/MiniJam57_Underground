@@ -47,6 +47,15 @@ public class PlatformWalkingEnemy : MonoBehaviour
                 ManageMovement();
                 break;
             case Behaviour.GETHIT:
+                {
+                    if (life <= 0)
+                        behaviour = Behaviour.DEAD;
+                }
+               
+                break;
+            case Behaviour.DEAD:
+                rigid_body.velocity = Vector2.zero;
+                Invoke("Die", 2f);
                 break;
             case Behaviour.NONE:
                 break;
@@ -62,6 +71,10 @@ public class PlatformWalkingEnemy : MonoBehaviour
         
         CheckPlatform();
         
+    }
+    void Die()
+    {
+        Destroy(this.gameObject);
     }
     void ManageMovement()
     {
@@ -124,6 +137,14 @@ public class PlatformWalkingEnemy : MonoBehaviour
             give_time = false;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.transform.parent.CompareTag("Player") == true) //THIS HAS TO BE THE SCYTHER NOT THE PLAYER 
+        {
+            life -= 50;
+            behaviour = Behaviour.GETHIT;
+        }
+    }
     private void OnDrawGizmos()
     {
         Gizmos.DrawRay(new Vector2(transform.position.x + offset_x, transform.position.y + offset_y), rayray);

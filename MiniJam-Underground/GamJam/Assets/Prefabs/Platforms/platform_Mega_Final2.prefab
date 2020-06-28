@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3702094552612504665}
   - component: {fileID: 3813073462981389280}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: platform_Mega_Final2
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4047517587478732515}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.9842577, y: 6.22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 4255988866771432705}
   - component: {fileID: 1425213426251041867}
   - component: {fileID: 2513811435116341471}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
