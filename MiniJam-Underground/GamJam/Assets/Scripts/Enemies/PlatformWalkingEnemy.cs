@@ -25,7 +25,7 @@ public class PlatformWalkingEnemy : MonoBehaviour
     bool give_time = false;
     float offset_x = 0f;
     float offset_y = 0f;
-
+    public GameObject dieParticles;
     bool deadCalled = false;
 
     // Start is called before the first frame update
@@ -83,13 +83,21 @@ public class PlatformWalkingEnemy : MonoBehaviour
     {
         deadCalled = true;
         behaviour = Behaviour.DEAD;
+        Instantiate(dieParticles, transform.position - new Vector3(0, 1.5F,1), Quaternion.identity);
         StartCoroutine(Dying());
     }
 
     IEnumerator Dying()
     {
+        Color color = transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().material.color;
+        while (color.a >= 0.0F)
+        {
+            color.a -= Time.deltaTime;
+            transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().material.color = color;
+            yield return new WaitForEndOfFrame();
+        }
         Destroy(gameObject);
-        return null;
+        yield return null;
     }
 
     IEnumerator Rotation(float prev, float next, float time)
