@@ -237,7 +237,7 @@ public class ScytheBehaviour : MonoBehaviour
     {
         Enemy_Hit enemy_hit = col.GetComponent<Enemy_Hit>();
 
-        if (!enemy_hit && state != ScytheState.LAUNCHED)
+        if (!enemy_hit || state != ScytheState.LAUNCHED)
             return;
 
         --enemy_hit.hits_to_kill;
