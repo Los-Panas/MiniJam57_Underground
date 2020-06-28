@@ -118,14 +118,14 @@ public class PlayerController : MonoBehaviour
         rend = GetComponent<Renderer>();
 
         // Lantern
-        lantern_soul = transform.GetChild(2).GetChild(1).gameObject;
+        lantern_soul = GameObject.Find("Mini_Soul");
         soul_lantern_material = lantern_soul.transform.GetChild(0).GetComponent<Renderer>().material;
         soul_lantern_system_particle = lantern_soul.transform.GetChild(3).gameObject;
         soul_lantern_particle = soul_lantern_system_particle.GetComponent<ParticleSystem>().main;
-        soul_lantern_light_c = transform.GetChild(4).GetComponent<Light>();
+        soul_lantern_light_c = GameObject.Find("Lantern Light").GetComponent<Light>();
         original_lantern_light_range = soul_lantern_light_c.range;
 
-        internal_light = transform.GetChild(3).gameObject;
+        internal_light = GameObject.Find("Emergency Light");
 
         GameObject HUD = GameObject.Find("HUD");
         souls_bar = HUD.transform.GetChild(0).GetComponent<Slider>();

@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &703214482043247595
 Transform:
   m_ObjectHideFlags: 0
@@ -24,15 +24,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 182819598887371089}
-  m_LocalRotation: {x: -0, y: 0.119085096, z: -0, w: 0.99288404}
-  m_LocalPosition: {x: -0.03, y: -3.76, z: 0.08}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalRotation: {x: 0.000000025354232, y: 0.000000014901159, z: -0.000000011967005,
+    w: 1}
+  m_LocalPosition: {x: -0.15, y: 4.71, z: 0.006}
+  m_LocalScale: {x: 0.29196313, y: 0.2919632, z: 0.29196322}
   m_Children:
   - {fileID: 7712657594964114028}
   - {fileID: 4675297316629568895}
   - {fileID: 4675297317102321744}
   - {fileID: 6468134239873198445}
-  m_Father: {fileID: 8518466666479921416}
+  m_Father: {fileID: 1653954426968788716}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &182819598887371090
@@ -64,7 +65,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1493697079770035939
 Transform:
   m_ObjectHideFlags: 0
@@ -4914,7 +4915,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 9.1, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.10508838, y: 8.485466, z: -0.09677543}
+  m_ConnectedAnchor: {x: -0.10508838, y: 8.485466, z: -0.09677463}
   m_UseSpring: 0
   m_Spring:
     spring: 0
@@ -5060,7 +5061,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 9.1, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.09677267, y: 8.494744, z: 0.10508838}
+  m_ConnectedAnchor: {x: -0.09677386, y: 8.494744, z: 0.10508838}
   m_UseSpring: 0
   m_Spring:
     spring: 0
@@ -5240,6 +5241,7 @@ Transform:
   m_LocalScale: {x: 0.30657107, y: 0.30657107, z: 0.30657107}
   m_Children:
   - {fileID: 1493697079770035939}
+  - {fileID: 703214482043247595}
   m_Father: {fileID: 1653954427146676781}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5317,7 +5319,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 6.8999996, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.10549357, y: 8.507619, z: 0.10675342}
+  m_ConnectedAnchor: {x: -0.10549475, y: 8.50762, z: 0.10675342}
   m_UseSpring: 0
   m_Spring:
     spring: 0
@@ -5498,7 +5500,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 9.1, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.09870809, y: 9.623156, z: -0.0990506}
+  m_ConnectedAnchor: {x: -0.09870809, y: 9.623157, z: -0.099049784}
   m_UseSpring: 0
   m_Spring:
     spring: 0
@@ -10743,7 +10745,6 @@ Transform:
   m_LocalScale: {x: 0.08119083, y: 0.081190854, z: 0.08119083}
   m_Children:
   - {fileID: 1653954427146676781}
-  - {fileID: 703214482043247595}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -13.679001, z: 0}
