@@ -46,18 +46,14 @@ public class SceneManager : MonoBehaviour
 
     public GameObject camera;
 
-    private ArrayList enemiesInLevel;
-
-    private ElevatorState state = ElevatorState.Stop;
-    private ElevatorDoorsState doorsState = ElevatorDoorsState.Close;
+    public ElevatorState state = ElevatorState.Stop;
+    private ElevatorDoorsState doorsState = ElevatorDoorsState.Open;
     private int countFloor;
-
+    private int defeatEnemies;
     float platformTimer;
     // Start is called before the first frame update
     void Start()
     {
-        enemiesInLevel = new ArrayList();
-
         countFloor = 0;
         platformTimer = Time.time;
     }
@@ -67,10 +63,7 @@ public class SceneManager : MonoBehaviour
     {
         if (Input.GetKeyDown("q"))
         {
-            for (int i = 0; i < enemiesInLevel.Count; ++i)
-                Destroy((GameObject)enemiesInLevel[i]);
-            enemiesInLevel.RemoveRange(0, enemiesInLevel.Count);
-            enemiesInLevel.Clear();
+            DefeatEnemy();
         }
 
         if (countFloor < floors.Length)
@@ -108,10 +101,11 @@ public class SceneManager : MonoBehaviour
                         SpawmEnemies(countFloor);
                     }
 
-                    if(enemiesInLevel.Count == 0)
+                    if(floors[countFloor].numEnemies == defeatEnemies)
                     {
                         GetComponent<ScrollBackground>().StopMovment();
                         ++countFloor;
+                        defeatEnemies = 0;
                         state = ElevatorState.Stop;
                         doorsState = ElevatorDoorsState.Close;
                     }
@@ -149,7 +143,6 @@ public class SceneManager : MonoBehaviour
 
             newEnemy.transform.position = newPosition;
 
-            enemiesInLevel.Add(newEnemy);
         }
     }
 
@@ -210,8 +203,13 @@ public class SceneManager : MonoBehaviour
         }
     }
 
-    public void DeleteEnemy(GameObject enemy)
+    public void DefeatEnemy()
     {
-        enemiesInLevel.Remove(enemy);
+        ++defeatEnemies;
+    }
+
+    public void AddEnemy()
+    {
+        --defeatEnemies;
     }
 }
