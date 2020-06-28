@@ -118,7 +118,7 @@ public class MainMenuFunction : MonoBehaviour
     }
     public void OpenGitHub()
     {
-        Application.OpenURL("https://github.com/Los-Panas");
+        Application.OpenURL("https://github.com/Los-Panas/MiniJam57_Underground");
     }
     public void ResetGame()
     {
