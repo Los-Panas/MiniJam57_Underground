@@ -12,6 +12,7 @@ public enum ScytheState
 public class ScytheBehaviour : MonoBehaviour
 {
     public GameObject pivotObject;
+    public GameObject flippedScaleObject;
     public Vector3 pivotOffset;
     [Header("Time relative variables")]
     [SerializeField]
@@ -70,6 +71,8 @@ public class ScytheBehaviour : MonoBehaviour
         // try to link player object if not linked on inspector
         if(!pivotObject)
             pivotObject = GameObject.FindGameObjectWithTag("Player");
+        if (!flippedScaleObject)
+            Debug.LogError("Attach an gameobject to search scale on");
         // assign start facing direction
         if (pivotObject.transform.localScale.z > 0.0f)
             facingForward = true;
@@ -86,7 +89,7 @@ public class ScytheBehaviour : MonoBehaviour
             case ScytheState.ATTACHED:
                 {
                     AttachedBehaviour();
-                    SoulHarvesterBehaviour();
+                    //SoulHarvesterBehaviour();
                     break;
                 }
             case ScytheState.LAUNCHED:
@@ -157,7 +160,7 @@ public class ScytheBehaviour : MonoBehaviour
     {
         Vector2 tilt_axis = GetSecondAxis();
 
-        Vector3 target_scale = pivotObject.transform.localScale;
+        Vector3 target_scale = flippedScaleObject.transform.localScale;
         if ((target_scale.x < 0.0f || target_scale.y < 0.0f || target_scale.z < 0.0f) && facingForward)
         {
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
@@ -221,6 +224,22 @@ public class ScytheBehaviour : MonoBehaviour
         }
         else
             rotationDir = -1;
+    }
+
+    public void OnChildTriggerEnter(Collider2D col)
+    {
+        Enemy_Hit enemy_hit = col.GetComponent<Enemy_Hit>();
+
+        if (!enemy_hit && state != ScytheState.LAUNCHED)
+            return;
+
+        --enemy_hit.hits_to_kill;
+
+        if(enemy_hit.hits_to_kill <= 0)
+        {
+            enemy_hit.KillEnemy();
+        }
+       
     }
 
 }
