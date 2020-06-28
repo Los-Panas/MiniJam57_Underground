@@ -1526,6 +1526,8 @@ MonoBehaviour:
   titleText: {fileID: 6217581040287498746}
   mainPanel: {fileID: 7693751372949643641}
   settingsPanel: {fileID: 1847378241100349813}
+  itchio: {fileID: 7091838194318490212}
+  github: {fileID: 6447488467074357220}
   curve:
     serializedVersion: 2
     m_Curve:
@@ -1881,7 +1883,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8192011647986285286}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6217581041109269892}
+        m_MethodName: OpenGitHub
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7091838194318490212
 GameObject:
   m_ObjectHideFlags: 0
@@ -2000,7 +2013,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3685919209689291980}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6217581041109269892}
+        m_MethodName: OpenItchio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7693751372949643641
 GameObject:
   m_ObjectHideFlags: 0
