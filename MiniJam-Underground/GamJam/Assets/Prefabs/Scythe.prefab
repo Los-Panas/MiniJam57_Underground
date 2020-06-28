@@ -4892,8 +4892,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pivotObject: {fileID: 0}
   pivotOffset: {x: 0, y: 0.9, z: 0}
+  activeAutoReturn: 1
   maxTimeToReturn: 2
   maxHitsOnThrow: 3
+  inertiaOnAirResponsiveness: 60
   launchSpeed: 17
   returnSpeed: 30
   rotationLaunchSpeed: 1080

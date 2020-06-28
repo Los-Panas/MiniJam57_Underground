@@ -14,11 +14,15 @@ public class ScytheBehaviour : MonoBehaviour
     public GameObject pivotObject;
     public Vector3 pivotOffset;
     [Header("Time relative variables")]
+    [SerializeField]
+    private bool activeAutoReturn = true;
     public float maxTimeToReturn = 1.5f; // s
     private float launchTime = 0;
     
-    [Header("Internal scythe parameters")]
+    [Header("Internal configurable scythe parameters")]
     public int maxHitsOnThrow = 3;
+    [SerializeField]
+    private float inertiaOnAirResponsiveness = 60.0f;
     [SerializeField]
     private float launchSpeed = 17.0f;
     [SerializeField]
@@ -128,8 +132,10 @@ public class ScytheBehaviour : MonoBehaviour
         if (axis_dir_input.x != 0.0f || axis_dir_input.y != 0.0f)
         {
             float target_angle = Mathf.Atan2(-axis_dir_input.y, axis_dir_input.x);
-            moveDirection.x = Mathf.Cos(target_angle);
-            moveDirection.y = Mathf.Sin(target_angle);
+            Vector3 newMoveDir = new Vector3(Mathf.Cos(target_angle), Mathf.Sin(target_angle), 0.0f);
+
+            moveDirection = Vector3.Slerp(moveDirection, newMoveDir, Time.deltaTime * inertiaOnAirResponsiveness).normalized;
+            moveDirection.z = 0.0f;
         }
 
         // updates position and rotation
@@ -143,7 +149,7 @@ public class ScytheBehaviour : MonoBehaviour
         }
 
         // check if we passed max time
-        if (launchTime + maxTimeToReturn < Time.time)
+        if ((launchTime + maxTimeToReturn < Time.time) && activeAutoReturn)
             state = ScytheState.RETURNING;
     }
 
