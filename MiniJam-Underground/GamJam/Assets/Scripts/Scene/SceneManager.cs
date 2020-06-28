@@ -21,6 +21,14 @@ public class SceneManager : MonoBehaviour
         Open,
         Close
     }
+
+    // variable to move player
+    public struct EnemyMov
+    {
+        public GameObject enemy;
+        public Vector3 future_position;
+    }
+
     //variables differents between levels
     [System.Serializable]
     public struct Floor
@@ -53,9 +61,12 @@ public class SceneManager : MonoBehaviour
     private int countEnemy;
     private float enemyTimer;
     private float platformTimer;
+
+    private ArrayList enemyMovement;
     // Start is called before the first frame update
     void Start()
     {
+        enemyMovement = new ArrayList();
         countFloor = 0;
         platformTimer = Time.time;
     }
@@ -97,12 +108,16 @@ public class SceneManager : MonoBehaviour
                                 if (door.GetComponent<Elevator_Doors>().OpenDoors())
                                 {
                                     doorsState = ElevatorDoorsState.Open;
-                                    if (!floors[countFloor].doorIsOpen)
-                                            SpawmEnemies(countFloor);
+                                    MoveEnemiesToPosition();
                                 }
                                 break;
                         }
                        
+                    }
+                    else
+                    {
+                        if (!floors[countFloor].doorIsOpen)
+                            SpawmEnemies(countFloor);
                     }
                     break;
                 case ElevatorState.Run:
@@ -123,6 +138,7 @@ public class SceneManager : MonoBehaviour
                         defeatEnemies = 0;
                         state = ElevatorState.Stop;
                         doorsState = ElevatorDoorsState.Close;
+                        enemyMovement.Clear();
                     }
                     break;
             }
@@ -132,11 +148,17 @@ public class SceneManager : MonoBehaviour
 
     private void SpawmEnemies(int pos)
     {
+        if (floors[pos].numEnemies == enemyMovement.Count)
+            return;
+
         for(int i = 0; i <= floors[pos].numEnemies - 1; ++i)
         {
+            EnemyMov finalEnemy = new EnemyMov();
             //take random enemy
             int enemyType = Random.Range(0, floors[pos].typeEnemies.Length);
             GameObject newEnemy = Instantiate(floors[pos].typeEnemies[enemyType]);
+
+            finalEnemy.enemy = newEnemy;
 
             //put in random position
             float cameraFrustumSize = camera.GetComponent<Camera>().orthographicSize;
@@ -156,7 +178,11 @@ public class SceneManager : MonoBehaviour
             if (newPosition.y >= camera.transform.position.y + cameraFrustumSize * 0.8f)
                 newPosition.y -= 5.0f;
 
-            newEnemy.transform.position = newPosition;
+            finalEnemy.future_position = newPosition;
+
+            newEnemy.transform.position = door.transform.position + new Vector3(0.0f, cameraFrustumSize - 1.0f, -door.transform.position.z); 
+
+            enemyMovement.Add(finalEnemy);
 
         }
     }
@@ -183,7 +209,6 @@ public class SceneManager : MonoBehaviour
         }
     }
 
-
     private void PlatformSpawner(int pos)
     {
         if (Time.time > platformTimer + floors[pos].delayBetweenPlatforms)
@@ -207,10 +232,11 @@ public class SceneManager : MonoBehaviour
                     worldSpeed = floors[pos].backgroundSpeed * transform.localScale.y;
 
                     //calculate position outside camera and correct movement direction
+                    //change 3 in prespective
                     if(floors[pos].backgroundSpeed < 0)
-                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, -cameraFrustumSize, 0.0f);
+                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, -cameraFrustumSize * 3, 0.0f);
                     else 
-                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, cameraFrustumSize,0.0f);
+                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, cameraFrustumSize * 3,0.0f);
 
                     newPlatformPosition.x += Random.Range(-cameraFrustumSize * 2, cameraFrustumSize * 2);
                     newPlatformPosition.z = 0.0f;
@@ -238,6 +264,22 @@ public class SceneManager : MonoBehaviour
             newPlatform.GetComponent<MovePlatform>().InitValues((int)floors[pos].backgroundScroll, worldSpeed, platformSize);
 
             platformTimer = Time.time;
+        }
+    }
+
+    private void MoveEnemiesToPosition()
+    {
+        for (int i = 0; i < enemyMovement.Count; ++i)
+        {
+            EnemyMov current_enemy = (EnemyMov)enemyMovement[i];
+
+            Debug.Log(current_enemy.future_position);
+            Vector3 distance = current_enemy.future_position - current_enemy.enemy.transform.position;
+            current_enemy.enemy.transform.position += distance;
+            //while (current_enemy.enemy.transform.position != current_enemy.future_position)
+            //{
+            //    current_enemy.enemy.transform.position += distance / floors[countFloor].delayBetweenEnemies;
+            //}
         }
     }
 
