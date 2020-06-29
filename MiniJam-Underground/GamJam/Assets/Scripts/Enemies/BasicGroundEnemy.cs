@@ -114,7 +114,7 @@ public class BasicGroundEnemy : MonoBehaviour
                 break;
             case Behaviour.DIE:
                 fx_particle.SetActive(true);
-               
+                GetComponents<CapsuleCollider2D>()[0].enabled = false;
                 animator.SetBool("Die", true);
                 Destroy(gameObject,2.5F);
                 break;
