@@ -290,7 +290,7 @@ public class PlayerController : MonoBehaviour
     private void GetInput()
     {
         player_input.axis = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        player_input.jump = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0");
+        player_input.jump = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0") || Input.GetKeyDown("joystick button 4");
         player_input.dash = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown("joystick button 5");
     }
 
