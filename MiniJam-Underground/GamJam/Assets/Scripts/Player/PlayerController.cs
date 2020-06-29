@@ -111,6 +111,8 @@ public class PlayerController : MonoBehaviour
     AudioClip dash;
     AudioClip soul;
 
+    public GameObject dieMenu;
+
     void Start()
     {
         animator = gameObject.GetComponent<Animator>();
@@ -648,16 +650,23 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    Invoke("RestartScene", 5);
+                  PlayerDead();
                 }
             }
         }
 
         if (collision.CompareTag("Dead")) 
         {
-
+PlayerDead();
         }
     }
+
+void PlayerDead()
+{
+  dieMenu.SetActive(true);
+                    GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(dieMenu.transform.Find("LoseMainMenu").gameObject);
+                    Time.timeScale = 0.0F;
+}
 
     IEnumerator CountInvulnerabilitySeconds(float time)
     {
@@ -748,10 +757,4 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
-
-    void RestartScene()
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-    }
-
 }
