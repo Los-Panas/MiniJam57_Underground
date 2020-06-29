@@ -94,6 +94,7 @@ public class SceneManager : MonoBehaviour
                                 {
                                     if (door.GetComponent<Elevator_Doors>().CloseDoors())
                                     {
+                                        emitter.Play();
                                         GetComponent<ScrollBackground>().StartMovment((int)floors[countFloor].backgroundScroll, floors[countFloor].backgroundSpeed, floors[countFloor].doorIsOpen);
                                         state = ElevatorState.Run;
                                     }
@@ -142,7 +143,6 @@ public class SceneManager : MonoBehaviour
                         state = ElevatorState.Stop;
                         doorsState = ElevatorDoorsState.Close;
                         enemyMovement.Clear();
-                        emitter.Play();
                     }
                     break;
             }
@@ -239,9 +239,9 @@ public class SceneManager : MonoBehaviour
                     //calculate position outside camera and correct movement direction
                     //change 3 in prespective
                     if(floors[pos].backgroundSpeed < 0)
-                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, -cameraFrustumSize * 2, 0.0f);
+                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, -cameraFrustumSize * 1.2f, 0.0f);
                     else 
-                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, cameraFrustumSize * 2,0.0f);
+                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, cameraFrustumSize * 1.2f,0.0f);
 
                     newPlatformPosition.x += Random.Range(-cameraFrustumSize * 1.5f, cameraFrustumSize * 1.5f);
                     newPlatformPosition.z = 0.0f;
