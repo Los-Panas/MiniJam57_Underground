@@ -664,6 +664,7 @@ public class PlayerController : MonoBehaviour
     void PlayerDead()
     {
         dieMenu.SetActive(true);
+        GameObject.Find("Main Camera").GetComponent<AudioScriptLevel>().DeadMusic();
         GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(dieMenu.transform.Find("LoseMainMenu").gameObject);
         Time.timeScale = 0.0F;
     }
