@@ -174,13 +174,13 @@ public class SceneManager : MonoBehaviour
             newPosition.y += Random.Range(-cameraFrustumSize, cameraFrustumSize);
 
             //assure the enemy is inside the screen
-            if (newPosition.x <= camera.transform.position.x - cameraFrustumSize * 1.8f)
+            if (newPosition.x <= camera.transform.position.x - cameraFrustumSize * 1.5f)
                 newPosition.x += 5.0f;
-            if (newPosition.x >= camera.transform.position.x + cameraFrustumSize * 1.8f)
+            if (newPosition.x >= camera.transform.position.x + cameraFrustumSize * 1.5f)
                 newPosition.x -= 5.0f;
-            if (newPosition.y <= camera.transform.position.y - cameraFrustumSize * 0.8f)
+            if (newPosition.y <= camera.transform.position.y - cameraFrustumSize * 0.5f)
                 newPosition.y += 5.0f;
-            if (newPosition.y >= camera.transform.position.y + cameraFrustumSize * 0.8f)
+            if (newPosition.y >= camera.transform.position.y + cameraFrustumSize * 0.5f)
                 newPosition.y -= 5.0f;
 
             finalEnemy.future_position = newPosition;
