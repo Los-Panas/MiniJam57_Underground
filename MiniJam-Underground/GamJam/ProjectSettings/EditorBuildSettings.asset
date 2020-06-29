@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/OriolPlayerScene.unity
-    guid: 9cc270d6d9d602244bd6bc4fa37707cf
+    path: Assets/Scenes/IvanSceneConquistadaPorOriol.unity
+    guid: 2ef4cf57c947595499e327af323d36cf
   m_configObjects: {}

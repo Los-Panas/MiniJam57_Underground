@@ -37,11 +37,13 @@ public class MainMenuFunction : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1.0F;
         audio = GameObject.Find("Main Camera").GetComponent<AudioScriptLevel>();
     }
 
     public void Play()
     {
+        Time.timeScale = 1.0F;
         LeanTween.moveY(buttonPlay, -700.0f, 1.5f).setEase(curve);
         LeanTween.moveY(buttonSettings, -700.0f, 1.0f).setEase(curve);
         LeanTween.moveY(buttonQuit, -700.0f, 1.2f).setEase(curve);
