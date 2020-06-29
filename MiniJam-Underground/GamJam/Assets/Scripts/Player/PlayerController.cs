@@ -650,23 +650,23 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                  PlayerDead();
+                    PlayerDead();
                 }
             }
         }
 
-        if (collision.CompareTag("Dead")) 
+        if (collision.CompareTag("Dead"))
         {
-PlayerDead();
+            PlayerDead();
         }
     }
 
-void PlayerDead()
-{
-  dieMenu.SetActive(true);
-                    GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(dieMenu.transform.Find("LoseMainMenu").gameObject);
-                    Time.timeScale = 0.0F;
-}
+    void PlayerDead()
+    {
+        dieMenu.SetActive(true);
+        GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(dieMenu.transform.Find("LoseMainMenu").gameObject);
+        Time.timeScale = 0.0F;
+    }
 
     IEnumerator CountInvulnerabilitySeconds(float time)
     {
