@@ -15,14 +15,12 @@ public class Soul : MonoBehaviour
     float time = 0.0f;
     int color = 0;
 
-
     // Start is called before the first frame update
     void Start()
     {
         material = transform.GetComponentInChildren<Renderer>().material;
         particle = transform.GetComponentInChildren<ParticleSystem>().main;
         light_c = transform.GetComponentInChildren<Light>();
-
         color = Random.Range(0, 4);
         
         switch(color)
