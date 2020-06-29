@@ -178,7 +178,7 @@ public class PlatformWalkingEnemy : MonoBehaviour
     void CheckPlatform()
     { 
         RaycastHit2D hit =  Physics2D.Raycast(new Vector2(transform.position.x + offset_x, transform.position.y + offset_y), rayray, 1f, 1<<12);
-        if (!hit && hit.transform != null && hit.transform.gameObject.Equals(platform))
+        if (!hit)
         {
             if (!give_time)
             {
