@@ -30,7 +30,8 @@ public class BasicGroundEnemy : MonoBehaviour
     string string_wall = "Wall";
 
     DetectionPlayer playerDetection;
-
+    AudioSource emitter;
+    AudioClip death_sfx;
     Animator animator;
     bool change_direction_r = true;
     bool change_direction_l = true;
@@ -44,7 +45,8 @@ public class BasicGroundEnemy : MonoBehaviour
         playerDetection = GetComponentInChildren<DetectionPlayer>();
         Player = GameObject.FindGameObjectWithTag("Player");
         animator = GetComponentInChildren<Animator>();
-
+        emitter = GetComponent<AudioSource>();
+        death_sfx = (AudioClip)Resources.Load("SFX/reden_death");
         direction_right = RandomBool();
 
         fx_particle.SetActive(false);
@@ -112,7 +114,7 @@ public class BasicGroundEnemy : MonoBehaviour
                 break;
             case Behaviour.DIE:
                 fx_particle.SetActive(true);
-
+               
                 animator.SetBool("Die", true);
                 Destroy(gameObject,2.5F);
                 break;
@@ -170,6 +172,7 @@ public class BasicGroundEnemy : MonoBehaviour
 
     public void Die()
     {
+        emitter.PlayOneShot(death_sfx);
         EnemyBehaviour = Behaviour.DIE;
     }
 
