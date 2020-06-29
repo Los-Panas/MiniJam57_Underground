@@ -131,7 +131,7 @@ public class MainMenuFunction : MonoBehaviour
 
     public void OpenItchio()
     {
-        Application.OpenURL("https://polhostrex.itch.io/");
+        Application.OpenURL("https://optus23.itch.io/soul-keeper");
     }
     public void OpenGitHub()
     {
@@ -155,7 +155,7 @@ public class MainMenuFunction : MonoBehaviour
     }
     public void ResetGame()
     {
-        // TODO : Aixo es crida quan cliques el botó de return. Per que aparegui el botó de return
+        // Aixo es crida quan cliques el botó de return. Per que aparegui el botó de return
         // s'ha de ferque quan el jugador es passi el joc, es faci un setActive(true) del endPanel(dins del canvas)
         // quan s'hagi fet aquest enable i s'hagi mirat que el focus vagi bé, ja estarà fet
     }

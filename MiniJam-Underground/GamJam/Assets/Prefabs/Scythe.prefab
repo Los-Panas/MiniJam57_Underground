@@ -5048,7 +5048,7 @@ MonoBehaviour:
   current_hits: 0
   facingForward: 0
   state: 0
-  shot: Fire3
+  shot: RightTrigger
   secondaryAxisHorizontal: Horizontal2
   secondaryAxisVertical: Vertical2
   soulHarvesterButton: Fire2
