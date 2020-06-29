@@ -63,6 +63,9 @@ public class SceneManager : MonoBehaviour
     private float platformTimer;
     private AudioSource emitter;
     private ArrayList enemyMovement;
+
+    public GameObject winMenu;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -94,6 +97,7 @@ public class SceneManager : MonoBehaviour
                                 {
                                     if (door.GetComponent<Elevator_Doors>().CloseDoors())
                                     {
+                                        emitter.Play();
                                         GetComponent<ScrollBackground>().StartMovment((int)floors[countFloor].backgroundScroll, floors[countFloor].backgroundSpeed, floors[countFloor].doorIsOpen);
                                         state = ElevatorState.Run;
                                     }
@@ -142,12 +146,16 @@ public class SceneManager : MonoBehaviour
                         state = ElevatorState.Stop;
                         doorsState = ElevatorDoorsState.Close;
                         enemyMovement.Clear();
-                        emitter.Play();
                     }
                     break;
             }
         }
-
+        else
+        {
+            winMenu.SetActive(true);
+            GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(winMenu.transform.Find("WinMainMenu (1)").gameObject);
+            Time.timeScale = 0.0F;
+        }
     }
 
     private void SpawmEnemies(int pos)
@@ -174,13 +182,13 @@ public class SceneManager : MonoBehaviour
             newPosition.y += Random.Range(-cameraFrustumSize, cameraFrustumSize);
 
             //assure the enemy is inside the screen
-            if (newPosition.x <= camera.transform.position.x - cameraFrustumSize * 1.8f)
+            if (newPosition.x <= camera.transform.position.x - cameraFrustumSize * 1.5f)
                 newPosition.x += 5.0f;
-            if (newPosition.x >= camera.transform.position.x + cameraFrustumSize * 1.8f)
+            if (newPosition.x >= camera.transform.position.x + cameraFrustumSize * 1.5f)
                 newPosition.x -= 5.0f;
-            if (newPosition.y <= camera.transform.position.y - cameraFrustumSize * 0.8f)
+            if (newPosition.y <= camera.transform.position.y - cameraFrustumSize * 0.5f)
                 newPosition.y += 5.0f;
-            if (newPosition.y >= camera.transform.position.y + cameraFrustumSize * 0.8f)
+            if (newPosition.y >= camera.transform.position.y + cameraFrustumSize * 0.5f)
                 newPosition.y -= 5.0f;
 
             finalEnemy.future_position = newPosition;
@@ -239,9 +247,9 @@ public class SceneManager : MonoBehaviour
                     //calculate position outside camera and correct movement direction
                     //change 3 in prespective
                     if(floors[pos].backgroundSpeed < 0)
-                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, -cameraFrustumSize * 2, 0.0f);
+                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, -cameraFrustumSize * 1.2f, 0.0f);
                     else 
-                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, cameraFrustumSize * 2,0.0f);
+                        newPlatformPosition = camera.transform.position + new Vector3(0.0f, cameraFrustumSize * 1.2f,0.0f);
 
                     newPlatformPosition.x += Random.Range(-cameraFrustumSize * 1.5f, cameraFrustumSize * 1.5f);
                     newPlatformPosition.z = 0.0f;

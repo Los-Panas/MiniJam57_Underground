@@ -25,4 +25,10 @@ public class Enemy_Hit : MonoBehaviour
         }
         return false;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Dead"))
+            KillEnemy();
+    }
 }

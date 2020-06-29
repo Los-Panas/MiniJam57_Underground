@@ -133,6 +133,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1314681068}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &595146309 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3569785385172350907, guid: a8a3d6e0aa7900f40b55f151438fb7cb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1385712396}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &600463882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -374,6 +380,7 @@ MonoBehaviour:
   loop_main_menu: {fileID: 8300000, guid: ded19de14a57b784b89cd3083a2d40c1, type: 3}
   intro_level: {fileID: 8300000, guid: 7b406ef72d8c6ad498259e2a99b43daa, type: 3}
   loop_level: {fileID: 8300000, guid: 7499277e04f91c5479d461dbaf43e97c, type: 3}
+  dead_music: {fileID: 0}
 --- !u!82 &958833181
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1147,47 +1154,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cf0009597c8f34aa00d2ae4596155f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floors:
-  - backgroundScroll: 0
-    backgroundSpeed: -0.1
-    typePlatforms:
-    - {fileID: 4550671630384962828, guid: b3d5feef8e7de494883b0ef965a94333, type: 3}
-    - {fileID: 4047517587478732515, guid: 440a9fd57829ea94abb1b8c47dcf674f, type: 3}
-    - {fileID: 6252435577168093957, guid: 03ff0c15d432804489f2de1af3c893af, type: 3}
-    - {fileID: 205607462445460516, guid: 4e401bbe30b649c4096c2719fc53efa4, type: 3}
-    - {fileID: 5639770104754924450, guid: f23e4eab8883a734a84c584e9a83655f, type: 3}
-    - {fileID: 2393369105177857280, guid: bc0083a57beb46744876ffa230c9385c, type: 3}
-    - {fileID: 7769383045344378333, guid: 14c267ad3011f5043b7a9ba25a39b5ea, type: 3}
-    - {fileID: 7769383045344378333, guid: 14c267ad3011f5043b7a9ba25a39b5ea, type: 3}
-    minSizePlatform: {x: 1, y: 1}
-    maxSizePlatform: {x: 1, y: 1}
-    delayBetweenPlatforms: 1.01
-    doorIsOpen: 0
-    numEnemies: 10
-    typeEnemies:
-    - {fileID: 5028069862536150375, guid: 40531a4c3e254194f9f2662e0dbe8fbc, type: 3}
-    - {fileID: 1405387845281000907, guid: cca109a303fa7f848b691448e3cf6ab2, type: 3}
-    delayBetweenEnemies: 0.97
-  - backgroundScroll: 0
-    backgroundSpeed: -0.1
-    typePlatforms:
-    - {fileID: 4550671630384962828, guid: b3d5feef8e7de494883b0ef965a94333, type: 3}
-    - {fileID: 4047517587478732515, guid: 440a9fd57829ea94abb1b8c47dcf674f, type: 3}
-    - {fileID: 6252435577168093957, guid: 03ff0c15d432804489f2de1af3c893af, type: 3}
-    - {fileID: 205607462445460516, guid: 4e401bbe30b649c4096c2719fc53efa4, type: 3}
-    - {fileID: 5639770104754924450, guid: f23e4eab8883a734a84c584e9a83655f, type: 3}
-    - {fileID: 2393369105177857280, guid: bc0083a57beb46744876ffa230c9385c, type: 3}
-    minSizePlatform: {x: 1, y: 1}
-    maxSizePlatform: {x: 1, y: 1}
-    delayBetweenPlatforms: 1.24
-    doorIsOpen: 0
-    numEnemies: 10
-    typeEnemies:
-    - {fileID: 6578330405783535136, guid: 1920a33a05976d34fb828d73a808a37e, type: 3}
-    delayBetweenEnemies: 0.97
+  floors: []
   door: {fileID: 1482571698}
   camera: {fileID: 958833175}
   state: 0
+  winMenu: {fileID: 595146309}
 --- !u!64 &1960310737
 MeshCollider:
   m_ObjectHideFlags: 0
