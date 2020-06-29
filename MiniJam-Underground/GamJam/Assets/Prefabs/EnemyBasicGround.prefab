@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 302607b0c88721f4ba4a91dd7c3489e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 81.13
-  velocity_attack: 1
+  velocity: 140.9
+  velocity_attack: 4.9
   gethit_force: 500
   max_time_gethit: 2
   fx_particle: {fileID: 1405387846073817827}
