@@ -90,12 +90,28 @@ public class PlatformWalkingEnemy : MonoBehaviour
     IEnumerator Dying()
     {
         Color color = transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().material.color;
+        float rotationDegSecondSpeed = 40.0f;
+
         while (color.a >= 0.0F)
         {
             color.a -= 2* Time.deltaTime;
             transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().material.color = color;
+
+            // reposition on a circle to crazy despawn behaviour
+            float radius = Random.Range(0.25f, 0.5f);
+            Vector2 random_circle_point = Random.insideUnitCircle * radius;
+            transform.position += new Vector3(random_circle_point.x, random_circle_point.y, 0.0f);
+
+            //rotationDegSecondSpeed += Random.Range(15.0f, 30.0f);
+            transform.Rotate(new Vector3(0.0f, 0.0f, rotationDegSecondSpeed * Time.deltaTime));
+            Vector3 s = transform.localScale;
+            float new_s_factor = Random.Range(0.1f, 0.3f);
+            transform.localScale = new Vector3(s.x + new_s_factor, s.y + new_s_factor, s.z + new_s_factor);
+
             yield return new WaitForEndOfFrame();
         }
+
+        Instantiate(dieParticles, transform.position - new Vector3(0.0f, 0.0f, 3.0f), Quaternion.Euler(-90.0f, 0.0f, 0.0f));
         Destroy(gameObject);
         yield return null;
     }

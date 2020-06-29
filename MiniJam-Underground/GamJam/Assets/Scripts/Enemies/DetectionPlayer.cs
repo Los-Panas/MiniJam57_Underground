@@ -8,11 +8,14 @@ public class DetectionPlayer : MonoBehaviour
     public bool player_detected;
     public float collider_radius;
     CircleCollider2D CircleCollider;
-
+    AudioSource emitter;
+    AudioClip alert;
     private void Start()
     {
         CircleCollider = GetComponent<CircleCollider2D>();
         CircleCollider.radius = collider_radius;
+        emitter = GetComponent<AudioSource>();
+        alert = (AudioClip)Resources.Load("SFX/alert");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -20,6 +23,7 @@ public class DetectionPlayer : MonoBehaviour
         if (collision.tag == string_player)
         {
             player_detected = true;
+            emitter.PlayOneShot(alert);
         }
     }
 

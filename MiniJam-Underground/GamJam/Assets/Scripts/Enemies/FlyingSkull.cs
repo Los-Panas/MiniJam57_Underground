@@ -27,6 +27,9 @@ public class FlyingSkull : MonoBehaviour
     bool rotating = false;
 
     public GameObject die_particle;
+    AudioSource emitter;
+    AudioClip death_sfx;
+    AudioClip alert_sfx;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +37,9 @@ public class FlyingSkull : MonoBehaviour
         player = GameObject.Find("Player").transform.GetChild(0).gameObject;
         skull = transform.GetChild(0).gameObject;
         die_particle.SetActive(false);
+        emitter = GetComponent<AudioSource>();
+        death_sfx = (AudioClip)Resources.Load("SFX/skull_death");
+        alert_sfx = (AudioClip)Resources.Load("SFX/alert");
     }
 
     // Update is called once per frame
@@ -77,7 +83,10 @@ public class FlyingSkull : MonoBehaviour
     public void PlayerDetected()
     {
         if (current_state != States.DIED)
-        current_state = States.ATTACKING;
+        {
+            emitter.PlayOneShot(death_sfx);
+            current_state = States.ATTACKING;
+        }
     }
 
     public void PlayerLost()
@@ -121,7 +130,7 @@ public class FlyingSkull : MonoBehaviour
         Quaternion first_rot = skull.transform.localRotation;
         Vector3 goal = new Vector3(0, 0, -1);
         Vector3 goal_up = new Vector3(0, -1, 0);
-
+        emitter.PlayOneShot(death_sfx);
         while (!rotating)
         {
             float t = (Time.realtimeSinceStartup - time) / 0.5f;

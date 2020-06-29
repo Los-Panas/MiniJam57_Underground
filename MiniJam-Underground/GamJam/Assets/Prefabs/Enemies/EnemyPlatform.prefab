@@ -96,6 +96,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 100
   life: 10
+  dieParticles: {fileID: 194016, guid: eed397229ab066b47952626feb5acb74, type: 3}
 --- !u!50 &6745057261716553504
 Rigidbody2D:
   serializedVersion: 4
