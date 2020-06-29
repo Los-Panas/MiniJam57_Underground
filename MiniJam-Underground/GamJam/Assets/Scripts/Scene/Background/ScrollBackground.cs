@@ -46,11 +46,11 @@ public class ScrollBackground : MonoBehaviour
                 switch (scrollAxis)
                 {
                     case ScrollAxis.Vertical:
-                        if (door.GetComponent<DoorMovment>().StopDoor(Time.deltaTime * speed * transform.localScale.y, dir) && !doorIsOpen)
+                        if (door.GetComponent<DoorMovment>().StopDoor(Time.deltaTime * speed * transform.localScale.y * 0.22f, dir) && !doorIsOpen)
                             speed = 0.0f;
                         break;
                     case ScrollAxis.Horizontal:
-                        if (door.GetComponent<DoorMovment>().StopDoor(Time.deltaTime * speed * transform.localScale.x, dir) && !doorIsOpen)
+                        if (door.GetComponent<DoorMovment>().StopDoor(Time.deltaTime * speed * transform.localScale.x * 0.22f, dir) && !doorIsOpen)
                             speed = 0.0f;
                         break;
                 }
@@ -62,10 +62,10 @@ public class ScrollBackground : MonoBehaviour
                 switch (scrollAxis)
                 {
                     case ScrollAxis.Vertical:
-                        door.GetComponent<DoorMovment>().MoveDoor(speed * Time.deltaTime * transform.localScale.y);
+                        door.GetComponent<DoorMovment>().MoveDoor(speed * Time.deltaTime * transform.localScale.y * 0.22f);
                         break;
                     case ScrollAxis.Horizontal:
-                        door.GetComponent<DoorMovment>().MoveDoor(speed * Time.deltaTime * transform.localScale.x);
+                        door.GetComponent<DoorMovment>().MoveDoor(speed * Time.deltaTime * transform.localScale.x * 0.22f);
                         break;
                 }
 
