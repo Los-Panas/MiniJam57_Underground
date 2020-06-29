@@ -6,6 +6,11 @@ public enum ScytheState
     ATTACHED, LAUNCHED, RETURNING, NONE
 };
 
+public enum TriggerState
+{
+    DOWN, PRESSED, UP, IDLE
+};
+
 public class ScytheBehaviour : MonoBehaviour
 {
     public GameObject pivotObject;
@@ -57,7 +62,7 @@ public class ScytheBehaviour : MonoBehaviour
     private ScytheState state = ScytheState.ATTACHED;
 
     [Header("Button virtual bindings string names")]
-    public string shot = "Fire3"; // TODO: search another mapping configuration to be able to fully controll the player inputs at same time with gamepad and human hand restrictions
+    public string shot = "RightTrigger"; // TODO: search another mapping configuration to be able to fully controll the player inputs at same time with gamepad and human hand restrictions
     public string secondaryAxisHorizontal = "Horizontal2";
     public string secondaryAxisVertical = "Vertical2";
     public string soulHarvesterButton = "Fire2";
@@ -68,6 +73,8 @@ public class ScytheBehaviour : MonoBehaviour
     public float min_light_range = 2;
     public float max_light_range = 5;
     Light light;
+
+    private TriggerState trigger_state = TriggerState.IDLE;
 
     // Start is called before the first frame update
     void Start()
@@ -92,6 +99,8 @@ public class ScytheBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        updateTrigger();
+
         switch (state)
         {
             case ScytheState.ATTACHED:
@@ -111,6 +120,8 @@ public class ScytheBehaviour : MonoBehaviour
                     break;
                 }
         }
+
+       
 
     }
 
@@ -158,7 +169,7 @@ public class ScytheBehaviour : MonoBehaviour
         transform.Rotate(new Vector3(0.0f, 0.0f, (rotationLaunchSpeed * rotationDir) * Time.deltaTime));
 
         // check if the player wants to return the scyther
-        if(Input.GetButtonDown(shot))
+        if(trigger_state == TriggerState.DOWN)
         {
             state = ScytheState.RETURNING;
         }
@@ -207,7 +218,7 @@ public class ScytheBehaviour : MonoBehaviour
         ScytheSoulContainer.change_container = false;
 
         // check if player wants to throw the scythe
-        if (Input.GetButton(shot))
+        if (trigger_state == TriggerState.DOWN)
         {
             state = ScytheState.LAUNCHED;
             float target_angle_rad = target_angle * Mathf.Deg2Rad;
@@ -220,8 +231,6 @@ public class ScytheBehaviour : MonoBehaviour
 
             UpdateRotAndMovDirection();
         }
-
-        
     }
 
     private Vector2 GetSecondAxis()
@@ -280,6 +289,24 @@ public class ScytheBehaviour : MonoBehaviour
             }
 
             yield return new WaitForEndOfFrame();
+        }
+    }
+
+    void updateTrigger()
+    {
+        if(Input.GetAxis(shot) > 0)
+        {
+            if (trigger_state == TriggerState.IDLE)
+                trigger_state = TriggerState.DOWN;
+            else if (trigger_state == TriggerState.DOWN)
+                trigger_state = TriggerState.PRESSED;
+        }
+        else
+        {
+            if (trigger_state == TriggerState.DOWN || trigger_state == TriggerState.PRESSED)
+                trigger_state = TriggerState.UP;
+            else
+                trigger_state = TriggerState.IDLE;
         }
     }
 }
