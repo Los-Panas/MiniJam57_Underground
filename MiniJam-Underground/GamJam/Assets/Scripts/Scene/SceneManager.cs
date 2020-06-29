@@ -63,6 +63,9 @@ public class SceneManager : MonoBehaviour
     private float platformTimer;
     private AudioSource emitter;
     private ArrayList enemyMovement;
+
+    public GameObject winMenu;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -147,7 +150,12 @@ public class SceneManager : MonoBehaviour
                     break;
             }
         }
-
+        else
+        {
+            winMenu.SetActive(true);
+            GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(winMenu.transform.Find("WinMainMenu (1)").gameObject);
+            Time.timeScale = 0.0F;
+        }
     }
 
     private void SpawmEnemies(int pos)
