@@ -54,8 +54,8 @@ public class SceneManager : MonoBehaviour
 
     public GameObject camera;
 
-    public ElevatorState state = ElevatorState.Stop;
-    private ElevatorDoorsState doorsState = ElevatorDoorsState.Open;
+    public ElevatorState state = ElevatorState.Run;
+    private ElevatorDoorsState doorsState = ElevatorDoorsState.Close;
     private int countFloor;
     private int defeatEnemies;
     private int countEnemy;
@@ -77,7 +77,7 @@ public class SceneManager : MonoBehaviour
     {
         if (Input.GetKeyDown("q"))
         {
-            DefeatEnemy();
+            DefeatEnemy(false);
         }
 
         if (countFloor < floors.Length)
@@ -109,7 +109,9 @@ public class SceneManager : MonoBehaviour
                                 if (door.GetComponent<Elevator_Doors>().OpenDoors())
                                 {
                                     doorsState = ElevatorDoorsState.Open;
-                                    MoveEnemiesToPosition();
+                                    SpawmEnemies(countFloor);
+
+                                    //MoveEnemiesToPosition();
                                 }
                                 break;
                         }
@@ -117,8 +119,8 @@ public class SceneManager : MonoBehaviour
                     }
                     else
                     {
-                        if (!floors[countFloor].doorIsOpen)
-                            SpawmEnemies(countFloor);
+                        //if (!floors[countFloor].doorIsOpen)
+                        //    SpawmEnemies(countFloor);
                     }
                     break;
                 case ElevatorState.Run:
@@ -159,7 +161,7 @@ public class SceneManager : MonoBehaviour
             //take random enemy
             int enemyType = Random.Range(0, floors[pos].typeEnemies.Length);
             GameObject newEnemy = Instantiate(floors[pos].typeEnemies[enemyType]);
-            newEnemy.transform.parent = door.transform;
+            newEnemy.transform.parent = transform;
 
             finalEnemy.enemy = newEnemy;
 
@@ -183,7 +185,7 @@ public class SceneManager : MonoBehaviour
 
             finalEnemy.future_position = newPosition;
 
-            newEnemy.transform.position = door.transform.position + new Vector3(0.0f, door.transform.Find("Plane").GetComponent<Renderer>().bounds.size.y * 0.25f, 0.0f); 
+            newEnemy.transform.position = newPosition; 
 
             enemyMovement.Add(finalEnemy);
 
@@ -287,9 +289,12 @@ public class SceneManager : MonoBehaviour
         }
     }
 
-    public void DefeatEnemy()
+    public void DefeatEnemy(bool isPlatform)
     {
-        ++defeatEnemies;
+        if (!isPlatform)
+        {
+            ++defeatEnemies;
+        }
     }
 
     public void AddEnemy()
