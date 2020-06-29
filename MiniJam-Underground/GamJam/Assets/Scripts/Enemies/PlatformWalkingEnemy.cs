@@ -13,7 +13,7 @@ public class PlatformWalkingEnemy : MonoBehaviour
     }
     enum MovingDirection
     {
-        UP, RIGHT,DOWN,LEFT
+        UP, RIGHT,DOWN,LEFT, MAX
     }
     Behaviour behaviour;
     MovingDirection mov_direction;
@@ -178,12 +178,12 @@ public class PlatformWalkingEnemy : MonoBehaviour
     void CheckPlatform()
     { 
         RaycastHit2D hit =  Physics2D.Raycast(new Vector2(transform.position.x + offset_x, transform.position.y + offset_y), rayray, 1f, 1<<12);
-        if (!hit && hit.collider.gameObject == platform)
+        if (!hit && hit.transform != null && hit.transform.gameObject.Equals(platform))
         {
             if (!give_time)
             {
                 mov_direction = mov_direction + 1;
-                if ((int)mov_direction >= 4)
+                if (mov_direction == MovingDirection.MAX)
                     mov_direction = MovingDirection.UP;
                 give_time = true;
                 ManageMovement();
