@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public enum ScytheState
 {
@@ -169,7 +170,7 @@ public class ScytheBehaviour : MonoBehaviour
         transform.Rotate(new Vector3(0.0f, 0.0f, (rotationLaunchSpeed * rotationDir) * Time.deltaTime));
 
         // check if the player wants to return the scyther
-        if(trigger_state == TriggerState.DOWN)
+        if(trigger_state == TriggerState.DOWN || Input.GetMouseButtonDown(0))
         {
             state = ScytheState.RETURNING;
         }
@@ -218,7 +219,7 @@ public class ScytheBehaviour : MonoBehaviour
         ScytheSoulContainer.change_container = false;
 
         // check if player wants to throw the scythe
-        if (trigger_state == TriggerState.DOWN)
+        if (trigger_state == TriggerState.DOWN || Input.GetMouseButtonDown(0))
         {
             state = ScytheState.LAUNCHED;
             float target_angle_rad = target_angle * Mathf.Deg2Rad;
@@ -235,7 +236,15 @@ public class ScytheBehaviour : MonoBehaviour
 
     private Vector2 GetSecondAxis()
     {
-        return new Vector2(Input.GetAxis(secondaryAxisHorizontal), Input.GetAxis(secondaryAxisVertical));
+        string[] jn = Input.GetJoystickNames();
+        if (jn.Length > 0)
+        {
+            return new Vector2(Input.GetAxis(secondaryAxisHorizontal), Input.GetAxis(secondaryAxisVertical));
+        }
+
+        Vector3 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousedir = new Vector2(mousepos.x - transform.position.x, mousepos.y - transform.position.y).normalized;
+        return new Vector2(mousedir.x, -mousedir.y);
     }
 
     private void UpdateRotAndMovDirection()
