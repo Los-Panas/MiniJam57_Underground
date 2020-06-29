@@ -18,11 +18,17 @@ public class Enemy_Hit : MonoBehaviour
             SendMessage("Die");
             // TO DO: Dissolve Shader
             // TO DO: Particle System
-            transform.parent.GetComponent<SceneManager>().DefeatEnemy(isPlatform);
+            GameObject.Find("Quad").GetComponent<SceneManager>().DefeatEnemy(isPlatform);
             Instantiate(soul, transform.position, Quaternion.identity);
 
             return true;
         }
         return false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Dead"))
+            KillEnemy();
     }
 }
