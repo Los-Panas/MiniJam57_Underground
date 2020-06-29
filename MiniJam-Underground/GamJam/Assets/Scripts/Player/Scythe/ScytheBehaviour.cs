@@ -237,9 +237,10 @@ public class ScytheBehaviour : MonoBehaviour
     private Vector2 GetSecondAxis()
     {
         string[] jn = Input.GetJoystickNames();
-        if (jn.Length > 0)
+        for(int i = 0; i < jn.Length; ++i)
         {
-            return new Vector2(Input.GetAxis(secondaryAxisHorizontal), Input.GetAxis(secondaryAxisVertical));
+            if(jn[i].Length > 0)
+                return new Vector2(Input.GetAxis(secondaryAxisHorizontal), Input.GetAxis(secondaryAxisVertical));
         }
 
         Vector3 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
