@@ -138,7 +138,7 @@ public class SceneManager : MonoBehaviour
                         }
                     }
 
-                    if(floors[countFloor].numEnemies == defeatEnemies)
+                    if(floors[countFloor].numEnemies == defeatEnemies && !door.GetComponentInChildren<Renderer>().isVisible)
                     {
                         GetComponent<ScrollBackground>().StopMovment();
                         ++countFloor;
