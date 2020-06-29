@@ -27,7 +27,7 @@ public class PlatformWalkingEnemy : MonoBehaviour
     float offset_y = 0f;
     public GameObject dieParticles;
     bool deadCalled = false;
-
+    public GameObject platform;
     // Start is called before the first frame update
     void Start()
     {
@@ -178,7 +178,7 @@ public class PlatformWalkingEnemy : MonoBehaviour
     void CheckPlatform()
     { 
         RaycastHit2D hit =  Physics2D.Raycast(new Vector2(transform.position.x + offset_x, transform.position.y + offset_y), rayray, 1f, 1<<12);
-        if (!hit)
+        if (!hit && hit.collider.gameObject == platform)
         {
             if (!give_time)
             {

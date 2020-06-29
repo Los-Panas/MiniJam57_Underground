@@ -635,6 +635,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 500
   life: 100
+  dieParticles: {fileID: 947342283289497736, guid: 1e2f32babf288b74194221a4f68827c2,
+    type: 3}
+  platform: {fileID: 1193317541354611659}
 --- !u!1 &3470152347697123813
 GameObject:
   m_ObjectHideFlags: 0
