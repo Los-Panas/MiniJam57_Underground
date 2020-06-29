@@ -234,7 +234,7 @@ public class SceneManager : MonoBehaviour
                 case BackgroundScroll.Vertical:
 
                     //same speed platforms and background
-                    worldSpeed = floors[pos].backgroundSpeed * transform.localScale.y;
+                    worldSpeed = floors[pos].backgroundSpeed * transform.localScale.y * 0.22f;
 
                     //calculate position outside camera and correct movement direction
                     //change 3 in prespective
@@ -250,7 +250,7 @@ public class SceneManager : MonoBehaviour
                 case BackgroundScroll.Horizontal:
 
                     //same speed platforms and background
-                    worldSpeed = floors[pos].backgroundSpeed * transform.localScale.x;
+                    worldSpeed = floors[pos].backgroundSpeed * transform.localScale.x * 0.22f;
 
                     //calculate position outside camera and correct movement direction
                     if (floors[pos].backgroundSpeed < 0)
